@@ -15,7 +15,7 @@ if (e.code == "KeyW"){
         slide.style.transform = `translateX(${100 * (indx - curSlide)}%)`;
       });
     }
-}   
+}
 
 // Select all slides
 const slides = document.querySelectorAll(".slide");
