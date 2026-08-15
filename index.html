@@ -356,6 +356,7 @@
 
 
     </style>
+    <link rel="stylesheet" href="css/interactions.css">
 </head>
 <body>
     <nav>
@@ -384,7 +385,7 @@
             </div>
 
 
-                <p class="email">parv.jjain@gmail.com</p>
+                <p class="email"><a href="mailto:parv.jjain@gmail.com">parv.jjain@gmail.com</a></p>
 
                 <div class="description">
                     <p>I am a sophomore studying computer science and business, with a passion for Technology, Financial Services, and AI. I have contributed to research at OpenAI analyzing how student use AI in their education. At Fiddler, I worked on researched and analyzing venture capital firms to lead the upcoming funding round. I have won multiple case competitions, showcasing my analytical and problem-solving skills in real-world business scenarios. My career interests lie at the intersection of Product Management and Software Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
@@ -424,5 +425,9 @@
             localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
         });
     </script>
+
+    <!-- Interaction layer: trailing cursor + inertial scrolling -->
+    <script src="js/vendor/lenis.min.js"></script>
+    <script src="js/interactions.js"></script>
 </body>
 </html>

@@ -1,0 +1,136 @@
+/* ============================================================================
+   Interaction layer — custom trailing cursor + hover coordination.
+   Purely additive. No existing layout, spacing or typography rule is changed.
+   Timing/size constants live in js/interactions.js (CONFIG).
+   ========================================================================== */
+
+:root {
+  --pj-ink: #000;          /* colour a link shifts to so the difference cursor
+                              produces a clean black/white inversion */
+  --pj-focus: #1a73e8;
+}
+body.dark-mode {
+  --pj-ink: #fff;
+  --pj-focus: #90caf9;
+}
+
+/* ------------------------------------------------------------- cursor ---- */
+/* Wrapper carries the delayed X/Y only. Inner carries size, radius, rotation
+   and stretch — so movement and deformation never fight over one transform. */
+.pj-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  display: none;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  /* The blend lives on the wrapper, not the inner: the wrapper's transform and
+     will-change form a stacking context, so an inner blend would composite
+     against the empty wrapper instead of the page and just render white. */
+  mix-blend-mode: difference;
+}
+.pj-cursor.is-visible {
+  opacity: 1;
+}
+
+.pj-cursor__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  will-change: transform, width, height, border-radius;
+  /* translate(-50%,-50%) resolves against the element's own box, so the inner
+     stays centred on the wrapper point at any width/height. */
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+}
+.pj-cursor.is-leaving .pj-cursor__inner {
+  transition:
+    width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+}
+/* Over the portrait the inversion is dialled back so the photo stays the focus */
+.pj-cursor.is-muted .pj-cursor__inner {
+  opacity: 0.32;
+}
+
+/* Desktop pointers only */
+@media (hover: hover) and (pointer: fine) {
+  .pj-cursor {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pj-cursor {
+    display: none !important;
+  }
+}
+
+/* --------------------------------------------- hover colour coordination -- */
+/* A white difference cursor over a saturated blue produces muddy complementary
+   colours, so blue elements shift to neutral ink for the duration of the hover
+   only. The site's blue branding is untouched at rest. */
+.nav-container a.pj-neutral {
+  color: #000;
+  transition: color 0.18s ease;
+}
+body.dark-mode .nav-container a.pj-neutral {
+  color: #fff;
+}
+
+/* "View Slide Deck" — blue eases to near-black, then the difference cursor
+   inverts it cleanly. Text stays readable throughout. */
+.pitch-links a {
+  transition: background-color 0.14s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pitch-links a.pj-darken,
+body.dark-mode .pitch-links a.pj-darken {
+  background-color: #0b0d10;
+}
+
+/* Social marks: slight scale, and LinkedIn's blue goes neutral while hovered */
+.social-icons a.pj-hot img {
+  transform: translateY(-2px) scale(1.06);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), filter 0.2s ease;
+}
+.social-icons a.pj-hot .linkedin-icon {
+  filter: brightness(0);
+}
+body.dark-mode .social-icons a.pj-hot .linkedin-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Moon icon: a touch of scale, no rotation */
+.dark-toggle.pj-hot {
+  transform: scale(1.06);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dark-toggle.pj-hot:hover {
+  transform: scale(1.06);
+}
+
+/* The email keeps its exact appearance but becomes a real mailto: link */
+.email a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------ keyboard focus ---- */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--pj-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

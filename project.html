@@ -202,6 +202,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="css/interactions.css">
 </head>
 <body>
     <nav>
@@ -255,5 +256,9 @@
             localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
         });
     </script>
+
+    <!-- Interaction layer: trailing cursor + inertial scrolling -->
+    <script src="js/vendor/lenis.min.js"></script>
+    <script src="js/interactions.js"></script>
 </body>
 </html>
