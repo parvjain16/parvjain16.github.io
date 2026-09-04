@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease;
+            transition: background-color 280ms ease, color 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
         }
 
         body {
@@ -82,7 +82,7 @@
 
         .dark-toggle:hover {
             transform: rotate(15deg);
-            color: #1a73e8;
+            color: #0b5cad;
         }
 
         .container {
@@ -104,6 +104,209 @@
             text-align: center;
             margin-bottom: 60px;
             color: #000000;
+        }
+
+        .featured-projects {
+            display: grid;
+            gap: 72px;
+            margin-bottom: 72px;
+        }
+
+        .featured-project {
+            display: grid;
+            grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+            gap: 40px;
+            align-items: center;
+            padding-bottom: 72px;
+            border-bottom: 1px solid rgba(11, 13, 16, 0.16);
+        }
+
+        .featured-project--reverse {
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        }
+
+        .featured-project__media {
+            min-width: 0;
+        }
+
+        .featured-project__image {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: auto;
+            border-radius: 15px;
+            box-shadow: 0 12px 32px rgba(11, 13, 16, 0.16);
+            object-fit: contain;
+            object-position: center;
+            transform-origin: center;
+        }
+
+        .featured-project__content {
+            min-width: 0;
+        }
+
+        .featured-project__content h2 {
+            margin-bottom: 10px;
+            color: #000000;
+            font-size: clamp(2rem, 3.4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .featured-project__tags {
+            margin-bottom: 22px;
+            color: #0b5cad;
+            font-size: 0.94rem;
+            font-weight: 600;
+            line-height: 1.55;
+        }
+
+        .featured-project__body {
+            display: grid;
+            gap: 15px;
+        }
+
+        .featured-project__body p {
+            color: #333333;
+            font-size: 1.02rem;
+            line-height: 1.72;
+        }
+
+        .featured-project__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .featured-project--reverse .featured-project__actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .featured-project--reverse .featured-project__button {
+            width: 100%;
+        }
+
+        .featured-project__button {
+            --button-glow: rgba(75, 91, 236, 0.45);
+            --button-gradient: linear-gradient(
+                115deg,
+                #1565c0 0%,
+                #7c3aed 48%,
+                #1565c0 100%
+            );
+            --button-hover-gradient: linear-gradient(
+                115deg,
+                #0088d1 0%,
+                #9333ea 48%,
+                #0088d1 100%
+            );
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            isolation: isolate;
+            overflow: hidden;
+            position: relative;
+            min-height: 54px;
+            padding: 16px 34px;
+            border-radius: 999px;
+            background-image: var(--button-gradient);
+            background-position: 0% 50%;
+            background-size: 220% 100%;
+            box-shadow: 0 0 24px var(--button-glow);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.25;
+            text-align: center;
+            text-decoration: none;
+            animation: featured-button-shift 4s ease-in-out infinite;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .featured-project__button::before {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            inset: 0;
+            border-radius: inherit;
+            background-image: var(--button-hover-gradient);
+            background-position: 0% 50%;
+            background-size: 220% 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .featured-project__button > span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-project__button:hover {
+            box-shadow: 0 0 40px var(--button-glow);
+            color: #ffffff;
+            transform: translateY(-2px);
+            animation-duration: 1.8s;
+        }
+
+        .featured-project__button:hover::before {
+            opacity: 1;
+            animation: featured-button-shift 1.8s ease-in-out infinite;
+        }
+
+        .featured-project__button:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .featured-project__button:focus-visible {
+            outline: 3px solid #0b0d10;
+            outline-offset: 4px;
+        }
+
+        .featured-project__button--gaming {
+            --button-glow: rgba(16, 185, 129, 0.45);
+            --button-gradient: linear-gradient(
+                115deg,
+                #0f8f8a 0%,
+                #10b981 48%,
+                #0f8f8a 100%
+            );
+            --button-hover-gradient: linear-gradient(
+                115deg,
+                #0891b2 0%,
+                #22c55e 48%,
+                #0891b2 100%
+            );
+        }
+
+        .featured-project__button--tech {
+            --button-glow: rgba(244, 63, 94, 0.42);
+            --button-gradient: linear-gradient(
+                115deg,
+                #f59e0b 0%,
+                #f43f5e 48%,
+                #f59e0b 100%
+            );
+            --button-hover-gradient: linear-gradient(
+                115deg,
+                #f97316 0%,
+                #e11d8a 48%,
+                #f97316 100%
+            );
+        }
+
+        @keyframes featured-button-shift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .projects-grid {
@@ -136,7 +339,7 @@
 
         .project-card .tech-stack {
             font-size: 0.9rem;
-            color: #1a73e8;
+            color: #0b5cad;
             font-weight: 600;
             margin-bottom: 15px;
         }
@@ -187,6 +390,47 @@
             color: #90caf9;
         }
 
+        body.dark-mode .featured-project {
+            border-bottom-color: rgba(244, 242, 239, 0.18);
+        }
+
+        body.dark-mode .featured-project__content h2,
+        body.dark-mode .featured-project__body p {
+            color: #ffffff;
+        }
+
+        body.dark-mode .featured-project__tags {
+            color: #90caf9;
+        }
+
+        body.dark-mode .featured-project__image {
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
+        }
+
+        body.dark-mode .featured-project__button {
+            box-shadow: 0 0 24px var(--button-glow);
+        }
+
+        body.dark-mode .featured-project__button:hover {
+            box-shadow: 0 0 40px var(--button-glow);
+        }
+
+        body.dark-mode .featured-project__button:focus-visible {
+            outline-color: #ffffff;
+        }
+
+        @media (max-width: 900px) {
+            .featured-project,
+            .featured-project--reverse {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .featured-project--reverse .featured-project__media {
+                order: -1;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 gap: 30px;
@@ -200,23 +444,109 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+
+            .featured-project__actions {
+                flex-direction: column;
+            }
+
+            .featured-project--reverse .featured-project__actions {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-project__button {
+                width: 100%;
+                padding-inline: 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .featured-projects {
+                gap: 56px;
+                margin-bottom: 56px;
+            }
+
+            .featured-project {
+                padding-bottom: 56px;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .featured-project__button {
+                animation: none;
+            }
+
+            .featured-project__button:hover::before {
+                animation: none;
+            }
+
+            .featured-project__button:hover {
+                transform: none;
+                animation: none;
+            }
+
+            .featured-project__button:active {
+                transform: scale(0.97);
+            }
         }
     </style>
+    <link rel="stylesheet" href="interactions.css?v=20260904-smooth-6">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
-    <nav>
+    <script>try{if(localStorage.getItem("darkMode")==="enabled")document.body.classList.add("dark-mode")}catch(_){}</script>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <nav aria-label="Primary">
         <div class="nav-container">
             <a href="index.html">Home</a>
-            <a href="project.html" class="active">Projects</a>
+            <a href="project.html" class="active" aria-current="page">Projects</a>
             <a href="finance.html">Finance</a>
             <a href="book.html">Books</a>
-            <button id="darkModeToggle" class="dark-toggle">🌙</button>
+            <button id="darkModeToggle" class="dark-toggle" type="button" aria-label="Dark mode" aria-pressed="false">🌙</button>
         </div>
     </nav>
 
-    <div class="container">
+    <main id="main-content" class="container" tabindex="-1">
         <h1>My Projects</h1>
         <p class="intro">A collection of projects I've built and contributed to</p>
+
+        <div class="featured-projects">
+            <section class="featured-project" aria-labelledby="sidequests-title">
+                <div class="featured-project__media">
+                    <img class="featured-project__image" src="assets/sidequests.png" alt="SideQuests live event radar interface" width="1800" height="899" decoding="async">
+                </div>
+                <div class="featured-project__content">
+                    <h2 id="sidequests-title">SideQuests</h2>
+                    <p class="featured-project__tags">Product Design • Interactive Maps • Codex • Live Event Data</p>
+                    <div class="featured-project__body">
+                        <p>SideQuests is a city-focused live event radar for college students and young adults. It's an interactive map that shows you what's actually happening around you right now: concerts, campus events, nightlife, cultural happenings, and the spontaneous stuff you'd otherwise hear about a day too late. I'm building it because finding something to do on a Friday shouldn't mean checking six apps and three group chats.</p>
+                        <p>I own the product end to end — the vision, the design and feel of the experience, which event sources are worth trusting, and the constant testing that refines how it all comes together. I use Codex to turn those decisions into a production-ready application: implementing features, researching and verifying event data, fixing technical issues, and shipping improvements. It's let me go from an ambitious idea to a polished, working product while keeping the creative direction and every final call in my hands.</p>
+                    </div>
+                    <div class="featured-project__actions">
+                        <a class="featured-project__button" href="https://sidequests.parvjain.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span>Try It Out</span></a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="featured-project featured-project--reverse" aria-labelledby="xai-dashboards-title">
+                <div class="featured-project__content">
+                    <h2 id="xai-dashboards-title">xAI Dashboards</h2>
+                    <p class="featured-project__tags">Grok Build • X API • Data Visualization • Conversation Intelligence</p>
+                    <div class="featured-project__body">
+                        <p>During my internship at xAI, I built a suite of internal conversation-intelligence dashboards for the sales organization using Grok Build. They track live activity on X around major titles, launches, trailers, updates, and cultural moments as they unfold.</p>
+                        <p>Each dashboard pulls conversation volume, impressions, unique authors, sentiment, hype, and trend movement into a single view using the X API, surfacing high-impact posts and top topics so the team can see what's driving attention and how the conversation is shifting. The part I cared most about was the layer on top: turning those raw signals into concrete recommendations on content, creators, regional opportunities, messaging, and campaign strategy.</p>
+                        <p>That shift is the whole point. It moves the team from reporting on what already happened to advising clients on what to do next, supporting sales conversations, campaign planning, and executive reporting by showing exactly where audience momentum is building and how X can help brands act on it.</p>
+                    </div>
+                    <div class="featured-project__actions">
+                        <a class="featured-project__button featured-project__button--gaming" href="https://gaming-x-insights.vercel.app/gta6-view" target="_blank" rel="noopener noreferrer"><span>Gaming &amp; Entertainment Dashboard</span></a>
+                        <a class="featured-project__button featured-project__button--tech" href="https://tech-telco.vercel.app/" target="_blank" rel="noopener noreferrer"><span>Tech &amp; Telco Dashboard</span></a>
+                    </div>
+                </div>
+                <div class="featured-project__media">
+                    <img class="featured-project__image" src="assets/xai-dashboards.png" alt="xAI conversation intelligence dashboard" width="1800" height="929" loading="lazy" decoding="async">
+                </div>
+            </section>
+        </div>
 
         <div class="projects-grid">
             <div class="project-card">
@@ -237,23 +567,11 @@
                 <p>Researched and analyzed 50+ venture capital firms to identify potential lead and co-investors for a $MM+ Series C round. Evaluated investor fit based on portfolio composition, check size, and historical investment portfolio. Conducted fundamental research on the AI sector by analyzing investment and portfolio activity across Venture Capital, Private Equity, and Investment firms. Developed comprehensive investor profiles and outreach materials for executive leadership.</p>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const toggleButton = document.getElementById("darkModeToggle");
-        const body = document.body;
-
-        if (localStorage.getItem("darkMode") === "enabled") {
-            body.classList.add("dark-mode");
-            toggleButton.textContent = "☀️";
-        }
-
-        toggleButton.addEventListener("click", () => {
-            body.classList.toggle("dark-mode");
-            const isDark = body.classList.contains("dark-mode");
-            toggleButton.textContent = isDark ? "☀️" : "🌙";
-            localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-        });
-    </script>
+    <script src="site-core.js?v=20260902-smooth-1"></script>
+    <script src="lenis.min.js"></script>
+    <script src="interactions.js?v=20260904-smooth-3"></script>
+    <script src="project-motion.js?v=20260903-smooth-1"></script>
 </body>
 </html>

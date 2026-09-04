@@ -13,6 +13,7 @@
             src: url('fonts/Product\ Sans\ Regular.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+            font-display: swap;
         }
 
         @font-face {
@@ -20,13 +21,14 @@
             src: url('fonts/Product\ Sans\ Bold.ttf') format('truetype');
             font-weight: bold;
             font-style: normal;
+            font-display: swap;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease;
+            transition: background-color 280ms ease, color 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
         }
 
         body {
@@ -35,6 +37,7 @@
             color: #000000;
             line-height: 1.6;
             font-weight: normal;
+            overflow-x: clip;
         }
 
 
@@ -105,17 +108,19 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: none;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 60px 0;
         }
 
         .hero-section {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            grid-template-columns: minmax(0, 1.22fr) minmax(360px, 1fr);
+            gap: clamp(60px, 6.5vw, 80px);
             align-items: start;
-            margin-bottom: 80px;
+            max-width: 1230px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
         }
 
         .hero-content {
@@ -133,6 +138,372 @@
         font-family: 'Product Sans', sans-serif;
         }
 
+        .liquid-name-row {
+            position: relative;
+            z-index: 20;
+            align-self: stretch;
+            display: grid;
+            grid-template-columns: 44px minmax(0, 1fr) 44px;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            margin: 0 0 18px;
+            overflow: visible;
+        }
+
+        .liquid-name-row::after {
+            content: "";
+            width: 44px;
+            height: 1px;
+        }
+
+        .liquid-name-shell {
+            position: relative;
+            isolation: isolate;
+            min-width: 0;
+            width: 100%;
+            height: clamp(108px, 9vw, 126px);
+            margin: 0;
+            overflow: visible;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .liquid-name-shell .liquid-name-fallback {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            margin: 0;
+            color: #0b0d10;
+            line-height: 1;
+            text-shadow: none;
+            transition: opacity 180ms ease;
+        }
+
+        .liquid-name-shell.is-liquid-ready .liquid-name-fallback {
+            opacity: 0;
+        }
+
+        .liquid-name-canvas {
+            position: absolute;
+            inset: 0;
+        }
+
+        .liquid-name-canvas {
+            z-index: 2;
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            touch-action: manipulation;
+            filter: drop-shadow(0 5px 4px rgba(11, 13, 16, 0.20));
+        }
+
+        .liquid-customizer-slot {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            overflow: visible;
+        }
+
+        .liquid-customizer {
+            position: relative;
+            z-index: 1400;
+            width: 44px;
+            height: 44px;
+            inset: auto;
+            transform: none;
+            color: #111317;
+            font-family: 'Product Sans', sans-serif;
+            pointer-events: none;
+        }
+
+        .liquid-customizer,
+        .liquid-customizer * {
+            transition-duration: 180ms;
+        }
+
+        .liquid-customizer__toggle {
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            border: 1px solid rgba(11, 13, 16, 0.15);
+            border-radius: 999px;
+            background: rgba(244, 246, 248, 0.94);
+            color: #0b0d10;
+            box-shadow: 0 10px 28px rgba(11, 13, 16, 0.18);
+            font: 700 0.68rem/1 'Product Sans', sans-serif;
+            cursor: pointer;
+            pointer-events: auto;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition:
+                transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 180ms ease,
+                color 180ms ease,
+                border-color 180ms ease,
+                box-shadow 180ms ease;
+        }
+
+        .liquid-customizer__mark,
+        .liquid-customizer__mark svg {
+            display: block;
+            width: 21px;
+            height: 21px;
+        }
+
+        .liquid-customizer__mark svg {
+            overflow: visible;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.65;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+
+        .liquid-customizer__toggle:hover {
+            transform: scale(1.04);
+        }
+
+        .liquid-customizer__toggle:focus-visible,
+        .liquid-customizer button:focus-visible,
+        .liquid-customizer input:focus-visible,
+        .liquid-customizer select:focus-visible,
+        .liquid-customizer label[for]:focus-within {
+            outline: 3px solid #1a73e8;
+            outline-offset: 3px;
+        }
+
+        .liquid-customizer__panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: auto;
+            left: 0;
+            width: min(272px, calc(100vw - 32px));
+            max-height: min(70vh, 650px);
+            overflow: auto;
+            overscroll-behavior: contain;
+            touch-action: pan-y;
+            padding: 16px;
+            border: 1px solid rgba(11, 13, 16, 0.12);
+            border-radius: 16px;
+            background: rgba(244, 246, 248, 0.96);
+            box-shadow: 0 18px 50px rgba(11, 13, 16, 0.22);
+            opacity: 0;
+            transform: translateY(-8px) scale(0.97);
+            transform-origin: top left;
+            pointer-events: none;
+            visibility: hidden;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            transition:
+                opacity 180ms ease,
+                transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 180ms,
+                background-color 180ms ease,
+                color 180ms ease,
+                border-color 180ms ease,
+                box-shadow 180ms ease;
+        }
+
+        .liquid-customizer.is-open .liquid-customizer__panel {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            visibility: visible;
+            transition:
+                opacity 180ms ease,
+                transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0s,
+                background-color 180ms ease,
+                color 180ms ease,
+                border-color 180ms ease,
+                box-shadow 180ms ease;
+        }
+
+        .liquid-customizer__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .liquid-customizer__eyebrow {
+            margin: 0 0 3px;
+            color: #626a73;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .liquid-customizer__title {
+            margin: 0;
+            color: inherit;
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .liquid-customizer__hint {
+            margin: -2px 0 4px;
+            color: #68717b;
+            font-size: 0.68rem;
+            line-height: 1.35;
+        }
+
+        .liquid-customizer__reset {
+            padding: 5px 8px;
+            border: 1px solid rgba(11, 13, 16, 0.14);
+            border-radius: 7px;
+            background: transparent;
+            color: inherit;
+            font: 700 0.62rem/1 'Product Sans', sans-serif;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .liquid-control {
+            display: grid;
+            gap: 7px;
+            margin-top: 13px;
+        }
+
+        .liquid-control__label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            color: #424951;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .liquid-control output {
+            color: #59616a;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .liquid-control input[type='range'] {
+            width: 100%;
+            accent-color: #14181d;
+            cursor: pointer;
+        }
+
+        .liquid-control input[type='color'] {
+            width: 100%;
+            height: 32px;
+            padding: 3px;
+            border: 1px solid rgba(11, 13, 16, 0.16);
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .liquid-control select {
+            width: 100%;
+            min-height: 34px;
+            padding: 6px 9px;
+            border: 1px solid rgba(11, 13, 16, 0.16);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #111317;
+            font: 500 0.78rem/1.2 'Product Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        .liquid-control__upload {
+            display: block;
+            padding: 8px 10px;
+            border: 1px dashed rgba(11, 13, 16, 0.24);
+            border-radius: 8px;
+            color: #4e565f;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .liquid-control__upload input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        body.dark-mode .liquid-name-shell {
+            border-color: transparent;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        body.dark-mode .liquid-name-fallback {
+            color: #f4f2ef;
+        }
+
+        body.dark-mode .liquid-name-canvas {
+            filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.45));
+        }
+
+        body.dark-mode .liquid-customizer {
+            color: #f4f2ef;
+        }
+
+        body.dark-mode .liquid-customizer__toggle,
+        body.dark-mode .liquid-customizer__panel {
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(19, 22, 26, 0.96);
+            color: #f4f2ef;
+        }
+
+        body.dark-mode .liquid-customizer__eyebrow,
+        body.dark-mode .liquid-control output,
+        body.dark-mode .liquid-customizer__hint {
+            color: #9da5ae;
+        }
+
+        body.dark-mode .liquid-control__label,
+        body.dark-mode .liquid-control__upload {
+            color: #d7dce1;
+        }
+
+        body.dark-mode .liquid-control select {
+            border-color: rgba(255, 255, 255, 0.16);
+            background: #20242a;
+            color: #f4f2ef;
+        }
+
+        body.dark-mode .liquid-control input[type='range'] {
+            accent-color: #f4f2ef;
+        }
+
 
         .hero-content .subtitle {
             font-size: 1.3rem;
@@ -147,7 +518,7 @@
         }
 
         .links a {
-            color: #1a73e8;
+            color: #0b5cad;
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 500;
@@ -171,7 +542,19 @@
             line-height: 1.8;
             color: #000000;
             text-align: left;
-            margin-bottom: 30px;
+            width: 100%;
+            margin-bottom: 22px;
+        }
+
+        .experiences-heading {
+            align-self: flex-start;
+            width: 100%;
+            margin: 0 0 22px;
+            color: #000000;
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: left;
         }
 
         .highlights {
@@ -181,39 +564,696 @@
 
         .highlights ul {
             list-style: none;
-            padding-left: 0;
+            margin: 0;
+            padding: 0;
         }
 
         .highlights li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
             font-size: 1rem;
             line-height: 1.7;
             color: #000000;
             margin-bottom: 20px;
-            padding-left: 25px;
-            position: relative;
+            padding: 0;
         }
 
         .highlights li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #1a73e8;
-            font-weight: bold;
-            font-size: 1.3rem;
+            content: none;
+        }
+
+        .experience-logo,
+        .experience-logo-spacer {
+            width: 28px;
+            height: 28px;
+            flex: 0 0 28px;
+            margin-top: calc((1.7em - 28px) / 2);
+        }
+
+        .experience-logo {
+            display: block;
+            object-fit: contain;
+        }
+
+        .experience-logo--openai {
+            mix-blend-mode: multiply;
+        }
+
+        .experience-copy {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .experience-copy a {
+            color: #0b5cad;
+            font-weight: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .experience-copy a:hover {
+            color: #0d47a1;
+            text-decoration: underline;
         }
 
         .hero-image {
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+            gap: 20px;
         }
 
-        .hero-image img {
-            width: 100%;
-            max-width: 500px;
+        .hero-image > img {
+            width: 90%;
+            max-width: 450px;
+            align-self: center;
             height: auto;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .canvas-strip {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: clamp(170px, 16vw, 200px);
+            overflow: hidden;
+            border: 1px solid rgba(11, 13, 16, 0.16);
+            border-radius: 15px;
+            background-color: rgb(220, 223, 226);
+            cursor: none;
+            touch-action: none;
+        }
+
+        .canvas-strip canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: none;
+            touch-action: none;
+        }
+
+        .network-panel,
+        .topographic-panel,
+        .plasma-panel {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 260px;
+            margin-top: -4px;
+            overflow: hidden;
+            border: 1px solid rgba(11, 13, 16, 0.16);
+            border-radius: 15px;
+            background-color: rgb(220, 223, 226);
+            pointer-events: auto;
+            touch-action: auto;
+        }
+
+        .network-panel canvas,
+        .topographic-panel canvas,
+        .plasma-panel canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: auto;
+            touch-action: auto;
+        }
+
+        .plasma-panel {
+            background: #07051c;
+            isolation: isolate;
+        }
+
+        .plasma-panel canvas {
+            touch-action: pan-y;
+        }
+
+        .plasma-panel.is-plasma-css-fallback::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+                linear-gradient(125deg, #080520 0%, #132b73 28%, #47207d 57%, #1a0b48 78%, #071733 100%);
+        }
+
+        .plasma-panel.is-plasma-css-fallback canvas {
+            visibility: hidden;
+        }
+
+        body.dark-mode .plasma-panel {
+            background: #050416;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .network-panel,
+            .network-panel canvas,
+            .topographic-panel,
+            .topographic-panel canvas,
+            .plasma-panel,
+            .plasma-panel canvas {
+                cursor: none;
+            }
+        }
+
+        body.dark-mode .canvas-strip {
+            border-color: rgba(244, 242, 239, 0.18);
+            background-color: #121212;
+        }
+
+        body.dark-mode .network-panel,
+        body.dark-mode .topographic-panel {
+            border-color: rgba(244, 242, 239, 0.18);
+            background-color: #121212;
+        }
+
+        html.canvas-pointer-active .trailing-cursor,
+        html.network-pointer-active .trailing-cursor,
+        html.topo-pointer-active .trailing-cursor,
+        html.plasma-pointer-active .trailing-cursor,
+        html.gallery-pointer-active .trailing-cursor {
+            visibility: hidden !important;
+            opacity: 0 !important;
+            transition-duration: 0s !important;
+        }
+
+        html.liquid-name-pointer-active .trailing-cursor,
+        html.liquid-customizer-active .trailing-cursor {
+            visibility: hidden !important;
+            opacity: 0 !important;
+            transition-duration: 0s !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .canvas-strip,
+            .canvas-strip canvas {
+                cursor: auto;
+            }
+
+            .liquid-customizer,
+            .liquid-customizer *,
+            .liquid-name-fallback {
+                transition-duration: 0s !important;
+            }
+
+            .network-panel,
+            .network-panel canvas,
+            .topographic-panel,
+            .topographic-panel canvas,
+            .plasma-panel,
+            .plasma-panel canvas {
+                cursor: auto;
+            }
+        }
+
+        .image-gallery-section {
+            position: relative;
+            width: 100%;
+            height: auto;
+            min-height: 0;
+            margin-left: 0;
+            overflow: visible;
+        }
+
+        .image-gallery-section.is-gallery-scroll-layout {
+            height: var(--gallery-height, 420vh);
+        }
+
+        .image-gallery-sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+            overflow: hidden;
+            background-color: rgb(220, 223, 226);
+            isolation: isolate;
+        }
+
+        .image-gallery-sticky::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.34), transparent 54%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(11, 13, 16, 0.025));
+        }
+
+        .image-gallery-canvas,
+        .image-gallery-fallback {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-gallery-canvas {
+            z-index: 2;
+            display: block;
+            opacity: 0;
+            pointer-events: none;
+            cursor: grab;
+            touch-action: pan-y;
+            transition: opacity 420ms ease;
+        }
+
+        .image-gallery-canvas:active {
+            cursor: grabbing;
+        }
+
+        .image-gallery-fallback {
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            height: calc(100% - 110px);
+            gap: clamp(34px, 6vw, 86px);
+            padding-block: max(22px, 4vh);
+            padding-inline-start: var(--gallery-fallback-start-gutter, 8vw);
+            padding-inline-end: var(--gallery-fallback-end-gutter, 8vw);
+            overflow-x: auto;
+            overflow-y: hidden;
+            overscroll-behavior-inline: contain;
+            scroll-snap-type: x proximity;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            opacity: 1;
+            transition: opacity 300ms ease;
+        }
+
+        .image-gallery-fallback::-webkit-scrollbar {
+            display: none;
+        }
+
+        .image-gallery-fallback__item {
+            display: flex;
+            align-items: center;
+            flex: 0 0 auto;
+            height: min(62vh, 560px, var(--gallery-fallback-max-height, 560px));
+            max-height: 100%;
+            aspect-ratio: var(--gallery-fallback-ratio, 1 / 1);
+            padding: 0;
+            border: 0;
+            border-radius: 15px;
+            background: transparent;
+            cursor: pointer;
+            scroll-snap-align: center;
+        }
+
+        .image-gallery-fallback img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+            object-fit: contain;
+            box-shadow: 0 18px 48px rgba(11, 13, 16, 0.16);
+        }
+
+        .image-gallery-sticky.is-webgl-ready .image-gallery-canvas {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .image-gallery-sticky.is-webgl-ready .image-gallery-fallback {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.gallery-detail-active .image-gallery-meta {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition-duration: 120ms !important;
+        }
+
+        body.gallery-detail-active:not(.gallery-detail-closing) .image-gallery-sticky.is-webgl-ready .image-gallery-canvas,
+        body.gallery-detail-active:not(.gallery-detail-closing) .image-gallery-sticky:not(.is-webgl-ready) .image-gallery-fallback {
+            opacity: 0.42;
+        }
+
+        body.dark-mode .image-gallery-sticky {
+            background-color: #121212;
+        }
+
+        body.dark-mode .image-gallery-sticky::before {
+            background:
+                radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.055), transparent 52%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(0, 0, 0, 0.12));
+        }
+
+        body.dark-mode .image-gallery-fallback img {
+            box-shadow: 0 18px 52px rgba(0, 0, 0, 0.42);
+        }
+
+        .image-gallery-meta {
+            position: absolute;
+            top: var(--gallery-meta-y, 76%);
+            left: var(--gallery-meta-x, 50%);
+            z-index: 5;
+            display: grid;
+            justify-items: center;
+            width: min(var(--gallery-meta-width, 470px), calc(100vw - 44px));
+            max-width: calc(100vw - 44px);
+            color: #0b0d10;
+            text-align: center;
+            pointer-events: none;
+            transform: translateX(-50%);
+            transition:
+                opacity 180ms ease,
+                transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .image-gallery-meta__title {
+            margin: 0;
+            color: inherit;
+            font-size: clamp(1.45rem, 2.45vw, 2.65rem);
+            font-weight: 700;
+            letter-spacing: -0.045em;
+            line-height: 0.95;
+            text-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        .image-gallery-sticky:not(.is-webgl-ready) .image-gallery-meta {
+            top: auto;
+            bottom: 28px;
+        }
+
+        .image-gallery-sticky:not(.is-webgl-ready) .image-gallery-meta__title {
+            white-space: normal;
+            text-wrap: balance;
+        }
+
+        .image-gallery-meta__hint {
+            margin: 10px 0 0;
+            color: rgba(11, 13, 16, 0.70);
+            font-size: 0.64rem;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        body.dark-mode .image-gallery-meta {
+            color: #f4f2ef;
+        }
+
+        body.dark-mode .image-gallery-meta__hint {
+            color: rgba(244, 242, 239, 0.60);
+        }
+
+        .image-gallery-detail {
+            position: fixed;
+            inset: 0;
+            z-index: 2400;
+            visibility: hidden;
+            overflow: clip;
+            color: #0b0d10;
+            pointer-events: none;
+            /* The controller owns the close duration; never delay this handoff. */
+            transition: none;
+        }
+
+        .image-gallery-detail__backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(220, 223, 226, 0.50);
+            opacity: 0;
+            transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .image-gallery-detail__content {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, auto) minmax(280px, var(--gallery-detail-copy-width, 480px));
+            align-items: center;
+            justify-content: center;
+            gap: clamp(38px, 5vw, 88px);
+            padding: clamp(40px, 6vh, 72px) clamp(68px, 8vw, 132px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: none;
+            pointer-events: auto;
+        }
+
+        .image-gallery-detail__content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .image-gallery-detail__media {
+            position: relative;
+            width: var(--gallery-detail-width, min(46vw, 720px));
+            height: var(--gallery-detail-height, min(76vh, 820px));
+            overflow: visible;
+            border-radius: 16px;
+            background: transparent;
+            box-shadow: none;
+            opacity: 1;
+            transform:
+                translate(var(--gallery-origin-x, 0px), var(--gallery-origin-y, 0px))
+                scale(var(--gallery-origin-scale, 0.26));
+            transform-origin: center;
+            transition:
+                transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+                border-radius 680ms cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 300ms ease;
+            will-change: transform;
+        }
+
+        .image-gallery-detail__media img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: inherit;
+            background: transparent;
+            box-shadow: 0 24px 70px rgba(11, 13, 16, 0.20);
+            opacity: 1;
+            transform: scale(1);
+            transition:
+                opacity 220ms ease,
+                transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .image-gallery-detail__media img.is-changing {
+            opacity: 0;
+            transform: scale(0.992);
+        }
+
+        .image-gallery-detail__copy {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            justify-items: start;
+            align-content: center;
+            gap: clamp(18px, 2.5vh, 30px);
+            width: min(var(--gallery-detail-copy-width, 480px), calc(100vw - 48px));
+            text-align: left;
+            opacity: 0;
+            transform: translateY(18px);
+            pointer-events: auto;
+            transition:
+                opacity 190ms ease,
+                transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .image-gallery-detail__copy.is-changing {
+            opacity: 0 !important;
+            transform: translateY(8px) !important;
+            transition-duration: 140ms !important;
+        }
+
+        .image-gallery-detail__title-block {
+            position: static;
+            max-width: 100%;
+        }
+
+        .image-gallery-detail__title {
+            margin: 0;
+            color: inherit;
+            font-size: clamp(1.6rem, 2.4vw, 3.25rem);
+            font-weight: 700;
+            letter-spacing: -0.052em;
+            line-height: 0.96;
+            text-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        .image-gallery-detail__description {
+            position: static;
+            width: min(24ch, 100%);
+            margin: 0;
+            color: rgba(11, 13, 16, 0.86);
+            font-size: clamp(1.25rem, 1.8vw, 2rem);
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            line-height: 1.27;
+            transform: none;
+            text-wrap: pretty;
+        }
+
+        .image-gallery-detail__nav,
+        .image-gallery-detail__close {
+            z-index: 3;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(11, 13, 16, 0.18);
+            border-radius: 999px;
+            background: rgba(245, 246, 247, 0.68);
+            color: #0b0d10;
+            font: 500 1.25rem/1 'Product Sans', sans-serif;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition:
+                opacity 170ms ease,
+                transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 160ms ease,
+                border-color 160ms ease;
+        }
+
+        .image-gallery-detail__nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%) scale(0.82);
+        }
+
+        .image-gallery-detail__nav--previous {
+            left: clamp(14px, 2.8vw, 44px);
+        }
+
+        .image-gallery-detail__nav--next {
+            right: clamp(14px, 2.8vw, 44px);
+        }
+
+        .image-gallery-detail__nav:hover:not(:disabled),
+        .image-gallery-detail__close:hover {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(11, 13, 16, 0.30);
+        }
+
+        .image-gallery-detail__close {
+            position: absolute;
+            top: max(20px, env(safe-area-inset-top));
+            right: max(20px, env(safe-area-inset-right));
+            width: 46px;
+            height: 46px;
+            font: 500 1.35rem/1 'Product Sans', sans-serif;
+        }
+
+        .image-gallery-detail__nav:focus-visible,
+        .image-gallery-detail__close:focus-visible {
+            outline: 3px solid #90caf9;
+            outline-offset: 3px;
+        }
+
+        .image-gallery-detail.is-visible {
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .image-gallery-detail.is-closing {
+            pointer-events: none;
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__backdrop {
+            opacity: 1;
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__media {
+            transform: translate(0, 0) scale(1);
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__media img {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__media img.is-changing {
+            opacity: 0;
+            transform: scale(0.992);
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__copy {
+            opacity: 1;
+            transform: translateY(0);
+            transition:
+                opacity 300ms ease 190ms,
+                transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__close {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 190ms, 150ms, 0s, 0s;
+        }
+
+        .image-gallery-detail.is-open .image-gallery-detail__nav {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+            transition-delay: 190ms, 150ms, 0s, 0s;
+        }
+
+        .image-gallery-detail.is-closing .image-gallery-detail__copy,
+        .image-gallery-detail.is-closing .image-gallery-detail__nav,
+        .image-gallery-detail.is-closing .image-gallery-detail__close {
+            opacity: 0;
+            transition-delay: 0s !important;
+        }
+
+        .image-gallery-detail.is-closing .image-gallery-detail__copy {
+            transform: translateY(8px);
+        }
+
+        .image-gallery-detail.is-closing .image-gallery-detail__nav {
+            transform: translateY(-50%) scale(0.88);
+        }
+
+        .image-gallery-detail.is-closing .image-gallery-detail__close {
+            transform: scale(0.88);
+        }
+
+        .image-gallery-detail.is-fade-closing .image-gallery-detail__media {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+
+        body.dark-mode .image-gallery-detail {
+            color: #f4f2ef;
+        }
+
+        body.dark-mode .image-gallery-detail__backdrop {
+            background: rgba(18, 18, 18, 0.50);
+        }
+
+        body.dark-mode .image-gallery-detail__media img {
+            box-shadow: 0 24px 76px rgba(0, 0, 0, 0.34);
+        }
+
+        body.dark-mode .image-gallery-detail__description {
+            color: rgba(244, 242, 239, 0.78);
+        }
+
+        body.dark-mode .image-gallery-detail__nav,
+        body.dark-mode .image-gallery-detail__close {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: rgba(15, 17, 21, 0.62);
+            color: #ffffff;
+        }
+
+        body.dark-mode .image-gallery-detail__nav:hover:not(:disabled),
+        body.dark-mode .image-gallery-detail__close:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.34);
         }
 
         h2 {
@@ -296,6 +1336,45 @@
             color: #ffffff;
         }
 
+        body.dark-mode .experience-logo--invert {
+            filter: invert(1);
+        }
+
+        body.dark-mode .experience-logo--openai {
+            mix-blend-mode: screen;
+        }
+
+        body.dark-mode .experience-copy a {
+            color: #90caf9;
+        }
+
+        body.dark-mode .experience-copy a:hover {
+            color: #bbdefb;
+        }
+
+        @media (max-width: 980px) {
+            .image-gallery-detail__content {
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-rows: auto auto;
+                align-content: center;
+                justify-items: center;
+                gap: clamp(16px, 2.5vh, 26px);
+                padding: max(66px, env(safe-area-inset-top)) 58px max(28px, env(safe-area-inset-bottom));
+            }
+
+            .image-gallery-detail__copy {
+                justify-items: center;
+                width: min(var(--gallery-detail-copy-width, 720px), calc(100vw - 116px));
+                text-align: center;
+            }
+
+            .image-gallery-detail__description {
+                width: min(58ch, 100%);
+                font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+                line-height: 1.35;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 gap: 30px;
@@ -307,8 +1386,140 @@
                 gap: 40px;
             }
 
+            .hero-image {
+                justify-content: flex-start;
+                align-items: center;
+            }
+
             .hero-content h1 {
                 font-size: 2.5rem;
+            }
+
+            .liquid-name-row {
+                grid-template-columns: 38px minmax(0, 1fr) 38px;
+                gap: 6px;
+            }
+
+            .liquid-name-row::after {
+                width: 38px;
+            }
+
+            .liquid-name-shell {
+                height: 104px;
+            }
+
+            .network-panel,
+            .topographic-panel,
+            .plasma-panel {
+                height: 170px;
+            }
+
+            .image-gallery-section {
+                min-height: 0;
+            }
+
+            .image-gallery-fallback {
+                gap: 28px;
+                padding-inline-start: var(--gallery-fallback-start-gutter, 10vw);
+                padding-inline-end: var(--gallery-fallback-end-gutter, 10vw);
+            }
+
+            .image-gallery-fallback img {
+                max-width: 78vw;
+            }
+
+            .image-gallery-fallback__item {
+                height: min(54vh, 430px, var(--gallery-fallback-mobile-max-height, 430px));
+            }
+
+            .image-gallery-meta {
+                width: min(var(--gallery-meta-width, 82vw), calc(100vw - 28px));
+                max-width: calc(100vw - 28px);
+            }
+
+            .image-gallery-meta__title {
+                font-size: clamp(1.35rem, 6.6vw, 2.15rem);
+            }
+
+            .image-gallery-detail__media {
+                border-radius: 14px;
+            }
+
+            .image-gallery-detail__content {
+                align-content: start;
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-rows: auto auto;
+                gap: 12px;
+                padding: max(72px, env(safe-area-inset-top)) 12px max(82px, env(safe-area-inset-bottom));
+            }
+
+            .image-gallery-detail__copy {
+                width: min(100%, calc(100vw - 28px));
+                gap: 10px;
+            }
+
+            .image-gallery-detail__description {
+                width: min(44ch, 100%);
+                font-size: 1rem;
+                line-height: 1.38;
+            }
+
+            .image-gallery-detail__title {
+                font-size: clamp(1.15rem, 5.5vw, 2rem);
+            }
+
+            .image-gallery-detail__nav {
+                top: auto;
+                bottom: max(18px, env(safe-area-inset-bottom));
+                transform: scale(0.82);
+            }
+
+            .image-gallery-detail.is-open .image-gallery-detail__nav {
+                transform: scale(1);
+            }
+
+            .image-gallery-detail.is-closing .image-gallery-detail__nav {
+                transform: scale(0.88);
+            }
+
+            .image-gallery-detail__nav {
+                width: 44px;
+                height: 44px;
+            }
+
+            .image-gallery-detail__nav--previous {
+                left: 10px;
+            }
+
+            .image-gallery-detail__nav--next {
+                right: 10px;
+            }
+
+            .image-gallery-detail__title {
+                max-width: calc(100vw - 34px);
+                font-size: clamp(1.35rem, 6.2vw, 2.25rem);
+            }
+
+            .liquid-customizer-slot,
+            .liquid-customizer,
+            .liquid-customizer__toggle {
+                width: 38px;
+                height: 38px;
+            }
+
+            .liquid-customizer__panel {
+                top: calc(100% + 8px);
+                right: auto;
+                bottom: auto;
+                left: 0;
+                width: min(252px, calc(100vw - 28px));
+                max-height: 60svh;
+                transform: translateY(-8px) scale(0.97);
+                transform-origin: top left;
+            }
+
+            .liquid-customizer.is-open .liquid-customizer__panel {
+                transform: translateY(0) scale(1);
             }
 
             .hero-content .subtitle {
@@ -317,6 +1528,41 @@
 
             h2 {
                 font-size: 2rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .image-gallery-section,
+            .image-gallery-section.is-gallery-scroll-layout {
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                margin-left: 0;
+            }
+
+            .image-gallery-detail,
+            .image-gallery-detail *,
+            .image-gallery-canvas,
+            .image-gallery-fallback {
+                transition-duration: 0s !important;
+                transition-delay: 0s !important;
+            }
+
+            .image-gallery-sticky {
+                position: relative;
+                height: min(72vh, 620px);
+                min-height: 430px;
+            }
+
+            .image-gallery-canvas {
+                display: none;
+            }
+
+            .image-gallery-fallback {
+                position: relative;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                scroll-behavior: auto;
             }
         }
         /* Social Icons */
@@ -356,73 +1602,892 @@
 
 
     </style>
+    <link rel="stylesheet" href="interactions.css?v=20260904-smooth-6">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
-    <nav>
+    <script>try{if(localStorage.getItem("darkMode")==="enabled")document.body.classList.add("dark-mode")}catch(_){}</script>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <nav aria-label="Primary">
         <div class="nav-container">
-            <a href="index.html" class="active">Home</a>
+            <a href="index.html" class="active" aria-current="page">Home</a>
             <a href="project.html">Projects</a>
             <a href="finance.html">Finance</a>
             <a href="book.html">Books</a>
-            <button id="darkModeToggle" class="dark-toggle">🌙</button>
+            <button id="darkModeToggle" class="dark-toggle" type="button" aria-label="Dark mode" aria-pressed="false">🌙</button>
         </div>
     </nav>
 
-    <div class="container">
+    <main id="main-content" class="container" tabindex="-1">
         <section class="hero-section">
             <div class="hero-content">
-                <h1>Parv Jain</h1>
+                <div class="liquid-name-row" id="liquidNameRow">
+                    <div class="liquid-customizer-slot" id="liquidCustomizerSlot"></div>
+                    <div class="liquid-name-shell" id="liquidNameShell">
+                        <h1 class="liquid-name-fallback">Parv Jain</h1>
+                        <canvas class="liquid-name-canvas" id="liquidNameCanvas" aria-hidden="true"></canvas>
+                    </div>
+                </div>
                 <p class="subtitle">Computer Science and Business student at Indiana University</p>
                 
             <div class="social-icons">
-            <a href="https://github.com/parvjain16" target="_blank">
+            <a href="https://github.com/parvjain16" target="_blank" rel="noopener noreferrer">
                 <img class="github-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
             </a>
-            <a href="https://www.linkedin.com/in/parvjjain/" target="_blank">
+            <a href="https://www.linkedin.com/in/parvjjain/" target="_blank" rel="noopener noreferrer">
                 <img class="linkedin-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
             </a>
             </div>
 
 
-                <p class="email">parv.jjain@gmail.com</p>
+                <p class="email"><a href="mailto:parv.jjain@gmail.com">parv.jjain@gmail.com</a></p>
 
                 <div class="description">
-                    <p>I am a sophomore studying computer science and business, with a passion for Technology, Financial Services, and AI. I have contributed to research at OpenAI analyzing how student use AI in their education. At Fiddler, I worked on researched and analyzing venture capital firms to lead the upcoming funding round. I have won multiple case competitions, showcasing my analytical and problem-solving skills in real-world business scenarios. My career interests lie at the intersection of Product Management and Software Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
+                    <p>Hey my name is Parv Jain! I am a Junior at Indiana University studying Computer Science and Business. I am really interested in AI, technology, and business, and how the three come together to build products that people actually use. Outside of school, I love playing sports 🏀, and most of my free time goes into building projects and learning new things 📚. My career interests lie at the intersection of Product Management and Forward Deployed Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
                 </div>
+
+                <h2 class="experiences-heading">My Experiences</h2>
 
                 <div class="highlights">
                     <ul>
-                        <li><strong>1st Place - Consulting Case Competition:</strong> 1st of 25 teams, created a consulting pitch to enhance customer experience and operations to improve efficiency, and drive revenue growth for a consumer focused company</li>
-                        <li><strong>1st Place - Private Wealth Management Case Competition:</strong> 1st of 45+ teams, analyzed a complex high net worth client case and developed a comprehensive private wealth management strategy allocating a $110M portfolio through using quantitative analysis</li>
-                        <li><strong>OpenAI Student Researcher:</strong> Selected as an OpenAI student researcher collaborating with OpenAI's community team, on exploring how students integrate ChatGPT into their daily lives and identifying ways to better support student learning outcomes</li>
-                        <li><strong>Fiddler AI Summer Internship:</strong> Researched and analyzed 50+ venture capital firms to identify potential lead and co-investors for a $50M+ Series C round, evaluating investor fit based on portfolio composition, check size, and historical investment patterns</li>
+                        <li>
+                            <img class="experience-logo experience-logo--invert" src="xAI-Logo.png" alt="xAI logo">
+                            <div class="experience-copy"><strong>xAI Summer Intern:</strong> Designed and shipped an internal AI-powered analytics dashboard for the sales organization using Grok Build. Worked with the engineering team to redesign the interface of an internal Grok console for an enterprise customer. Designed and ran model evaluation experiments benchmarking Grok against other AI models across enterprise use cases, and led product testing of Grok Imagine for sales teams.</div>
+                        </li>
+                        <li>
+                            <img class="experience-logo experience-logo--invert experience-logo--openai" src="images__2_.png" alt="OpenAI logo">
+                            <div class="experience-copy"><strong>OpenAI ChatGPT Lab Member:</strong> Selected to work with OpenAI's community team studying how students integrate ChatGPT into their academic workflows. Currently testing new product experiences including Codex, Study Mode, and ChatGPT Work, identifying user friction points and turning them into product recommendations. One specific project our lab worked on was the <a href="https://chatgpt.com/100chats-project" target="_blank" rel="noopener noreferrer">100 Chats Project</a>, where I contributed by sharing real prompts I use with ChatGPT when I'm studying and working.</div>
+                        </li>
+                        <li>
+                            <img class="experience-logo" src="fiddler-ai-logo.png" alt="Fiddler AI logo">
+                            <div class="experience-copy"><strong>Fiddler AI Summer Internship:</strong> Researched and analyzed 50+ venture capital firms to identify potential lead and co-investors for a $50M+ Series C round, evaluating investor fit based on portfolio composition, check size, and historical investment patterns. Worked directly with the CEO and investor relations team, conducting competitive market research for the enterprise AI space.</div>
+                        </li>
+                        <li>
+                            <img class="experience-logo" src="YouTube_full-color_icon__2017__svg.webp" alt="YouTube logo">
+                            <div class="experience-copy"><strong>YouTube Channel:</strong> Built and grew a <a href="https://www.youtube.com/@EnhancedPlayz" target="_blank" rel="noopener noreferrer">gaming YouTube channel</a> from scratch to 80,000+ subscribers and over 50 million views. Partnered with 25+ brands including Roccat, Autonomous, Ridge Wallets, and The Coldest Water to produce sponsored reviews and branded content. It taught me how to grow an audience, work with sponsors, and keep content authentic while still hitting brand goals.</div>
+                        </li>
+                        <li>
+                            <span class="experience-logo-spacer" aria-hidden="true"></span>
+                            <div class="experience-copy"><strong>Case Competitions:</strong> Placed 1st of 45+ teams in the <a href="https://parvjain16.github.io/Private%20Wealth%20Management.pdf" target="_blank" rel="noopener noreferrer">Private Wealth Management Case Competition</a>, developing a $110M portfolio allocation strategy for a high-net-worth client. Also placed 1st of 25 teams in the <a href="https://parvjain16.github.io/812Consulting%20-%20LaserZone.pdf" target="_blank" rel="noopener noreferrer">Consulting Case Competition</a>, building a pitch recommending customer experience and operational improvements for a consumer company.</div>
+                        </li>
                     </ul>
                 </div>
             </div>
 
             <div class="hero-image">
-                <img src="cruise.jpg" alt="Parv Jain">
+                <img src="images/hero-parv-900.jpg" srcset="images/hero-parv-900.jpg 900w, images/hero-parv-1350.jpg 1350w" sizes="(max-width: 768px) 90vw, 450px" alt="Parv Jain" width="900" height="1200" fetchpriority="high" decoding="async">
+                <!-- Sketch canvas temporarily disabled. Uncomment this block to restore it.
+                <div class="canvas-strip">
+                    <canvas id="sketchCanvas" aria-hidden="true"></canvas>
+                </div>
+                -->
+                <div class="network-panel">
+                    <canvas id="net-panel" aria-hidden="true"></canvas>
+                </div>
+                <div class="topographic-panel">
+                    <canvas id="topo-panel" aria-hidden="true"></canvas>
+                </div>
+                <div class="plasma-panel">
+                    <canvas id="plasma-panel" aria-hidden="true"></canvas>
+                </div>
             </div>
         </section>
 
+        <section class="image-gallery-section" id="imageGallery" aria-label="Personal photo gallery" data-scroll-distance-scale="1.48" data-lenis-prevent-horizontal>
+            <div class="image-gallery-sticky">
+                <canvas class="image-gallery-canvas" id="imageGalleryCanvas" role="button" aria-label="Open xAI Team. Use left and right arrows to browse photos." aria-hidden="true" tabindex="-1"></canvas>
+                <div class="image-gallery-fallback">
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="0"><img src="gallery-textures/encoded/gallery-11.jpg?v=20260903-smooth-1" alt="xAI Team" width="2200" height="1465" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="1"><img src="gallery-textures/encoded/gallery-01.jpg?v=20260903-smooth-1" alt="Monterey Car Week" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="2"><img src="gallery-textures/encoded/gallery-14.jpg?v=20260903-smooth-1" alt="Meeting NVIDIA CEO" width="2200" height="1229" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="3"><img src="gallery-textures/encoded/gallery-08.jpg?v=20260903-smooth-1" alt="Meeting Cognition CEO" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="4"><img src="gallery-textures/encoded/gallery-03.jpg?v=20260903-smooth-1" alt="Founder of Loom" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="5"><img src="gallery-textures/encoded/gallery-07.jpg?v=20260903-smooth-1" alt="Met Founder of OpenClaw" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="6"><img src="gallery-textures/encoded/gallery-05.jpg?v=20260903-smooth-1" alt="Met Founder of Twitch" width="2161" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="7"><img src="gallery-textures/encoded/gallery-13.jpg?v=20260903-smooth-1" alt="YC Startup School" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="8"><img src="gallery-textures/encoded/gallery-04.jpg?v=20260903-smooth-1" alt="Shark Fin Cove" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="9"><img src="gallery-textures/encoded/gallery-17.jpg?v=20260903-smooth-1" alt="Tahoe" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="10"><img src="gallery-textures/encoded/gallery-06.jpg?v=20260903-smooth-1" alt="Bahamas" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="11"><img src="gallery-textures/encoded/gallery-02.jpg?v=20260903-smooth-1" alt="Banff" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="12"><img src="gallery-textures/encoded/gallery-09.jpg?v=20260903-smooth-1" alt="Yosemite" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="13"><img src="gallery-textures/encoded/gallery-15.jpg?v=20260903-smooth-1" alt="ATV Riding" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="14"><img src="gallery-textures/encoded/gallery-16.jpg?v=20260903-smooth-1" alt="Indiana University Football" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="15"><img src="gallery-textures/encoded/gallery-12.jpg?v=20260903-smooth-1" alt="Headshot" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="16"><img src="gallery-textures/encoded/gallery-10.jpg?v=20260903-smooth-1" alt="Don Toliver" width="1014" height="2200" loading="lazy" decoding="async"></button>
+                </div>
+                <div class="image-gallery-meta" aria-live="polite">
+                    <p class="image-gallery-meta__title" id="imageGalleryTitle">xAI Team</p>
+                    <p class="image-gallery-meta__hint">Scroll · drag · click to open</p>
+                </div>
+                <div class="image-gallery-controls" role="group" aria-label="Photo gallery controls" hidden>
+                    <button type="button" id="imageGalleryPrevious" aria-label="Previous photo">←</button>
+                    <button type="button" id="imageGalleryNext" aria-label="Next photo">→</button>
+                </div>
+            </div>
+        </section>
 
-    </div>
+    </main>
 
-    <script>
-        const toggleButton = document.getElementById("darkModeToggle");
-        const body = document.body;
+        <div class="image-gallery-detail" id="imageGalleryDetail" role="dialog" aria-modal="true" aria-labelledby="imageGalleryDetailTitle" aria-describedby="imageGalleryDetailDescription" aria-hidden="true" inert data-lenis-prevent>
+            <div class="image-gallery-detail__backdrop" data-gallery-close></div>
+            <button class="image-gallery-detail__close" id="imageGalleryDetailClose" type="button" aria-label="Close image detail">×</button>
+            <button class="image-gallery-detail__nav image-gallery-detail__nav--previous" id="imageGalleryDetailPrevious" type="button" aria-label="Previous image">←</button>
+            <button class="image-gallery-detail__nav image-gallery-detail__nav--next" id="imageGalleryDetailNext" type="button" aria-label="Next image">→</button>
+            <div class="image-gallery-detail__content" id="imageGalleryDetailContent">
+                <div class="image-gallery-detail__media" id="imageGalleryDetailMedia">
+                    <img id="imageGalleryDetailImage" alt="" width="2200" height="1465" decoding="async">
+                </div>
+                <div class="image-gallery-detail__copy">
+                    <div class="image-gallery-detail__title-block">
+                        <h2 class="image-gallery-detail__title" id="imageGalleryDetailTitle">xAI Team</h2>
+                    </div>
+                    <p class="image-gallery-detail__description" id="imageGalleryDetailDescription">This photo was with my xAI Team during my Summer Internship in front of the Falcon 9 Rocket at the SpaceX HQ in Hawthorne, during the SpaceX IPO Day!</p>
+                </div>
+                <p class="visually-hidden" id="imageGalleryDetailStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+            </div>
+        </div>
 
-        if (localStorage.getItem("darkMode") === "enabled") {
-            body.classList.add("dark-mode");
-            toggleButton.textContent = "☀️";
-        }
 
-        toggleButton.addEventListener("click", () => {
-            body.classList.toggle("dark-mode");
-            const isDark = body.classList.contains("dark-mode");
-            toggleButton.textContent = isDark ? "☀️" : "🌙";
-            localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-        });
+    <script src="site-core.js?v=20260902-smooth-1"></script>
+    <script type="text/plain" data-disabled-effect="sketch">
+        (() => {
+            const canvas = document.getElementById("sketchCanvas");
+            const context = canvas?.getContext("2d");
+
+            if (!canvas || !context) {
+                return;
+            }
+
+            const CONFIG = Object.freeze({
+                lineGap: 14,
+                verticalSampleGap: 8,
+                fieldLineWidth: 1,
+                noiseAmplitude: 4,
+                repulsionRadius: 24,
+                repulsionStrength: 6,
+                gridCellSize: 24,
+                slowStrokeWidth: 4,
+                fastStrokeWidth: 1.5,
+                speedForThinStroke: 1.1,
+                minimumSampleDistance: 1.5,
+                maximumSampleSpacing: 4.5,
+                speedSmoothing: 0.3,
+                widthSmoothing: 0.32,
+                holdMs: 2500,
+                fadeMs: 1500,
+                maxPoints: 1200,
+                cursorRadius: 3.5,
+                cursorLerpPerFrame: 0.44,
+                resizeDebounceMs: 150,
+                hintFadeMs: 320
+            });
+
+            const root = document.documentElement;
+            const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+            const strokes = [];
+            const pointer = {
+                inside: false,
+                hasPosition: false,
+                x: 0,
+                y: 0,
+                renderedX: 0,
+                renderedY: 0
+            };
+
+            let currentStroke = null;
+            let totalPointCount = 0;
+            let canvasWidth = 0;
+            let canvasHeight = 0;
+            let deviceScale = 1;
+            let resizeTimer = 0;
+            let isIntersecting = true;
+            let isDocumentVisible = !document.hidden;
+            let isDirty = true;
+            let hintDismissed = false;
+            let hintOpacity = 1;
+
+            try {
+                hintDismissed = sessionStorage.getItem("parv-sketch-hint-dismissed") === "true";
+            } catch (error) {
+                hintDismissed = false;
+            }
+
+            if (hintDismissed) {
+                hintOpacity = 0;
+            }
+
+            const clamp = (value, minimum, maximum) =>
+                Math.min(Math.max(value, minimum), maximum);
+
+            const frameRateIndependent = (amountPerFrame, deltaMs) =>
+                1 - Math.pow(1 - amountPerFrame, deltaMs / 16.67);
+
+            const getPalette = () => document.body.classList.contains("dark-mode")
+                ? { background: "#121212", ink: "#f4f2ef" }
+                : { background: "rgb(220, 223, 226)", ink: "#0b0d10" };
+
+            let palette = getPalette();
+
+            const wakeAnimation = () => {
+                isDirty = true;
+                window.requestParvAnimationFrame?.();
+            };
+
+            const pointOpacity = (point, time) => {
+                const age = time - point.time;
+
+                if (age <= CONFIG.holdMs) {
+                    return 1;
+                }
+
+                if (age >= CONFIG.holdMs + CONFIG.fadeMs) {
+                    return 0;
+                }
+
+                const progress = (age - CONFIG.holdMs) / CONFIG.fadeMs;
+                return Math.pow(1 - progress, 3);
+            };
+
+            const pruneExpiredPoints = (time) => {
+                const lifetime = CONFIG.holdMs + CONFIG.fadeMs;
+
+                for (let index = strokes.length - 1; index >= 0; index -= 1) {
+                    const stroke = strokes[index];
+                    let expiredCount = 0;
+
+                    while (
+                        stroke.points.length &&
+                        time - stroke.points[0].time >= lifetime
+                    ) {
+                        stroke.points.shift();
+                        expiredCount += 1;
+                    }
+
+                    totalPointCount -= expiredCount;
+
+                    if (!stroke.points.length && stroke !== currentStroke) {
+                        strokes.splice(index, 1);
+                    }
+                }
+            };
+
+            const enforcePointLimit = () => {
+                while (totalPointCount > CONFIG.maxPoints && strokes.length) {
+                    const oldestStroke = strokes[0];
+
+                    if (oldestStroke.points.length) {
+                        oldestStroke.points.shift();
+                        totalPointCount -= 1;
+                    }
+
+                    if (!oldestStroke.points.length && oldestStroke !== currentStroke) {
+                        strokes.shift();
+                    } else if (!oldestStroke.points.length) {
+                        break;
+                    }
+                }
+            };
+
+            const eventTime = (event) => {
+                const now = performance.now();
+                const candidate = Number(event.timeStamp);
+                return Number.isFinite(candidate) && Math.abs(candidate - now) < 60000
+                    ? candidate
+                    : now;
+            };
+
+            const localPoint = (event, rect) => ({
+                x: clamp(event.clientX - rect.left, 0, rect.width),
+                y: clamp(event.clientY - rect.top, 0, rect.height)
+            });
+
+            const updatePointer = (event, rect) => {
+                const position = localPoint(event, rect);
+                pointer.x = position.x;
+                pointer.y = position.y;
+
+                if (!pointer.hasPosition) {
+                    pointer.renderedX = position.x;
+                    pointer.renderedY = position.y;
+                    pointer.hasPosition = true;
+                }
+
+                return position;
+            };
+
+            const createStroke = () => {
+                currentStroke = { points: [], smoothedSpeed: 0 };
+                strokes.push(currentStroke);
+            };
+
+            const addStrokePoint = (event, rect) => {
+                if (!currentStroke) {
+                    createStroke();
+                }
+
+                const position = localPoint(event, rect);
+                const time = eventTime(event);
+                const previous = currentStroke.points[currentStroke.points.length - 1];
+
+                if (!previous) {
+                    currentStroke.points.push({
+                        x: position.x,
+                        y: position.y,
+                        time,
+                        width: CONFIG.slowStrokeWidth,
+                        renderOpacity: 1
+                    });
+                    totalPointCount += 1;
+                    enforcePointLimit();
+                    return;
+                }
+
+                const deltaX = position.x - previous.x;
+                const deltaY = position.y - previous.y;
+                const distance = Math.hypot(deltaX, deltaY);
+                const elapsed = Math.max(time - previous.time, 1);
+
+                if (distance < CONFIG.minimumSampleDistance && elapsed < 24) {
+                    return;
+                }
+
+                const instantaneousSpeed = distance / elapsed;
+                currentStroke.smoothedSpeed +=
+                    (instantaneousSpeed - currentStroke.smoothedSpeed) *
+                    CONFIG.speedSmoothing;
+
+                const speedRatio = clamp(
+                    currentStroke.smoothedSpeed / CONFIG.speedForThinStroke,
+                    0,
+                    1
+                );
+                const speedWidth = CONFIG.slowStrokeWidth -
+                    (CONFIG.slowStrokeWidth - CONFIG.fastStrokeWidth) * speedRatio;
+                const targetWidth = previous.width +
+                    (speedWidth - previous.width) * CONFIG.widthSmoothing;
+                const sampleCount = Math.max(
+                    1,
+                    Math.ceil(distance / CONFIG.maximumSampleSpacing)
+                );
+
+                for (let index = 1; index <= sampleCount; index += 1) {
+                    const progress = index / sampleCount;
+                    currentStroke.points.push({
+                        x: previous.x + deltaX * progress,
+                        y: previous.y + deltaY * progress,
+                        time: Math.max(
+                            previous.time + index * 0.01,
+                            previous.time + (time - previous.time) * progress
+                        ),
+                        width: previous.width +
+                            (targetWidth - previous.width) * progress,
+                        renderOpacity: 1
+                    });
+                }
+
+                totalPointCount += sampleCount;
+                enforcePointLimit();
+            };
+
+            const dismissHint = () => {
+                if (hintDismissed) {
+                    return;
+                }
+
+                hintDismissed = true;
+
+                try {
+                    sessionStorage.setItem("parv-sketch-hint-dismissed", "true");
+                } catch (error) {
+                    // The in-memory flag still keeps the hint hidden for this page session.
+                }
+            };
+
+            const setPointerInside = (inside) => {
+                pointer.inside = inside;
+                root.classList.toggle(
+                    "canvas-pointer-active",
+                    inside && !reducedMotionQuery.matches
+                );
+
+                if (!inside) {
+                    currentStroke = null;
+                }
+
+                wakeAnimation();
+            };
+
+            const startStroke = (event) => {
+                dismissHint();
+                setPointerInside(true);
+                const rect = canvas.getBoundingClientRect();
+                updatePointer(event, rect);
+                createStroke();
+                addStrokePoint(event, rect);
+            };
+
+            const enterPointer = (event) => {
+                const rect = canvas.getBoundingClientRect();
+                setPointerInside(true);
+                updatePointer(event, rect);
+            };
+
+            const endPointerInteraction = () => {
+                setPointerInside(false);
+            };
+
+            const onPointerMove = (event) => {
+                if (event.pointerType === "touch") {
+                    event.preventDefault();
+                }
+
+                const rect = canvas.getBoundingClientRect();
+
+                if (!pointer.inside) {
+                    setPointerInside(true);
+                }
+
+                dismissHint();
+                updatePointer(event, rect);
+
+                const samples = typeof event.getCoalescedEvents === "function"
+                    ? event.getCoalescedEvents()
+                    : [event];
+
+                if (!samples.length) {
+                    addStrokePoint(event, rect);
+                } else {
+                    samples.forEach((sample) => addStrokePoint(sample, rect));
+                }
+
+                wakeAnimation();
+            };
+
+            canvas.addEventListener("pointerenter", enterPointer);
+            canvas.addEventListener("pointerdown", (event) => {
+                if (event.pointerType === "touch") {
+                    event.preventDefault();
+                }
+                startStroke(event);
+            });
+            canvas.addEventListener("pointermove", onPointerMove, { passive: false });
+            canvas.addEventListener("pointerleave", endPointerInteraction);
+            canvas.addEventListener("pointercancel", endPointerInteraction);
+            canvas.addEventListener("pointerup", (event) => {
+                if (event.pointerType === "touch") {
+                    endPointerInteraction();
+                }
+            });
+            canvas.addEventListener("touchmove", (event) => {
+                event.preventDefault();
+            }, { passive: false });
+            window.addEventListener("blur", endPointerInteraction);
+
+            const scaleStoredCoordinates = (nextWidth, nextHeight) => {
+                if (!canvasWidth || !canvasHeight) {
+                    return;
+                }
+
+                const scaleX = nextWidth / canvasWidth;
+                const scaleY = nextHeight / canvasHeight;
+
+                strokes.forEach((stroke) => {
+                    stroke.points.forEach((point) => {
+                        point.x *= scaleX;
+                        point.y *= scaleY;
+                    });
+                });
+
+                if (pointer.hasPosition) {
+                    pointer.x *= scaleX;
+                    pointer.y *= scaleY;
+                    pointer.renderedX *= scaleX;
+                    pointer.renderedY *= scaleY;
+                }
+            };
+
+            const resizeCanvas = () => {
+                const rect = canvas.getBoundingClientRect();
+                const nextWidth = Math.max(rect.width, 1);
+                const nextHeight = Math.max(rect.height, 1);
+                const nextScale = Math.min(
+                    Math.max(window.devicePixelRatio || 1, 1),
+                    2
+                );
+
+                if (nextWidth !== canvasWidth || nextHeight !== canvasHeight) {
+                    scaleStoredCoordinates(nextWidth, nextHeight);
+                }
+
+                canvasWidth = nextWidth;
+                canvasHeight = nextHeight;
+                deviceScale = nextScale;
+                canvas.width = Math.max(1, Math.round(canvasWidth * deviceScale));
+                canvas.height = Math.max(1, Math.round(canvasHeight * deviceScale));
+                context.setTransform(deviceScale, 0, 0, deviceScale, 0, 0);
+                wakeAnimation();
+            };
+
+            window.addEventListener("resize", () => {
+                window.clearTimeout(resizeTimer);
+                resizeTimer = window.setTimeout(resizeCanvas, CONFIG.resizeDebounceMs);
+            }, { passive: true });
+
+            const themeObserver = new MutationObserver(() => {
+                palette = getPalette();
+                wakeAnimation();
+            });
+
+            themeObserver.observe(document.body, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+
+            const buildRepulsionGrid = (time) => {
+                const grid = new Map();
+
+                strokes.forEach((stroke) => {
+                    stroke.points.forEach((point) => {
+                        point.renderOpacity = pointOpacity(point, time);
+
+                        if (point.renderOpacity <= 0) {
+                            return;
+                        }
+
+                        const cellX = Math.floor(point.x / CONFIG.gridCellSize);
+                        const cellY = Math.floor(point.y / CONFIG.gridCellSize);
+                        const key = `${cellX},${cellY}`;
+                        const cell = grid.get(key);
+
+                        if (cell) {
+                            cell.push(point);
+                        } else {
+                            grid.set(key, [point]);
+                        }
+                    });
+                });
+
+                return grid;
+            };
+
+            const repelFieldPoint = (x, y, grid) => {
+                const centerCellX = Math.floor(x / CONFIG.gridCellSize);
+                const centerCellY = Math.floor(y / CONFIG.gridCellSize);
+                let pushX = 0;
+                let pushY = 0;
+
+                for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
+                    for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
+                        const sources = grid.get(
+                            `${centerCellX + offsetX},${centerCellY + offsetY}`
+                        );
+
+                        if (!sources) {
+                            continue;
+                        }
+
+                        sources.forEach((source) => {
+                            let deltaX = x - source.x;
+                            let deltaY = y - source.y;
+                            let distance = Math.hypot(deltaX, deltaY);
+
+                            if (distance >= CONFIG.repulsionRadius) {
+                                return;
+                            }
+
+                            if (distance < 0.001) {
+                                const angle = (source.x * 0.37 + source.y * 0.61) %
+                                    (Math.PI * 2);
+                                deltaX = Math.cos(angle);
+                                deltaY = Math.sin(angle);
+                                distance = 1;
+                            }
+
+                            const proximity = 1 - distance / CONFIG.repulsionRadius;
+                            const force = CONFIG.repulsionStrength *
+                                proximity * proximity * source.renderOpacity;
+                            pushX += deltaX / distance * force;
+                            pushY += deltaY / distance * force;
+                        });
+                    }
+                }
+
+                const pushLength = Math.hypot(pushX, pushY);
+
+                if (pushLength > CONFIG.repulsionStrength) {
+                    const limit = CONFIG.repulsionStrength / pushLength;
+                    pushX *= limit;
+                    pushY *= limit;
+                }
+
+                return { x: x + pushX, y: y + pushY };
+            };
+
+            const ambientOffset = (x, y, time) => {
+                const phase = reducedMotionQuery.matches ? 0 : time * 0.00011;
+                const layeredNoise =
+                    Math.sin(x * 0.015 + y * 0.024 + phase) * 0.5 +
+                    Math.sin(x * 0.006 - y * 0.041 - phase * 0.71) * 0.3 +
+                    Math.sin((x - y) * 0.011 + phase * 0.43) * 0.2;
+                return layeredNoise * CONFIG.noiseAmplitude;
+            };
+
+            const drawField = (time, repulsionGrid) => {
+                context.save();
+                context.strokeStyle = palette.ink;
+                context.globalAlpha = 0.28;
+                context.lineWidth = CONFIG.fieldLineWidth;
+                context.lineCap = "round";
+                context.lineJoin = "round";
+                context.setLineDash([1, 13]);
+
+                for (
+                    let baseX = CONFIG.lineGap / 2;
+                    baseX <= canvasWidth + CONFIG.lineGap / 2;
+                    baseX += CONFIG.lineGap
+                ) {
+                    context.beginPath();
+
+                    for (
+                        let baseY = 0;
+                        baseY <= canvasHeight + CONFIG.verticalSampleGap;
+                        baseY += CONFIG.verticalSampleGap
+                    ) {
+                        const noisyX = baseX + ambientOffset(baseX, baseY, time);
+                        const displaced = repelFieldPoint(noisyX, baseY, repulsionGrid);
+
+                        if (baseY === 0) {
+                            context.moveTo(displaced.x, displaced.y);
+                        } else {
+                            context.lineTo(displaced.x, displaced.y);
+                        }
+                    }
+
+                    context.stroke();
+                }
+
+                context.restore();
+            };
+
+            const drawStrokes = (time) => {
+                context.save();
+                context.strokeStyle = palette.ink;
+                context.fillStyle = palette.ink;
+                context.lineCap = "round";
+                context.lineJoin = "round";
+                context.setLineDash([]);
+
+                strokes.forEach((stroke) => {
+                    const points = stroke.points;
+
+                    if (points.length === 1) {
+                        const point = points[0];
+                        const alpha = pointOpacity(point, time);
+
+                        if (alpha > 0) {
+                            context.globalAlpha = alpha;
+                            context.beginPath();
+                            context.arc(
+                                point.x,
+                                point.y,
+                                Math.max(point.width * 0.5, 0.75),
+                                0,
+                                Math.PI * 2
+                            );
+                            context.fill();
+                        }
+
+                        return;
+                    }
+
+                    points.forEach((point, index) => {
+                        const alpha = pointOpacity(point, time);
+
+                        if (alpha <= 0) {
+                            return;
+                        }
+
+                        const previous = points[Math.max(index - 1, 0)];
+                        const next = points[Math.min(index + 1, points.length - 1)];
+                        const startX = index === 0 ? point.x : (previous.x + point.x) / 2;
+                        const startY = index === 0 ? point.y : (previous.y + point.y) / 2;
+                        const endX = index === points.length - 1
+                            ? point.x
+                            : (point.x + next.x) / 2;
+                        const endY = index === points.length - 1
+                            ? point.y
+                            : (point.y + next.y) / 2;
+                        const edgeDistance = Math.min(index + 1, points.length - index);
+                        const taper = 0.45 + 0.55 * Math.min(edgeDistance / 3, 1);
+
+                        context.globalAlpha = alpha;
+                        context.lineWidth = point.width * taper;
+                        context.beginPath();
+                        context.moveTo(startX, startY);
+                        context.quadraticCurveTo(point.x, point.y, endX, endY);
+                        context.stroke();
+                    });
+                });
+
+                context.restore();
+            };
+
+            const drawHint = () => {
+                if (hintOpacity <= 0) {
+                    return;
+                }
+
+                context.save();
+                context.fillStyle = palette.ink;
+                context.globalAlpha = 0.3 * hintOpacity;
+                context.font = 'small-caps 600 12px "Product Sans", sans-serif';
+                context.textAlign = "center";
+                context.textBaseline = "middle";
+                context.fillText("draw something", canvasWidth / 2, canvasHeight / 2);
+                context.restore();
+            };
+
+            const drawCanvasCursor = () => {
+                if (
+                    reducedMotionQuery.matches ||
+                    !pointer.inside ||
+                    !pointer.hasPosition
+                ) {
+                    return;
+                }
+
+                context.save();
+                context.fillStyle = palette.ink;
+                context.globalAlpha = 1;
+                context.beginPath();
+                context.arc(
+                    pointer.renderedX,
+                    pointer.renderedY,
+                    CONFIG.cursorRadius,
+                    0,
+                    Math.PI * 2
+                );
+                context.fill();
+                context.restore();
+            };
+
+            const renderFrame = (time, deltaMs) => {
+                if (
+                    !isDocumentVisible ||
+                    !isIntersecting ||
+                    !canvasWidth ||
+                    !canvasHeight
+                ) {
+                    return;
+                }
+
+                const boundedDelta = clamp(deltaMs || 16.67, 0, 64);
+                pruneExpiredPoints(time);
+
+                if (hintDismissed && hintOpacity > 0) {
+                    hintOpacity = reducedMotionQuery.matches
+                        ? 0
+                        : Math.max(0, hintOpacity - boundedDelta / CONFIG.hintFadeMs);
+                }
+
+                if (pointer.inside && pointer.hasPosition) {
+                    const cursorAmount = reducedMotionQuery.matches
+                        ? 1
+                        : frameRateIndependent(CONFIG.cursorLerpPerFrame, boundedDelta);
+                    pointer.renderedX += (pointer.x - pointer.renderedX) * cursorAmount;
+                    pointer.renderedY += (pointer.y - pointer.renderedY) * cursorAmount;
+                }
+
+                context.setTransform(deviceScale, 0, 0, deviceScale, 0, 0);
+                context.clearRect(0, 0, canvasWidth, canvasHeight);
+                context.fillStyle = palette.background;
+                context.fillRect(0, 0, canvasWidth, canvasHeight);
+
+                const repulsionGrid = buildRepulsionGrid(time);
+                drawField(time, repulsionGrid);
+                drawHint();
+                drawStrokes(time);
+                drawCanvasCursor();
+                isDirty = false;
+            };
+
+            const needsAnimation = () => isDocumentVisible && isIntersecting && (
+                isDirty ||
+                !reducedMotionQuery.matches ||
+                pointer.inside ||
+                totalPointCount > 0 ||
+                (hintDismissed && hintOpacity > 0)
+            );
+
+            const intersectionObserver = "IntersectionObserver" in window
+                ? new IntersectionObserver((entries) => {
+                    const nextState = Boolean(entries[0]?.isIntersecting);
+
+                    if (nextState === isIntersecting) {
+                        return;
+                    }
+
+                    isIntersecting = nextState;
+
+                    if (!isIntersecting) {
+                        root.classList.remove("canvas-pointer-active");
+                        pointer.inside = false;
+                        currentStroke = null;
+                    } else {
+                        resizeCanvas();
+                    }
+
+                    wakeAnimation();
+                }, { threshold: 0.01 })
+                : null;
+
+            const onReducedMotionChange = () => {
+                root.classList.toggle(
+                    "canvas-pointer-active",
+                    pointer.inside && !reducedMotionQuery.matches
+                );
+                wakeAnimation();
+            };
+
+            const onVisibilityChange = () => {
+                isDocumentVisible = !document.hidden;
+
+                if (!isDocumentVisible) {
+                    root.classList.remove("canvas-pointer-active");
+                    pointer.inside = false;
+                    currentStroke = null;
+                } else {
+                    resizeCanvas();
+                }
+
+                wakeAnimation();
+            };
+
+            if (typeof reducedMotionQuery.addEventListener === "function") {
+                reducedMotionQuery.addEventListener("change", onReducedMotionChange);
+            } else {
+                reducedMotionQuery.addListener(onReducedMotionChange);
+            }
+
+            document.addEventListener("visibilitychange", onVisibilityChange, {
+                passive: true
+            });
+
+            window.parvCanvasStripController = {
+                renderFrame,
+                needsAnimation
+            };
+
+            resizeCanvas();
+            intersectionObserver?.observe(canvas);
+        })();
     </script>
+    <script src="lenis.min.js"></script>
+    <script src="liquid-metal.js?v=20260903-smooth-3"></script>
+    <script src="node-network.js?v=20260903-smooth-3"></script>
+    <script src="topographic-contours.js?v=20260903-smooth-3"></script>
+    <script src="plasma-blob.js?v=20260903-smooth-3"></script>
+    <script src="horizontal-gallery.js?v=20260904-smooth-14"></script>
+    <script src="interactions.js?v=20260904-smooth-3"></script>
 </body>
 </html>

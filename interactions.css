@@ -1,0 +1,293 @@
+/* Shared interaction layer. The site's existing layout and theme styles stay untouched. */
+@font-face {
+    font-family: "Product Sans";
+    src: url("fonts/Product Sans Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Product Sans";
+    src: url("fonts/Product Sans Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    font-family: "Product Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 2000;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: #0b0d10;
+    color: #ffffff;
+    transform: translateY(-160%);
+}
+
+.skip-link:focus { transform: translateY(0); }
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible {
+    outline: 3px solid #1a73e8;
+    outline-offset: 5px;
+}
+
+.image-gallery-canvas:focus-visible {
+    outline: 3px solid #1a73e8;
+    outline-offset: -6px;
+}
+
+.image-gallery-controls {
+    position: absolute;
+    z-index: 5;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+.image-gallery-controls[hidden] { display: none; }
+.is-webgl-ready .image-gallery-meta__hint { display: none; }
+.image-gallery-controls button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px 15px;
+    border: 1px solid rgba(11, 13, 16, 0.2);
+    border-radius: 999px;
+    background: rgba(244, 242, 239, 0.88);
+    color: #0b0d10;
+    font: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+}
+body.dark-mode .image-gallery-controls button {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(11, 13, 16, 0.88);
+    color: #f4f2ef;
+}
+body.gallery-detail-active .image-gallery-controls { visibility: hidden; }
+body.gallery-detail-active .image-gallery-fallback .is-detail-selected { visibility: hidden; }
+body.gallery-detail-active nav { visibility: hidden; }
+
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped,
+html.gallery-detail-scroll-lock {
+    overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
+.email > a {
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+}
+
+.trailing-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    display: none;
+    pointer-events: none;
+    z-index: 2147483647;
+    mix-blend-mode: difference;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(-100px, -100px, 0);
+    transition: opacity 140ms ease;
+    will-change: transform, opacity;
+}
+
+.trailing-cursor.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.trailing-cursor.is-visible.is-over-portrait {
+    opacity: var(--cursor-portrait-opacity, 0);
+    transition-duration: 0s;
+}
+
+.trailing-cursor__inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    translate: -50% -50%;
+    border-radius: 999px;
+    background: #ffffff;
+    pointer-events: none;
+    transform: rotate(0deg) scale(1, 1);
+    transform-origin: center;
+    transition:
+        width var(--cursor-morph-duration, 240ms) cubic-bezier(0.22, 1, 0.36, 1),
+        height var(--cursor-morph-duration, 240ms) cubic-bezier(0.22, 1, 0.36, 1),
+        border-radius var(--cursor-morph-duration, 240ms) cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: width, height, border-radius, transform;
+}
+
+html.custom-cursor-enabled .nav-container > a {
+    text-decoration: none !important;
+    transition: color 0s;
+}
+
+html.custom-cursor-enabled .nav-container > a:hover,
+html.custom-cursor-enabled .nav-container > a.cursor-hover-active {
+    color: #000000 !important;
+    text-decoration: none !important;
+    transition: color 0s !important;
+}
+
+html.custom-cursor-enabled .nav-container > a:hover::after,
+html.custom-cursor-enabled .nav-container > a.cursor-hover-active::after {
+    width: 0 !important;
+    background-color: transparent !important;
+}
+
+html.custom-cursor-enabled body.dark-mode .nav-container > a:hover,
+html.custom-cursor-enabled body.dark-mode .nav-container > a.cursor-hover-active {
+    color: #ffffff !important;
+}
+
+html.custom-cursor-enabled .social-icons .linkedin-icon {
+    transition: transform 200ms ease, filter 0s;
+}
+
+html.custom-cursor-enabled .social-icons img:hover {
+    transform: none !important;
+}
+
+html.custom-cursor-enabled .social-icons > a:hover .linkedin-icon,
+html.custom-cursor-enabled .social-icons > a.cursor-hover-active .linkedin-icon {
+    filter: grayscale(1) contrast(1000%) !important;
+    transition: transform 200ms ease, filter 0s !important;
+}
+
+html.custom-cursor-enabled body.dark-mode .social-icons > a:hover .linkedin-icon,
+html.custom-cursor-enabled body.dark-mode .social-icons > a.cursor-hover-active .linkedin-icon {
+    filter: grayscale(1) contrast(1000%) invert(1) !important;
+}
+
+html.custom-cursor-enabled .pitch-links > a {
+    transition: background-color 0s, color 0s, transform 200ms ease;
+}
+
+html.custom-cursor-enabled .pitch-links > a:hover,
+html.custom-cursor-enabled .pitch-links > a.cursor-hover-active,
+html.custom-cursor-enabled body.dark-mode .pitch-links > a.cursor-hover-active {
+    background-color: #0b0d10 !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    transform: none !important;
+    transition: background-color 0s, color 0s, transform 200ms ease !important;
+}
+
+html.custom-cursor-enabled body.dark-mode .pitch-links > a:hover,
+html.custom-cursor-enabled body.dark-mode .pitch-links > a.cursor-hover-active {
+    background-color: #f4f2ef !important;
+    color: #0b0d10 !important;
+}
+
+html.custom-cursor-enabled #darkModeToggle {
+    transition: color 0s, filter 0s, transform 0s;
+}
+
+html.custom-cursor-enabled #darkModeToggle:hover,
+html.custom-cursor-enabled #darkModeToggle.cursor-hover-active {
+    color: #000000 !important;
+    filter: grayscale(1) brightness(0);
+    transform: none !important;
+}
+
+html.custom-cursor-enabled body.dark-mode #darkModeToggle:hover,
+html.custom-cursor-enabled body.dark-mode #darkModeToggle.cursor-hover-active {
+    color: #ffffff !important;
+    filter: grayscale(1) brightness(0) invert(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    html.custom-cursor-enabled .trailing-cursor {
+        display: block;
+    }
+}
+
+/* Keep the primary navigation stable instead of wrapping into a second row
+   on narrow phones. The slightly larger vertical padding preserves usable
+   touch targets without stealing another line from the page. */
+@media (max-width: 600px) {
+    nav {
+        padding: 12px 0;
+    }
+
+    .nav-container {
+        flex-wrap: nowrap;
+        gap: clamp(9px, 3.2vw, 15px);
+        padding-inline: 8px;
+    }
+
+    .nav-container > a {
+        padding-block: 8px;
+        font-size: clamp(0.88rem, 4.15vw, 1rem);
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .nav-container > .dark-toggle {
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        margin-left: 0;
+        font-size: 1.15rem;
+        line-height: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+    .dark-toggle:hover,
+    .social-icons img:hover,
+    .project-card:hover,
+    .book-card:hover,
+    .books-list-section:hover,
+    .achievement:hover,
+    .pitch-links > a:hover,
+    .reading-inspiration__links > a:hover,
+    .featured-project__button:hover,
+    .featured-project__button:active {
+        transform: none !important;
+        translate: none !important;
+    }
+    .trailing-cursor {
+        display: none !important;
+    }
+}

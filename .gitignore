@@ -1,0 +1,6 @@
+.DS_Store
+*.bak
+
+# Local source archives and original camera exports are not used by the site.
+fonts/Google_Sans.zip
+images/IMG_*

@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease;
+            transition: background-color 280ms ease, color 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
         }
 
         body {
@@ -82,7 +82,7 @@
 
         .dark-toggle:hover {
             transform: rotate(15deg);
-            color: #1a73e8;
+            color: #0b5cad;
         }
 
         .container {
@@ -152,7 +152,7 @@
         }
 
         .achievement a {
-            color: #1a73e8;
+            color: #0b5cad;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
@@ -249,19 +249,23 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="interactions.css?v=20260904-smooth-6">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
-    <nav>
+    <script>try{if(localStorage.getItem("darkMode")==="enabled")document.body.classList.add("dark-mode")}catch(_){}</script>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <nav aria-label="Primary">
         <div class="nav-container">
             <a href="index.html">Home</a>
             <a href="project.html">Projects</a>
-            <a href="finance.html" class="active">Finance</a>
+            <a href="finance.html" class="active" aria-current="page">Finance</a>
             <a href="book.html">Books</a>
-            <button id="darkModeToggle" class="dark-toggle">🌙</button>
+            <button id="darkModeToggle" class="dark-toggle" type="button" aria-label="Dark mode" aria-pressed="false">🌙</button>
         </div>
     </nav>
 
-    <div class="container">
+    <main id="main-content" class="container" tabindex="-1">
         <h1>Finance Experience</h1>
         <p class="intro">My journey in financial services, investment research, and case competitions</p>
 
@@ -271,7 +275,7 @@
             <h3>1st Place - Consulting Case Competition</h3>
             <p>Ranked 1st out of 25 teams. Created a comprehensive consulting pitch to enhance customer experience and operations to improve efficiency, and drive revenue growth for a consumer-focused company. Developed data-driven recommendations and strategic frameworks to optimize business performance.</p>
             <div class="pitch-links">
-                <a href="812Consulting - LaserZone.pdf" target="_blank">View Slide Deck</a>
+                <a href="812Consulting - LaserZone.pdf" target="_blank" rel="noopener noreferrer">View Slide Deck</a>
             </div>
         </div>
 
@@ -279,7 +283,7 @@
             <h3>1st Place - Private Wealth Management Case Competition</h3>
             <p>Ranked 1st out of 45+ teams. Analyzed a complex high net worth client case and developed a comprehensive private wealth management strategy allocating a $110M portfolio through quantitative analysis. Applied advanced financial modeling and portfolio optimization techniques to maximize risk-adjusted returns.</p>
             <div class="pitch-links">
-                <a href="Private Wealth Management.pdf" target="_blank">View Slide Deck</a>
+                <a href="Private Wealth Management.pdf" target="_blank" rel="noopener noreferrer">View Slide Deck</a>
             </div>
         </div>
 
@@ -288,7 +292,7 @@
         <div class="achievement">
             <h3>Coinbase Q3'25 Revenue Forecast Challenge</h3>
             <p>Participated in the Coinbase Challenge to forecast Coinbase's Q3'25 Revenue. Built a clear, data-driven financial model with strong analytical reasoning and a comprehensive write-up explaining the approach, key assumptions, and data sources used in the forecasting model.</p>
-            <a href="https://docs.google.com/spreadsheets/d/1JKcRT2emJ8IUWDeug5giFShgo8qky_i3H_NQa2J0Sro/edit?usp=sharing" target="_blank">View Coinbase Q3'25 Forecast Model →</a>
+            <a href="https://docs.google.com/spreadsheets/d/1JKcRT2emJ8IUWDeug5giFShgo8qky_i3H_NQa2J0Sro/edit?usp=sharing" target="_blank" rel="noopener noreferrer">View Coinbase Q3'25 Forecast Model →</a>
         </div>
 
         <h2>Stock Pitches</h2>
@@ -297,7 +301,7 @@
             <h3>Seagate Technology Holdings (STX) Stock Pitch</h3>
             <p>Comprehensive equity research report analyzing Seagate's transformation from legacy HDD technologies to advanced storage solutions for AI and cloud computing. Developed a price target of $120.58 with 18.3% upside, highlighting the company's strategic innovation and market recovery potential in the data storage sector.</p>
             <div class="pitch-links">
-                <a href="STX Fund Stock Pitch.pdf" target="_blank">View PDF Report</a>
+                <a href="STX Fund Stock Pitch.pdf" target="_blank" rel="noopener noreferrer">View PDF Report</a>
             </div>
         </div>
 
@@ -305,26 +309,13 @@
             <h3>Meta Platforms (META) Stock Pitch</h3>
             <p>Investment analysis examining Meta's AI integration across platforms and metaverse investments. Established a buy rating with a price target of $725.00, focusing on the company's advanced AI capabilities, Reality Labs potential, and dominant position in social media driving long-term growth.</p>
             <div class="pitch-links">
-                <a href="Meta Stock Pitch.pdf" target="_blank">View PDF Report</a>
+                <a href="Meta Stock Pitch.pdf" target="_blank" rel="noopener noreferrer">View PDF Report</a>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const toggleButton = document.getElementById("darkModeToggle");
-        const body = document.body;
-
-        if (localStorage.getItem("darkMode") === "enabled") {
-            body.classList.add("dark-mode");
-            toggleButton.textContent = "☀️";
-        }
-
-        toggleButton.addEventListener("click", () => {
-            body.classList.toggle("dark-mode");
-            const isDark = body.classList.contains("dark-mode");
-            toggleButton.textContent = isDark ? "☀️" : "🌙";
-            localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-        });
-    </script>
+    <script src="site-core.js?v=20260902-smooth-1"></script>
+    <script src="lenis.min.js"></script>
+    <script src="interactions.js?v=20260904-smooth-3"></script>
 </body>
 </html>
