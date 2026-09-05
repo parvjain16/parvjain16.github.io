@@ -2272,7 +2272,7 @@
         const currentIndex = Math.max(0, galleryRippleColors.indexOf(currentColor));
         const nextColor = galleryRippleColors[(currentIndex + 1) % galleryRippleColors.length];
         galleryRippleControl.dataset.rippleColor = nextColor;
-        // Give every activation an immediate, one-second sweep in its new color.
+        // Give every activation an immediate, four-second sweep in its new color.
         galleryRippleControl.classList.remove("is-click-rippling");
         if (!reducedMotionQuery.matches) {
             void galleryRippleControl.offsetWidth;

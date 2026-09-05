@@ -153,7 +153,7 @@ body.dark-mode .image-gallery-controls > button:not(.image-gallery-controls__hin
 }
 
 .image-gallery-controls__hint.is-click-rippling .image-gallery-controls__hint-label::after {
-    animation: gallery-hint-click-ripple 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: gallery-hint-click-ripple 4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .image-gallery-controls__hint[data-ripple-color="blue"] {
