@@ -2143,6 +2143,7 @@
     const onReducedMotionChange = () => {
         const selectedIndex = activeIndex;
         cancelPointer(true);
+        galleryRippleControl?.classList.remove("is-click-rippling");
         root.classList.remove("gallery-pointer-active");
         if (detailClosing) detailCloseFinisher?.();
         if (reducedMotionQuery.matches) {
@@ -2229,6 +2230,7 @@
         detailImage.classList.remove("is-changing");
         detailCopy.classList.remove("is-changing");
         detailStatus.textContent = "";
+        galleryRippleControl?.classList.remove("is-click-rippling");
         fallbackButtons.forEach((button) => button.classList.remove("is-detail-selected"));
         document.body.classList.remove("gallery-detail-open", "gallery-detail-active", "gallery-detail-closing");
         setBackgroundInert(false);
@@ -2270,8 +2272,19 @@
         const currentIndex = Math.max(0, galleryRippleColors.indexOf(currentColor));
         const nextColor = galleryRippleColors[(currentIndex + 1) % galleryRippleColors.length];
         galleryRippleControl.dataset.rippleColor = nextColor;
+        // Give every activation an immediate, one-second sweep in its new color.
+        galleryRippleControl.classList.remove("is-click-rippling");
+        if (!reducedMotionQuery.matches) {
+            void galleryRippleControl.offsetWidth;
+            galleryRippleControl.classList.add("is-click-rippling");
+        }
         if (galleryRippleStatus) galleryRippleStatus.textContent = `Ripple color changed to ${nextColor}.`;
         if (selfTestEnabled) section.dataset.galleryRippleColor = nextColor;
+    }, { signal });
+    galleryRippleControl?.addEventListener("animationend", (event) => {
+        if (event.animationName === "gallery-hint-click-ripple") {
+            galleryRippleControl.classList.remove("is-click-rippling");
+        }
     }, { signal });
     stage.addEventListener("keydown", clearPointerFocusReturn, { capture: true, signal });
     stage.addEventListener("focusout", (event) => {
