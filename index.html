@@ -1602,7 +1602,7 @@
 
 
     </style>
-    <link rel="stylesheet" href="interactions.css?v=20260904-smooth-6">
+    <link rel="stylesheet" href="interactions.css?v=20260905-smooth-7">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
@@ -1695,7 +1695,7 @@
 
         <section class="image-gallery-section" id="imageGallery" aria-label="Personal photo gallery" data-scroll-distance-scale="1.48" data-lenis-prevent-horizontal>
             <div class="image-gallery-sticky">
-                <canvas class="image-gallery-canvas" id="imageGalleryCanvas" role="button" aria-label="Open xAI Team. Use left and right arrows to browse photos." aria-hidden="true" tabindex="-1"></canvas>
+                <canvas class="image-gallery-canvas" id="imageGalleryCanvas" role="button" aria-label="Open xAI Team. Use left and right arrows to browse photos." aria-describedby="imageGalleryLearnMoreHint" aria-hidden="true" tabindex="-1"></canvas>
                 <div class="image-gallery-fallback">
                     <button class="image-gallery-fallback__item" type="button" data-gallery-index="0"><img src="gallery-textures/encoded/gallery-11.jpg?v=20260903-smooth-1" alt="xAI Team" width="2200" height="1465" loading="lazy" decoding="async"></button>
                     <button class="image-gallery-fallback__item" type="button" data-gallery-index="1"><img src="gallery-textures/encoded/gallery-01.jpg?v=20260903-smooth-1" alt="Monterey Car Week" width="1650" height="2200" loading="lazy" decoding="async"></button>
@@ -1717,11 +1717,12 @@
                 </div>
                 <div class="image-gallery-meta" aria-live="polite">
                     <p class="image-gallery-meta__title" id="imageGalleryTitle">xAI Team</p>
-                    <p class="image-gallery-meta__hint">Scroll · drag · click to open</p>
+                    <p class="image-gallery-meta__hint">Scroll · drag · click any image to learn more</p>
                 </div>
                 <div class="image-gallery-controls" role="group" aria-label="Photo gallery controls" hidden>
                     <button type="button" id="imageGalleryPrevious" aria-label="Previous photo">←</button>
                     <button type="button" id="imageGalleryNext" aria-label="Next photo">→</button>
+                    <span class="image-gallery-controls__hint" id="imageGalleryLearnMoreHint" data-text="Click on any image to learn more">Click on any image to learn more</span>
                 </div>
             </div>
         </section>
