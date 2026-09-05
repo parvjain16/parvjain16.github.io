@@ -20,6 +20,8 @@
     const galleryControls = stage?.querySelector(".image-gallery-controls");
     const galleryPrevious = document.getElementById("imageGalleryPrevious");
     const galleryNext = document.getElementById("imageGalleryNext");
+    const galleryRippleControl = document.getElementById("imageGalleryRippleControl");
+    const galleryRippleStatus = document.getElementById("imageGalleryRippleStatus");
     const debugEnabled = window.location.search.includes("debug");
     const selfTestEnabled = window.location.search.includes("selftest");
     const forceFallback = selfTestEnabled && new URLSearchParams(window.location.search).get("gallery") === "fallback";
@@ -212,6 +214,11 @@
     const { signal } = abortController;
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const modulo = (value, divisor) => ((value % divisor) + divisor) % divisor;
+    const galleryRippleColors = Object.freeze(["blue", "red", "green", "orange"]);
+    const clearPointerFocusReturn = () => {
+        canvas.classList.remove("is-pointer-focus-return");
+        fallbackButtons.forEach((button) => button.classList.remove("is-pointer-focus-return"));
+    };
     const scrollDistanceScale = clamp(
         Number.parseFloat(section.dataset.scrollDistanceScale) || 1.28,
         1,
@@ -1551,8 +1558,9 @@
         wake();
     };
 
-    const closeDetail = () => {
+    const closeDetail = (event) => {
         if (!detailOpen || detailClosing) return;
+        const suppressReturnFocusRing = event?.type === "click" && Number(event.detail) > 0;
         const hadOpened = detail.classList.contains("is-open");
         detailLifecycleToken += 1;
         detailClosing = true;
@@ -1623,6 +1631,13 @@
                     : isWebGLPresented()
                         ? canvas
                         : fallbackButtons[detailIndex];
+                clearPointerFocusReturn();
+                if (
+                    suppressReturnFocusRing
+                    && (focusTarget === canvas || fallbackButtons.includes(focusTarget))
+                ) {
+                    focusTarget.classList.add("is-pointer-focus-return");
+                }
                 focusTarget?.focus?.({ preventScroll: true });
                 detail.classList.remove("is-visible", "is-closing", "is-open", "is-fade-closing");
                 detail.setAttribute("aria-hidden", "true");
@@ -1680,6 +1695,8 @@
             const rect = canvas.getBoundingClientRect();
             const hit = hitTestVisible(event.clientX - rect.left, event.clientY - rect.top);
             if (hit) {
+                clearPointerFocusReturn();
+                canvas.classList.add("is-pointer-focus-return");
                 canvas.focus({ preventScroll: true });
                 openDetail(hit.index, {
                     left: rect.left + hit.left,
@@ -2238,6 +2255,8 @@
     fallback.addEventListener("click", (event) => {
         const button = event.target.closest("[data-gallery-index]");
         if (!button) return;
+        clearPointerFocusReturn();
+        if (Number(event.detail) > 0) button.classList.add("is-pointer-focus-return");
         openDetail(
             Number(button.dataset.galleryIndex),
             (button.querySelector("img") || button).getBoundingClientRect()
@@ -2245,6 +2264,19 @@
     }, { signal });
     galleryPrevious?.addEventListener("click", () => navigateGallery(-1), { signal });
     galleryNext?.addEventListener("click", () => navigateGallery(1), { signal });
+    galleryRippleControl?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const currentColor = galleryRippleControl.dataset.rippleColor || galleryRippleColors[0];
+        const currentIndex = Math.max(0, galleryRippleColors.indexOf(currentColor));
+        const nextColor = galleryRippleColors[(currentIndex + 1) % galleryRippleColors.length];
+        galleryRippleControl.dataset.rippleColor = nextColor;
+        if (galleryRippleStatus) galleryRippleStatus.textContent = `Ripple color changed to ${nextColor}.`;
+        if (selfTestEnabled) section.dataset.galleryRippleColor = nextColor;
+    }, { signal });
+    stage.addEventListener("keydown", clearPointerFocusReturn, { capture: true, signal });
+    stage.addEventListener("focusout", (event) => {
+        event.target?.classList?.remove("is-pointer-focus-return");
+    }, { signal });
     canvas.addEventListener("keydown", (event) => {
         if (!isWebGLReady() || detailOpen) return;
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -2264,7 +2296,7 @@
     detailPrevious.addEventListener("click", () => navigateDetail(-1), { signal });
     detailNext.addEventListener("click", () => navigateDetail(1), { signal });
     detail.addEventListener("click", (event) => {
-        if (event.target === detailContent || event.target.matches("[data-gallery-close]")) closeDetail();
+        if (event.target === detailContent || event.target.matches("[data-gallery-close]")) closeDetail(event);
     }, { signal });
     document.addEventListener("keydown", (event) => {
         if (!detailOpen) return;

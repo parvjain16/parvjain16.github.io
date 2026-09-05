@@ -1602,7 +1602,7 @@
 
 
     </style>
-    <link rel="stylesheet" href="interactions.css?v=20260905-smooth-7">
+    <link rel="stylesheet" href="interactions.css?v=20260905-smooth-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
@@ -1722,7 +1722,11 @@
                 <div class="image-gallery-controls" role="group" aria-label="Photo gallery controls" hidden>
                     <button type="button" id="imageGalleryPrevious" aria-label="Previous photo">←</button>
                     <button type="button" id="imageGalleryNext" aria-label="Next photo">→</button>
-                    <span class="image-gallery-controls__hint" id="imageGalleryLearnMoreHint" data-text="Click on any image to learn more">Click on any image to learn more</span>
+                    <button class="image-gallery-controls__hint" id="imageGalleryRippleControl" type="button" data-ripple-color="blue" aria-describedby="imageGalleryRippleStatus">
+                        <span class="image-gallery-controls__hint-label" id="imageGalleryLearnMoreHint" data-text="Click on any image to learn more">Click on any image to learn more</span>
+                        <span class="visually-hidden">Activate to change the ripple color.</span>
+                    </button>
+                    <span class="visually-hidden" id="imageGalleryRippleStatus" role="status" aria-live="polite" aria-atomic="true">Current ripple color: blue.</span>
                 </div>
             </div>
         </section>
@@ -2488,7 +2492,7 @@
     <script src="node-network.js?v=20260903-smooth-3"></script>
     <script src="topographic-contours.js?v=20260903-smooth-3"></script>
     <script src="plasma-blob.js?v=20260903-smooth-3"></script>
-    <script src="horizontal-gallery.js?v=20260904-smooth-14"></script>
+    <script src="horizontal-gallery.js?v=20260905-smooth-15"></script>
     <script src="interactions.js?v=20260904-smooth-3"></script>
 </body>
 </html>
