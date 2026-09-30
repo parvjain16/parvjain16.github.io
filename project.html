@@ -179,7 +179,7 @@
             margin-top: 26px;
         }
 
-        .featured-project--reverse .featured-project__actions {
+        .featured-project__actions--paired {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
@@ -449,7 +449,7 @@
                 flex-direction: column;
             }
 
-            .featured-project--reverse .featured-project__actions {
+            .featured-project__actions--paired {
                 grid-template-columns: 1fr;
             }
 
@@ -511,23 +511,6 @@
         <p class="intro">A collection of projects I've built and contributed to</p>
 
         <div class="featured-projects">
-            <section class="featured-project" aria-labelledby="sidequests-title">
-                <div class="featured-project__media">
-                    <img class="featured-project__image" src="assets/sidequests.png" alt="SideQuests live event radar interface" width="1800" height="899" decoding="async">
-                </div>
-                <div class="featured-project__content">
-                    <h2 id="sidequests-title">SideQuests</h2>
-                    <p class="featured-project__tags">Product Design • Interactive Maps • Codex • Live Event Data</p>
-                    <div class="featured-project__body">
-                        <p>SideQuests is a city-focused live event radar for college students and young adults. It's an interactive map that shows you what's actually happening around you right now: concerts, campus events, nightlife, cultural happenings, and the spontaneous stuff you'd otherwise hear about a day too late. I'm building it because finding something to do on a Friday shouldn't mean checking six apps and three group chats.</p>
-                        <p>I own the product end to end — the vision, the design and feel of the experience, which event sources are worth trusting, and the constant testing that refines how it all comes together. I use Codex to turn those decisions into a production-ready application: implementing features, researching and verifying event data, fixing technical issues, and shipping improvements. It's let me go from an ambitious idea to a polished, working product while keeping the creative direction and every final call in my hands.</p>
-                    </div>
-                    <div class="featured-project__actions">
-                        <a class="featured-project__button" href="https://sidequests.parvjain.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span>Try It Out</span></a>
-                    </div>
-                </div>
-            </section>
-
             <section class="featured-project featured-project--reverse" aria-labelledby="xai-dashboards-title">
                 <div class="featured-project__content">
                     <h2 id="xai-dashboards-title">xAI Dashboards</h2>
@@ -535,37 +518,66 @@
                     <div class="featured-project__body">
                         <p>During my internship at xAI, I built a suite of internal conversation-intelligence dashboards for the sales organization using Grok Build. They track live activity on X around major titles, launches, trailers, updates, and cultural moments as they unfold.</p>
                         <p>Each dashboard pulls conversation volume, impressions, unique authors, sentiment, hype, and trend movement into a single view using the X API, surfacing high-impact posts and top topics so the team can see what's driving attention and how the conversation is shifting. The part I cared most about was the layer on top: turning those raw signals into concrete recommendations on content, creators, regional opportunities, messaging, and campaign strategy.</p>
-                        <p>That shift is the whole point. It moves the team from reporting on what already happened to advising clients on what to do next, supporting sales conversations, campaign planning, and executive reporting by showing exactly where audience momentum is building and how X can help brands act on it.</p>
                     </div>
-                    <div class="featured-project__actions">
+                    <div class="featured-project__actions featured-project__actions--paired">
                         <a class="featured-project__button featured-project__button--gaming" href="https://gaming-x-insights.vercel.app/gta6-view" target="_blank" rel="noopener noreferrer"><span>Gaming &amp; Entertainment Dashboard</span></a>
                         <a class="featured-project__button featured-project__button--tech" href="https://tech-telco.vercel.app/" target="_blank" rel="noopener noreferrer"><span>Tech &amp; Telco Dashboard</span></a>
                     </div>
                 </div>
                 <div class="featured-project__media">
-                    <img class="featured-project__image" src="assets/xai-dashboards.png" alt="xAI conversation intelligence dashboard" width="1800" height="929" loading="lazy" decoding="async">
+                    <img class="featured-project__image" src="assets/xai-dashboards.png" alt="xAI conversation intelligence dashboard" width="1800" height="929" fetchpriority="high" decoding="async">
                 </div>
             </section>
-        </div>
 
-        <div class="projects-grid">
-            <div class="project-card">
-                <h2>AI-Powered Math Assistant</h2>
-                <p class="tech-stack">Python • Machine Learning • NLP • Desktop Application</p>
-                <p>An intelligent math assistant that revolutionizes the way students study. This AI-powered application reads your handwritten or typed notes and provides contextual explanations, generates personalized quizzes, and creates comprehensive summaries to enhance your learning experience. Built as a desktop application with overlay functionality, it seamlessly integrates with any application on your computer, allowing you to get help without switching contexts. The project leverages advanced machine learning models and natural language processing to understand mathematical concepts and provide accurate, helpful assistance in real-time.</p>
-            </div>
+            <section class="featured-project" aria-labelledby="workflowdna-title">
+                <div class="featured-project__media">
+                    <img class="featured-project__image" src="images/workflow-dna.png" alt="WorkflowDNA dashboard comparing current and proposed reimbursement workflows" width="2050" height="1102" loading="lazy" decoding="async">
+                </div>
+                <div class="featured-project__content">
+                    <h2 id="workflowdna-title">WorkflowDNA</h2>
+                    <p class="featured-project__tags">River AI • Codex • Next.js • FastAPI • Policy Validation • Workflow Optimization</p>
+                    <div class="featured-project__body">
+                        <p>I built WorkflowDNA during the YC Own Your Own Intelligence hackathon, using Codex to build the entire project. It is an AI-powered workflow analysis tool that explores how teams can reduce approval delays without removing important safeguards. Using a fictional company's reimbursement process, it maps the current workflow, checks it against company policy, and proposes a simpler approval path while preserving the required controls.</p>
+                        <p>I fine-tuned my own custom River AI model using the River API to recommend workflow changes, with a FastAPI backend that independently validates those recommendations. The Next.js dashboard shows current and proposed workflows side by side, connects decisions to policy clauses, displays projected time savings, and exports a report. A model lab compares the original and trained model on held-out examples so the results can be inspected rather than taken at face value.</p>
+                    </div>
+                    <div class="featured-project__actions">
+                        <a class="featured-project__button" href="https://github.com/parvjain16/Workflowdna" target="_blank" rel="noopener noreferrer"><span>View WorkflowDNA on GitHub</span></a>
+                    </div>
+                </div>
+            </section>
 
-            <div class="project-card">
-                <h2>Personal Portfolio Website</h2>
-                <p class="tech-stack">HTML • CSS • JavaScript • GitHub Pages</p>
-                <p>A modern, responsive portfolio website built from scratch using HTML, CSS, and JavaScript. Hosted on GitHub Pages, this project showcases clean design principles and user experience best practices. The website features a mobile-responsive layout, smooth animations, and an intuitive navigation structure. Developed using VS Code with version control through Git, this project demonstrates proficiency in front-end web development, deployment workflows, and modern web standards.</p>
-            </div>
+            <section class="featured-project featured-project--reverse" aria-labelledby="sidequests-title">
+                <div class="featured-project__content">
+                    <h2 id="sidequests-title">SideQuests</h2>
+                    <p class="featured-project__tags">Product Design • Interactive Maps • Codex • Live Event Data</p>
+                    <div class="featured-project__body">
+                        <p>SideQuests is a city-focused live event radar for college students and young adults. It's an interactive map that shows you what's actually happening around you right now: concerts, campus events, nightlife, cultural happenings, and the spontaneous stuff you'd otherwise hear about a day too late. I'm building it because finding something to do on a Friday shouldn't mean checking six apps and three group chats.</p>
+                        <p>I own the entire product end to end, the design, the vision, and the feel of the experience. I use Codex to turn my decisions into a production ready application: implementing features, researching = event data, fixing technical issues, and shipping improvements. AI helps me go from an ambitious idea to a polished, working product while keeping the creative direction and important decisions in my hands.</p>
+                    </div>
+                    <div class="featured-project__actions">
+                        <a class="featured-project__button" href="https://sidequests.parvjain.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span>Try It Out</span></a>
+                    </div>
+                </div>
+                <div class="featured-project__media">
+                    <img class="featured-project__image" src="assets/sidequests.png" alt="SideQuests live event radar interface" width="1800" height="899" loading="lazy" decoding="async">
+                </div>
+            </section>
 
-            <div class="project-card">
-                <h2>Venture Capital Research</h2>
-                <p class="tech-stack">Finance Analysis • Market Research • Investment Strategy</p>
-                <p>Researched and analyzed 50+ venture capital firms to identify potential lead and co-investors for a $MM+ Series C round. Evaluated investor fit based on portfolio composition, check size, and historical investment portfolio. Conducted fundamental research on the AI sector by analyzing investment and portfolio activity across Venture Capital, Private Equity, and Investment firms. Developed comprehensive investor profiles and outreach materials for executive leadership.</p>
-            </div>
+            <section class="featured-project" aria-labelledby="math-study-copilot-title">
+                <div class="featured-project__media">
+                    <img class="featured-project__image" src="assets/math-study-copilot.png" alt="Math Study Copilot desktop application with its Explain, Quiz, and Summarize sidebar" width="2744" height="1700" loading="lazy" decoding="async">
+                </div>
+                <div class="featured-project__content">
+                    <h2 id="math-study-copilot-title">Math Study Copilot</h2>
+                    <p class="featured-project__tags">Python • Machine Learning • NLP • Desktop Application</p>
+                    <div class="featured-project__body">
+                        <p>My team and I built an intelligent math assistant that improves the way students study. This AI powered application reads your handwritten or typed notes and provides contextual explanations, and creates comprehensive summaries to enhance your learning experience. Built as a desktop application with overlay functionality, it integrates with any application on your computer, allowing you to get help without switching contexts. The project uses natural language processing to understand mathematical concepts and provide accurate, helpful assistance in real time.</p>
+                    </div>
+                    <div class="featured-project__actions">
+                        <a class="featured-project__button" href="https://github.com/parvjain16/openai-hackathon" target="_blank" rel="noopener noreferrer"><span>View on GitHub</span></a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 

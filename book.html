@@ -123,97 +123,186 @@
         .books-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
+            gap: 58px 42px;
+            padding: 22px 12px 12px;
+            margin-bottom: 72px;
+        }
+
+        .books-grid--planned {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            max-width: 880px;
+            margin-inline: auto;
+            gap: 62px 72px;
+            --book-height: 440px;
         }
 
         .book-card {
-            display: flex;
-            min-height: 150px;
-            flex-direction: column;
-            justify-content: space-between;
-            background-color: #ffffff;
-            padding: 26px;
-            border-radius: 12px;
-            border-left: 4px solid #1a73e8;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            min-width: 0;
+            text-align: center;
         }
 
-        .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-            background-color: #E0E0E0;
+        .book-preview {
+            position: relative;
+            display: block;
+            width: min(100%, calc(var(--book-height, 420px) * var(--cover-ratio, 0.667)));
+            aspect-ratio: var(--cover-ratio, 0.667);
+            margin: 0 auto 28px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+            perspective: 1100px;
+            isolation: isolate;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .book-preview:focus-visible {
+            outline: 3px solid #1764ad;
+            outline-offset: 12px;
+            border-radius: 5px;
+        }
+
+        .book-object {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 3px 7px 7px 3px;
+            background: #e9e5de;
+            box-shadow: -5px 4px 0 #a5a3a0, 0 16px 26px -8px rgba(0, 0, 0, 0.32);
+            transform: rotateY(-5deg) rotateZ(-0.6deg);
+            transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 420ms ease;
+        }
+
+        .book-object::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.24), transparent 3%, rgba(255, 255, 255, 0.16) 5%, transparent 8%);
+        }
+
+        .book-object::after {
+            content: '';
+            position: absolute;
+            inset: -30% -80%;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+            transform: translateX(-55%);
+            opacity: 0;
+        }
+
+        .book-cover {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .book-summary {
+            position: absolute;
+            z-index: 2;
+            left: 12px;
+            right: 12px;
+            bottom: 14px;
+            padding: 18px 17px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(16, 23, 32, 0.96);
+            color: #ffffff;
+            font-size: 0.96rem;
+            font-weight: 400;
+            line-height: 1.5;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 220ms ease, transform 280ms ease;
+        }
+
+        .book-summary__label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b7d7ff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+
+        .book-preview[data-summary-open="true"] .book-object,
+        html:not(.book-previews-ready) .book-preview:focus-visible .book-object {
+            transform: translateY(-8px) rotateY(0) rotateZ(0) scale(1.045);
+            box-shadow: -5px 4px 0 #a5a3a0, 0 26px 38px -12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(68, 144, 231, 0.13);
+        }
+
+        .book-preview[data-summary-open="true"] .book-summary,
+        html:not(.book-previews-ready) .book-preview:focus-visible .book-summary {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .book-preview[data-summary-open="true"] .book-object::after,
+        html:not(.book-previews-ready) .book-preview:focus-visible .book-object::after {
+            animation: book-light-sweep 750ms ease-out both;
+        }
+
+        @keyframes book-light-sweep {
+            0% { transform: translateX(-55%); opacity: 0; }
+            25% { opacity: 1; }
+            100% { transform: translateX(55%); opacity: 0; }
+        }
+
+        @media (hover: hover) {
+            html:not(.book-previews-ready) .book-preview:hover .book-object {
+                transform: translateY(-8px) rotateY(0) rotateZ(0) scale(1.045);
+            }
+
+            html:not(.book-previews-ready) .book-preview:hover .book-summary {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            html:not(.book-previews-ready) .book-preview:hover .book-object::after {
+                animation: book-light-sweep 750ms ease-out both;
+            }
         }
 
         .book-card h3 {
-            font-size: 1.28rem;
+            max-width: 340px;
+            margin: 0 auto 10px;
+            font-size: 1.18rem;
             line-height: 1.35;
-            margin-bottom: 18px;
             color: #000000;
             font-weight: 700;
         }
 
         .book-card .author {
             color: #626a73;
-            font-size: 0.85rem;
+            font-size: 0.94rem;
             font-style: normal;
             line-height: 1.45;
             margin: 0;
         }
 
         .books-list-section {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .books-list-section:hover {
-            background-color: #E0E0E0;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            margin-top: 72px;
         }
 
         .books-list-section h2 {
             margin-top: 0;
         }
 
-        .book-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .book-list li {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #000000;
-            margin-bottom: 18px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .book-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #0b5cad;
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        .book-list__title {
-            display: block;
-            font-size: 1.08rem;
-            font-weight: 700;
-        }
-
-        .book-list__author {
-            display: block;
-            margin-top: 3px;
-            color: #626a73;
-            font-size: 0.85rem;
+        .books-hint {
+            margin: -14px 0 18px;
+            color: #555e68;
+            font-size: 0.94rem;
         }
 
         .reading-inspiration {
@@ -228,7 +317,7 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(220px, 320px));
             justify-content: center;
-            gap: 18px;
+            gap: 52px;
         }
 
         .reading-inspiration__links > a {
@@ -292,19 +381,7 @@
         body.dark-mode h2,
         body.dark-mode h3,
         body.dark-mode p,
-        body.dark-mode .intro,
-        body.dark-mode .book-list li {
-            color: #ffffff;
-        }
-
-        body.dark-mode .book-card {
-            background-color: #000000;
-            color: #ffffff;
-            border-left: 4px solid #90caf9;
-        }
-
-        body.dark-mode .book-card:hover {
-            background-color: #000000;
+        body.dark-mode .intro {
             color: #ffffff;
         }
 
@@ -316,17 +393,20 @@
             color: #a8b0b8;
         }
 
-        body.dark-mode .books-list-section {
-            background-color: #000000;
-            color: #ffffff;
-        }
-
-        body.dark-mode .books-list-section:hover {
-            background-color: #000000;
-        }
-
-        body.dark-mode .book-list__author {
+        body.dark-mode .books-hint {
             color: #a8b0b8;
+        }
+
+        body.dark-mode .book-preview:focus-visible {
+            outline-color: #90caf9;
+        }
+
+        body.dark-mode .book-object {
+            box-shadow: -5px 4px 0 #666460, 0 16px 30px -8px rgba(0, 0, 0, 0.8);
+        }
+
+        body.dark-mode .book-preview[data-summary-open="true"] .book-object {
+            box-shadow: -5px 4px 0 #666460, 0 26px 38px -12px rgba(0, 0, 0, 0.85), 0 0 32px rgba(109, 177, 255, 0.2);
         }
 
         body.dark-mode .reading-inspiration__links > a {
@@ -349,6 +429,11 @@
         @media (max-width: 900px) {
             .books-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 48px 34px;
+            }
+
+            .books-grid--planned {
+                gap: 48px 34px;
             }
         }
 
@@ -367,24 +452,51 @@
         @media (max-width: 600px) {
             .books-grid {
                 grid-template-columns: 1fr;
+                padding-inline: 8px;
+                gap: 48px;
+                --book-height: 420px;
             }
 
             .reading-inspiration__links {
                 grid-template-columns: 1fr;
                 width: min(100%, 360px);
                 margin-inline: auto;
+                gap: 32px;
             }
 
             .reading-inspiration__links > a {
                 width: 100%;
             }
 
-            .book-card {
-                min-height: 132px;
+            .book-summary {
+                left: 10px;
+                right: 10px;
+                padding: 16px 14px;
+                font-size: 0.94rem;
             }
 
             .books-list-section {
-                padding: 30px 24px;
+                margin-top: 56px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .book-preview .book-object,
+            .book-preview[data-summary-open="true"] .book-object,
+            html:not(.book-previews-ready) .book-preview:hover .book-object,
+            html:not(.book-previews-ready) .book-preview:focus-visible .book-object {
+                transform: none;
+                transition: none;
+            }
+
+            .book-summary,
+            .book-preview[data-summary-open="true"] .book-summary {
+                transform: none;
+                transition: none;
+            }
+
+            .book-preview .book-object::after {
+                animation: none !important;
             }
         }
     </style>
@@ -409,68 +521,142 @@
         <p class="intro">Books that have shaped my thinking on technology, business, and life</p>
 
         <h2>Books I've Read</h2>
-        
+        <p class="books-hint">Hover, focus, or tap a cover for a quick look inside.</p>
+
         <div class="books-grid">
-            <div class="book-card">
-                <h3>Zero to One: Notes on Startups, Or How to Build the Future</h3>
+            <article class="book-card">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6667" aria-labelledby="zero-title" aria-describedby="zero-summary" aria-controls="zero-summary" aria-expanded="false">
+                    <span class="book-object">
+                        <img class="book-cover" src="assets/book-covers/zero-to-one.jpg" alt="" width="300" height="450" decoding="async" fetchpriority="high">
+                        <span class="book-summary" id="zero-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Peter Thiel explores how startups can create something genuinely new instead of competing to copy what already exists. It is a guide to original thinking, innovation, and building a lasting business.</span>
+                    </span>
+                </button>
+                <h3 id="zero-title">Zero to One: Notes on Startups, Or How to Build the Future</h3>
                 <p class="author">Peter Thiel with Blake Masters</p>
-            </div>
+            </article>
 
-            <div class="book-card">
-                <h3>The Hard Thing About Hard Things</h3>
+            <article class="book-card">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6641" aria-labelledby="hard-title" aria-describedby="hard-summary" aria-controls="hard-summary" aria-expanded="false">
+                    <span class="book-object">
+                        <img class="book-cover" src="assets/book-covers/hard-things.png" alt="" width="680" height="1024" decoding="async">
+                        <span class="book-summary" id="hard-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Ben Horowitz shares the difficult decisions behind building and running a company, from hiring and layoffs to surviving a crisis. The book focuses on leadership when there are no easy answers.</span>
+                    </span>
+                </button>
+                <h3 id="hard-title">The Hard Thing About Hard Things</h3>
                 <p class="author">Ben Horowitz</p>
-            </div>
+            </article>
 
-            <div class="book-card">
-                <h3>Atomic Habits: An Easy &amp; Proven Way to Build Good Habits &amp; Break Bad Ones</h3>
+            <article class="book-card">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6622" aria-labelledby="atomic-title" aria-describedby="atomic-summary" aria-controls="atomic-summary" aria-expanded="false">
+                    <span class="book-object">
+                        <img class="book-cover" src="assets/book-covers/atomic-habits.jpg" alt="" width="298" height="450" decoding="async">
+                        <span class="book-summary" id="atomic-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>James Clear explains how small, consistent changes can grow into lasting results. It offers practical systems for building good habits and breaking unwanted ones.</span>
+                    </span>
+                </button>
+                <h3 id="atomic-title">Atomic Habits: An Easy &amp; Proven Way to Build Good Habits &amp; Break Bad Ones</h3>
                 <p class="author">James Clear</p>
-            </div>
+            </article>
 
-            <div class="book-card">
-                <h3>Winning</h3>
-                <p class="author">Jack Welch</p>
-            </div>
+            <article class="book-card">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6625" aria-labelledby="winning-title" aria-describedby="winning-summary" aria-controls="winning-summary" aria-expanded="false">
+                    <span class="book-object">
+                        <img class="book-cover" src="assets/book-covers/winning-updated.png" alt="" width="265" height="400" loading="lazy" decoding="async">
+                        <span class="book-summary" id="winning-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Jack Welch shares practical lessons on leadership, teamwork, competition, and career decisions. It is a hands-on guide to running stronger organizations and doing better work.</span>
+                    </span>
+                </button>
+                <h3 id="winning-title">Winning</h3>
+                <p class="author">Jack Welch with Suzy Welch</p>
+            </article>
 
-            <div class="book-card">
-                <h3>Trillion Dollar Coach: The Leadership Handbook of Silicon Valley's Bill Campbell</h3>
+            <article class="book-card">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.662" aria-labelledby="coach-title" aria-describedby="coach-summary" aria-controls="coach-summary" aria-expanded="false">
+                    <span class="book-object">
+                        <img class="book-cover" src="assets/book-covers/trillion-dollar-coach-updated.png" alt="" width="662" height="1000" loading="lazy" decoding="async">
+                        <span class="book-summary" id="coach-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>The leaders behind Google share lessons from Bill Campbell, the coach who helped shape Silicon Valley. It shows how trust, honest feedback, and putting people first can build stronger teams.</span>
+                    </span>
+                </button>
+                <h3 id="coach-title">Trillion Dollar Coach: The Leadership Handbook of Silicon Valley's Bill Campbell</h3>
                 <p class="author">Eric Schmidt, Jonathan Rosenberg &amp; Alan Eagle</p>
-            </div>
+            </article>
 
-            <div class="book-card">
-                <h3>Prisoner's Dilemma</h3>
+            <article class="book-card">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6467" aria-labelledby="prisoner-title" aria-describedby="prisoner-summary" aria-controls="prisoner-summary" aria-expanded="false">
+                    <span class="book-object">
+                        <img class="book-cover" src="assets/book-covers/prisoners-dilemma.jpg" alt="" width="291" height="450" loading="lazy" decoding="async">
+                        <span class="book-summary" id="prisoner-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>William Poundstone traces the history of game theory through John von Neumann and the Cold War. It explores why cooperation and self-interest can lead people into difficult strategic choices.</span>
+                    </span>
+                </button>
+                <h3 id="prisoner-title">Prisoner's Dilemma</h3>
                 <p class="author">William Poundstone</p>
-            </div>
+            </article>
         </div>
 
-        <div class="books-list-section">
-            <h2>Books on My List</h2>
-            <ul class="book-list">
-                <li>
-                    <span class="book-list__title">The 48 Laws of Power</span>
-                    <span class="book-list__author">Robert Greene</span>
-                </li>
-                <li>
-                    <span class="book-list__title">No Rules Rules: Netflix and the Culture of Reinvention</span>
-                    <span class="book-list__author">Reed Hastings &amp; Erin Meyer</span>
-                </li>
-                <li>
-                    <span class="book-list__title">7 Powers: The Foundations of Business Strategy</span>
-                    <span class="book-list__author">Hamilton Helmer</span>
-                </li>
-                <li>
-                    <span class="book-list__title">The Beginning of Infinity</span>
-                    <span class="book-list__author">David Deutsch</span>
-                </li>
-                <li>
-                    <span class="book-list__title">Build</span>
-                    <span class="book-list__author">Tony Fadell</span>
-                </li>
-                <li>
-                    <span class="book-list__title">What You Do Is Who You Are: How to Create Your Business Culture</span>
-                    <span class="book-list__author">Ben Horowitz</span>
-                </li>
-            </ul>
-        </div>
+        <section class="books-list-section" aria-labelledby="planned-title">
+            <h2 id="planned-title">Books on My List</h2>
+            <p class="books-hint">The next ideas I'm looking forward to exploring.</p>
+            <div class="books-grid books-grid--planned">
+                <article class="book-card">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.7111" aria-labelledby="power-title" aria-describedby="power-summary" aria-controls="power-summary" aria-expanded="false">
+                        <span class="book-object">
+                            <img class="book-cover" src="assets/book-covers/48-laws-of-power.jpg" alt="" width="320" height="450" loading="lazy" decoding="async">
+                            <span class="book-summary" id="power-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Robert Greene uses historical stories to examine how power is gained, maintained, and lost. It explores influence, strategy, and the tactics people use to navigate competitive situations.</span>
+                        </span>
+                    </button>
+                    <h3 id="power-title">The 48 Laws of Power</h3>
+                    <p class="author">Robert Greene</p>
+                </article>
+                <article class="book-card">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6578" aria-labelledby="rules-title" aria-describedby="rules-summary" aria-controls="rules-summary" aria-expanded="false">
+                        <span class="book-object">
+                            <img class="book-cover" src="assets/book-covers/no-rules-rules.jpg" alt="" width="296" height="450" loading="lazy" decoding="async">
+                            <span class="book-summary" id="rules-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Reed Hastings and Erin Meyer explain the culture of freedom and responsibility behind Netflix. It explores how candid feedback, talented teams, and fewer controls can support innovation.</span>
+                        </span>
+                    </button>
+                    <h3 id="rules-title">No Rules Rules: Netflix and the Culture of Reinvention</h3>
+                    <p class="author">Reed Hastings &amp; Erin Meyer</p>
+                </article>
+                <article class="book-card">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6738" aria-labelledby="seven-title" aria-describedby="seven-summary" aria-controls="seven-summary" aria-expanded="false">
+                        <span class="book-object">
+                            <img class="book-cover" src="assets/book-covers/7-powers.png" alt="" width="690" height="1024" loading="lazy" decoding="async">
+                            <span class="book-summary" id="seven-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Hamilton Helmer lays out seven sources of enduring competitive advantage. It explains how companies turn inventions into businesses that stay valuable over time.</span>
+                        </span>
+                    </button>
+                    <h3 id="seven-title">7 Powers: The Foundations of Business Strategy</h3>
+                    <p class="author">Hamilton Helmer</p>
+                </article>
+                <article class="book-card">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6444" aria-labelledby="infinity-title" aria-describedby="infinity-summary" aria-controls="infinity-summary" aria-expanded="false">
+                        <span class="book-object">
+                            <img class="book-cover" src="assets/book-covers/beginning-of-infinity.jpg" alt="" width="290" height="450" loading="lazy" decoding="async">
+                            <span class="book-summary" id="infinity-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>David Deutsch explores how better explanations create knowledge and drive progress. It connects science, creativity, and optimism to the possibility of solving ever more difficult problems.</span>
+                        </span>
+                    </button>
+                    <h3 id="infinity-title">The Beginning of Infinity</h3>
+                    <p class="author">David Deutsch</p>
+                </article>
+                <article class="book-card">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.642" aria-labelledby="build-title" aria-describedby="build-summary" aria-controls="build-summary" aria-expanded="false">
+                        <span class="book-object">
+                            <img class="book-cover" src="assets/book-covers/build.jpg" alt="" width="321" height="500" loading="lazy" decoding="async">
+                            <span class="book-summary" id="build-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Tony Fadell draws on his experience with the iPod, iPhone, and Nest to share advice on making meaningful products. It covers design, leadership, startups, and the hard decisions behind building something new.</span>
+                        </span>
+                    </button>
+                    <h3 id="build-title">Build</h3>
+                    <p class="author">Tony Fadell</p>
+                </article>
+                <article class="book-card">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6641" aria-labelledby="culture-title" aria-describedby="culture-summary" aria-controls="culture-summary" aria-expanded="false">
+                        <span class="book-object">
+                            <img class="book-cover" src="assets/book-covers/what-you-do.png" alt="" width="680" height="1024" loading="lazy" decoding="async">
+                            <span class="book-summary" id="culture-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Ben Horowitz argues that company culture comes from everyday decisions and behavior, not slogans. Drawing on history and modern businesses, he explains how leaders can shape culture deliberately.</span>
+                        </span>
+                    </button>
+                    <h3 id="culture-title">What You Do Is Who You Are: How to Create Your Business Culture</h3>
+                    <p class="author">Ben Horowitz</p>
+                </article>
+            </div>
+        </section>
 
         <section class="reading-inspiration" aria-labelledby="reading-inspiration-title">
             <h2 id="reading-inspiration-title">My Reading Inspiration</h2>
@@ -488,5 +674,88 @@
     <script src="site-core.js?v=20260902-smooth-1"></script>
     <script src="lenis.min.js"></script>
     <script src="interactions.js?v=20260904-smooth-3"></script>
+    <script>
+        (() => {
+            const previews = Array.from(document.querySelectorAll('.book-preview'));
+            if (!previews.length) return;
+
+            const touchLayout = window.matchMedia('(hover: none), (pointer: coarse)');
+            const states = new Map(previews.map(button => [button, { hovered: false, tapped: false, dismissed: false }]));
+            let lastPointerType = '';
+
+            const setOpen = (button, open) => {
+                button.dataset.summaryOpen = String(open);
+                button.setAttribute('aria-expanded', String(open));
+            };
+
+            const close = button => {
+                const state = states.get(button);
+                state.hovered = false;
+                state.tapped = false;
+                state.dismissed = true;
+                setOpen(button, false);
+            };
+
+            const update = button => {
+                const state = states.get(button);
+                const keyboardFocus = document.activeElement === button && button.matches(':focus-visible');
+                const open = !state.dismissed && (state.hovered || state.tapped || keyboardFocus);
+                if (open) previews.forEach(other => { if (other !== button) close(other); });
+                setOpen(button, open);
+            };
+
+            previews.forEach(button => {
+                button.addEventListener('pointerenter', event => {
+                    if (event.pointerType === 'touch') return;
+                    const state = states.get(button);
+                    state.hovered = true;
+                    state.dismissed = false;
+                    update(button);
+                });
+
+                button.addEventListener('pointerleave', event => {
+                    if (event.pointerType === 'touch') return;
+                    const state = states.get(button);
+                    state.hovered = false;
+                    state.tapped = false;
+                    update(button);
+                });
+
+                button.addEventListener('pointerdown', event => { lastPointerType = event.pointerType; });
+                button.addEventListener('click', event => {
+                    const state = states.get(button);
+                    // Keyboard activation and touch toggle; mouse hover remains temporary.
+                    const shouldToggle = event.detail === 0 || lastPointerType === 'touch' || touchLayout.matches;
+                    if (shouldToggle) {
+                        const wasOpen = button.dataset.summaryOpen === 'true';
+                        state.tapped = !wasOpen;
+                        state.dismissed = wasOpen;
+                    } else {
+                        state.dismissed = false;
+                    }
+                    lastPointerType = '';
+                    update(button);
+                });
+
+                button.addEventListener('focus', () => {
+                    states.get(button).dismissed = false;
+                    update(button);
+                });
+                button.addEventListener('blur', () => {
+                    const state = states.get(button);
+                    state.tapped = false;
+                    update(button);
+                });
+            });
+
+            document.addEventListener('pointerdown', event => {
+                if (!event.target.closest('.book-preview')) previews.forEach(close);
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') previews.forEach(close);
+            });
+            document.documentElement.classList.add('book-previews-ready');
+        })();
+    </script>
 </body>
 </html>

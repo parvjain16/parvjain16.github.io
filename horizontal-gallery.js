@@ -83,11 +83,11 @@
             description: "This photo was with my xAI Team during my Summer Internship in front of the Falcon 9 Rocket at the SpaceX HQ in Hawthorne, during the SpaceX IPO Day!"
         },
         {
-            source: "images/gallery/gallery-01.jpg",
-            title: "Monterey Car Week",
+            source: "images/gallery/gallery-18.jpg",
+            title: "Parv-DevDay",
             width: 1650,
             height: 2200,
-            description: "I went to Monterey Car Week and saw a new 2026 Ferrari 849 Testarossa with over 1,000 horsepower, a 2.3-second 0–60 time, and a value of more than $500K."
+            description: "At OpenAI DevDay."
         },
         {
             source: "images/gallery/gallery-14.jpg",
@@ -102,6 +102,13 @@
             width: 1650,
             height: 2200,
             description: "I went to an event at Cognition HQ and met the CEO, Scott Wu!"
+        },
+        {
+            source: "images/gallery/gallery-19.jpg",
+            title: "Parv-Casey Neistat",
+            width: 1650,
+            height: 2200,
+            description: "Meeting Casey Neistat."
         },
         {
             source: "images/gallery/gallery-03.jpg",
@@ -125,11 +132,25 @@
             description: "When I was in high school, I went to a Y Combinator summer conference and met Twitch co-founder Emmett Shear. He was Twitch's CEO for 10 years, served as interim CEO of OpenAI for three days, and is now a partner at YC."
         },
         {
+            source: "images/gallery/gallery-20.jpg",
+            title: "Parv-Tibo",
+            width: 2200,
+            height: 1650,
+            description: "Meeting Tibo."
+        },
+        {
             source: "images/gallery/gallery-13.jpg",
             title: "YC Startup School",
             width: 1650,
             height: 2200,
             description: "I attended YC Startup School to learn from founders, meet really cool builders, and my time in SF immersed in the startup community!"
+        },
+        {
+            source: "images/gallery/gallery-01.jpg",
+            title: "Monterey Car Week",
+            width: 1650,
+            height: 2200,
+            description: "I went to Monterey Car Week and saw a new 2026 Ferrari 849 Testarossa with over 1,000 horsepower, a 2.3-second 0–60 time, and a value of more than $500K."
         },
         {
             source: "images/gallery/gallery-04.jpg",
@@ -178,7 +199,7 @@
             title: "Indiana University Football",
             width: 1650,
             height: 2200,
-            description: "Taking in my last IU football game from the stands at Memorial Stadium."
+            description: "Enjoying a IU football game from the stands at Memorial Stadium."
         },
         {
             source: "images/gallery/gallery-12.jpg",
@@ -644,7 +665,7 @@
     };
 
     const resolveAssetUrl = (source) => new URL(source, document.baseURI || window.location.href).href;
-    const TEXTURE_CACHE_VERSION = "20260903-smooth-1";
+    const TEXTURE_CACHE_VERSION = "20260930-gallery-20";
     const encodedTextureUrl = (source) => resolveAssetUrl(
         `${source.replace("images/gallery/", "gallery-textures/encoded/")}?v=${TEXTURE_CACHE_VERSION}`
     );
@@ -663,7 +684,7 @@
         if (!inlineTexturesPromise) {
             inlineTexturesPromise = new Promise((resolve, reject) => {
                 const script = document.createElement("script");
-                script.src = resolveAssetUrl("gallery-textures.js");
+                script.src = resolveAssetUrl(`gallery-textures.js?v=${TEXTURE_CACHE_VERSION}`);
                 script.async = true;
                 script.dataset.galleryTextureManifest = "";
                 script.onload = () => window.GALLERY_TEXTURES

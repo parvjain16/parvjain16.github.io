@@ -1,0 +1,77 @@
+{
+  "note": "Real published cover art, saved locally for the Books page. Summaries are original short paraphrases informed by author or publisher descriptions.",
+  "books": [
+    {
+      "title": "Zero to One",
+      "file": "zero-to-one.jpg",
+      "coverSource": "https://images4.penguinrandomhouse.com/cover/9780804139298",
+      "summarySource": "https://www.penguinrandomhouse.com/books/234730/zero-to-one-by-peter-thiel-with-blake-masters/"
+    },
+    {
+      "title": "The Hard Thing About Hard Things",
+      "file": "hard-things.png",
+      "coverSource": "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2023/04/wr26-Image-4-680x1024.png",
+      "summarySource": "https://a16z.com/books/the-hard-thing-about-hard-things/"
+    },
+    {
+      "title": "Atomic Habits",
+      "file": "atomic-habits.jpg",
+      "coverSource": "https://images3.penguinrandomhouse.com/cover/9780735211292",
+      "summarySource": "https://jamesclear.com/atomic-habits"
+    },
+    {
+      "title": "Winning",
+      "file": "winning-updated.png",
+      "coverSource": "User-provided attachment: codex-clipboard-c2d47850-375c-405f-9a2e-748370fd1ca4.png",
+      "summarySource": "https://b0f646cfbd7462424f7a-f9758a43fb7c33cc8adda0fd36101899.ssl.cf2.rackcdn.com/book-interviews/BI-9780060753948.pdf"
+    },
+    {
+      "title": "Trillion Dollar Coach",
+      "file": "trillion-dollar-coach-updated.png",
+      "coverSource": "User-provided attachment: codex-clipboard-8f6ac93e-791b-4348-b74a-df27890704bb.png",
+      "summarySource": "https://www.hachette.co.uk/titles/eric-schmidt/trillion-dollar-coach/9781473675988/"
+    },
+    {
+      "title": "Prisoner's Dilemma",
+      "file": "prisoners-dilemma.jpg",
+      "coverSource": "https://images1.penguinrandomhouse.com/cover/9780385415804",
+      "summarySource": "https://www.penguinrandomhouse.com/books/133168/prisoners-dilemma-by-william-poundstone/"
+    },
+    {
+      "title": "The 48 Laws of Power",
+      "file": "48-laws-of-power.jpg",
+      "coverSource": "https://images1.penguinrandomhouse.com/cover/9780670881468",
+      "summarySource": "https://www.penguinrandomhouse.com/books/330912/the-48-laws-of-power-by-robert-greene/"
+    },
+    {
+      "title": "No Rules Rules",
+      "file": "no-rules-rules.jpg",
+      "coverSource": "https://images3.penguinrandomhouse.com/cover/9781984877864",
+      "summarySource": "https://www.penguinrandomhouse.com/books/606529/no-rules-rules-by-reed-hastings-and-erin-meyer/"
+    },
+    {
+      "title": "7 Powers",
+      "file": "7-powers.png",
+      "coverSource": "https://7powers.com/wp-content/uploads/2018/01/Final_PowerDynamics-home-690x1024.png",
+      "summarySource": "https://7powers.com/synopsis/"
+    },
+    {
+      "title": "The Beginning of Infinity",
+      "file": "beginning-of-infinity.jpg",
+      "coverSource": "https://images3.penguinrandomhouse.com/cover/9780143121350",
+      "summarySource": "https://www.penguinrandomhouse.com/books/293575/the-beginning-of-infinity-by-david-deutsch/"
+    },
+    {
+      "title": "Build",
+      "file": "build.jpg",
+      "coverSource": "https://cdn.penguin.co.uk/dam-assets/books/9780552177757/9780552177757-jacket-large.jpg",
+      "summarySource": "https://www.buildc.com/the-book"
+    },
+    {
+      "title": "What You Do Is Who You Are",
+      "file": "what-you-do.png",
+      "coverSource": "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2023/04/wr26-Image-5-1-680x1024.png",
+      "summarySource": "https://a16z.com/books/what-you-do-is-who-you-are/"
+    }
+  ]
+}

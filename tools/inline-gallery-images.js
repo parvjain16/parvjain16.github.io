@@ -14,6 +14,8 @@ const sourceDir = path.join(repoRoot, "images", "gallery");
 const outputDir = path.join(repoRoot, "gallery-textures", "encoded");
 const outputFile = path.join(repoRoot, "gallery-textures.js");
 const maxPayloadBytes = 25 * 1024 * 1024;
+// Incremental additions can preserve the previously encoded gallery photos.
+const reuseEncoded = process.argv.includes("--reuse-encoded");
 const names = fs.readdirSync(sourceDir)
     .filter((name) => /^gallery-\d{2}\.jpg$/i.test(name))
     .sort((left, right) => left.localeCompare(right, undefined, { numeric: true }));
@@ -28,7 +30,7 @@ for (const name of names) {
         throw new Error(`Missing gallery image: ${input}`);
     }
 
-    execFileSync("/usr/bin/sips", [
+    if (!reuseEncoded || !fs.existsSync(output)) execFileSync("/usr/bin/sips", [
         "--resampleHeightWidthMax", "1024",
         "--setProperty", "format", "jpeg",
         "--setProperty", "formatOptions", "80",

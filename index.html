@@ -618,6 +618,7 @@
         }
 
         .hero-image {
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -626,12 +627,94 @@
         }
 
         .hero-image > img {
-            width: 90%;
-            max-width: 450px;
-            align-self: center;
+            width: 100%;
+            max-width: 500px;
             height: auto;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-photo-note {
+            /* The note and doodles never take width away from the photo. */
+            position: absolute;
+            top: 333.333px;
+            left: calc(100% + 48px);
+            transform: translateY(-50%);
+            width: 128px;
+        }
+
+        .hero-photo-caption {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 184px;
+            margin: 0;
+            padding: 16px 12px;
+            border: 1px solid rgba(20, 26, 35, 0.15);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.55);
+            color: #293343;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            text-align: center;
+            text-wrap: balance;
+            overflow-wrap: break-word;
+        }
+
+        .hero-note-arrow {
+            position: absolute;
+            right: 12px;
+            width: 190px;
+            height: 90px;
+            overflow: visible;
+            pointer-events: none;
+            color: #6475c9;
+        }
+
+        .hero-note-arrow--above { top: -86px; }
+        .hero-note-arrow--below {
+            bottom: -86px;
+            transform: scaleY(-1);
+            color: #b56f91;
+        }
+
+        body.dark-mode .hero-note-arrow--above { color: #aebcff; }
+        body.dark-mode .hero-note-arrow--below { color: #eda4c4; }
+
+        body.dark-mode .hero-photo-caption {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+        }
+
+        @media (max-width: 1580px) {
+            .hero-photo-note {
+                position: relative;
+                top: auto;
+                left: auto;
+                align-self: flex-end;
+                transform: none;
+                width: min(220px, 90%);
+                margin: 42px 0 50px;
+            }
+            .hero-photo-caption {
+                min-height: 0;
+            }
+            .hero-note-arrow {
+                right: auto;
+                left: -24px;
+                width: 80px;
+                height: 80px;
+            }
+            .hero-note-arrow--above {
+                top: -65px;
+                transform: rotate(90deg);
+            }
+            .hero-note-arrow--below {
+                bottom: -70px;
+                transform: rotate(90deg) scaleY(-1);
+            }
         }
 
         .canvas-strip {
@@ -1603,6 +1686,217 @@
 
     </style>
     <link rel="stylesheet" href="interactions.css?v=20260905-smooth-10">
+    <style id="site-how-styles">
+        /* The How? experience is self-contained in this local home page. */
+        .how-launcher {
+            position: absolute;
+            top: 50%;
+            right: max(22px, env(safe-area-inset-right));
+            transform: translateY(-50%);
+            min-width: 70px;
+            min-height: 44px;
+            padding: 10px 16px;
+            border: 1px solid rgba(20, 26, 35, 0.18);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.6);
+            color: #151b24;
+            box-shadow: 0 5px 18px rgba(15, 22, 35, 0.1);
+            font: inherit;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: background-color 200ms ease, box-shadow 200ms ease;
+        }
+        .how-launcher:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 24px rgba(15, 22, 35, 0.18);
+        }
+        body.dark-mode .how-launcher {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.24);
+        }
+        html.how-is-open { overflow: hidden; }
+        html.how-is-open .trailing-cursor { visibility: hidden !important; }
+        html.how-is-open .how-dialog,
+        html.how-is-open .how-dialog * { cursor: auto !important; }
+        html.how-is-open .how-dialog button,
+        html.how-is-open .how-dialog button * { cursor: pointer !important; }
+
+        .how-dialog {
+            --how-ink: #101827;
+            --how-muted: #293343;
+            --how-line: rgba(26, 39, 59, 0.17);
+            --how-surface: #d1d4d8;
+            width: min(1120px, calc(100% - 40px));
+            max-width: none;
+            height: min(980px, calc(100dvh - 32px));
+            max-height: calc(100dvh - 32px);
+            margin: auto;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 26px;
+            overflow: hidden;
+            background: var(--how-surface);
+            color: var(--how-ink);
+            box-shadow: 0 28px 90px rgba(8, 15, 27, 0.28);
+            font: inherit;
+            text-align: left;
+        }
+        .how-dialog[open] { display: flex; flex-direction: column; }
+        .how-dialog::backdrop {
+            background: rgba(13, 19, 29, 0.28);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        body.dark-mode .how-dialog {
+            --how-ink: #f6f8fd;
+            --how-muted: #d5deec;
+            --how-line: rgba(220, 229, 245, 0.2);
+            --how-surface: #252932;
+            border-color: rgba(230, 238, 255, 0.22);
+        }
+        .how-dialog[data-technical="true"],
+        body.dark-mode .how-dialog[data-technical="true"] {
+            --how-ink: #fff9df;
+            --how-muted: #e0e5ef;
+            --how-line: rgba(255, 217, 84, 0.22);
+            --how-surface: #151922;
+            border-color: rgba(255, 217, 84, 0.35);
+        }
+        .how-dialog[data-technical="true"]::backdrop { background: rgba(6, 10, 18, 0.38); }
+        .how-dialog .how-header {
+            flex: 0 0 auto;
+            padding: 24px 40px 22px;
+            border-bottom: 1px solid var(--how-line);
+        }
+        .how-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+        .how-dialog button { font: inherit; }
+        .how-mode {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 44px;
+            padding: 0;
+            border: 0;
+            background: none;
+            color: var(--how-ink);
+            font-size: 0.9375rem !important;
+            font-weight: 700 !important;
+            text-align: left;
+        }
+        .how-mode__track {
+            display: block;
+            flex: 0 0 auto;
+            width: 54px;
+            height: 30px;
+            padding: 3px;
+            border-radius: 999px;
+            background: rgba(120, 135, 155, 0.3);
+            box-shadow: inset 0 0 0 1px var(--how-line);
+            transition: background-color 220ms ease, box-shadow 220ms ease;
+        }
+        .how-mode__knob {
+            display: grid;
+            place-items: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            font-size: 15px;
+            line-height: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+            transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .how-mode[aria-checked="true"] .how-mode__track {
+            background: #ffda4b;
+            box-shadow: 0 0 22px rgba(255, 218, 75, 0.24);
+        }
+        .how-mode[aria-checked="true"] .how-mode__knob { transform: translateX(24px); }
+        .how-close {
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 1px solid var(--how-line);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--how-ink);
+            font-size: 1.7rem !important;
+            line-height: 1;
+        }
+        .how-dialog button:focus-visible,
+        .how-dialog .how-scroll:focus-visible { outline: 3px solid #347fe9; outline-offset: 4px; }
+        .how-dialog[data-technical="true"] button:focus-visible,
+        .how-dialog[data-technical="true"] .how-scroll:focus-visible { outline-color: #ffda4b; }
+        .how-dialog .how-title {
+            margin: 20px 0 10px;
+            color: var(--how-ink);
+            font-size: clamp(1.65rem, 3.2vw, 2.4rem);
+            font-weight: 700;
+            line-height: 1.15;
+        }
+        .how-dialog .how-intro { margin: 0; color: var(--how-muted); font-size: 1rem; line-height: 1.55; }
+        .how-scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+            scrollbar-color: #7e8a9d transparent;
+            padding: 4px 40px 34px;
+        }
+        .how-list { list-style: none; counter-reset: how-step; margin: 0; padding: 0; }
+        .how-item { position: relative; counter-increment: how-step; padding: 26px 0 26px 40px; }
+        .how-item + .how-item { border-top: 1px solid var(--how-line); }
+        .how-item::before {
+            content: counter(how-step, decimal-leading-zero);
+            position: absolute;
+            top: 30px;
+            left: 0;
+            color: var(--how-muted);
+            font-size: 0.8125rem;
+            font-weight: 700;
+        }
+        .how-dialog .how-item h3 { margin: 0 0 10px; color: var(--how-ink); font-size: 1.2rem; line-height: 1.35; }
+        .how-dialog .how-item p { max-width: 90ch; margin: 0; color: var(--how-muted); font-size: 1.1rem; line-height: 1.8; overflow-wrap: anywhere; }
+        .how-dialog [data-how-copy="technical"] { display: none; }
+        .how-dialog[data-technical="true"] [data-how-copy="simple"] { display: none; }
+        .how-dialog[data-technical="true"] [data-how-copy="technical"] { display: block; }
+        .how-burst { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; }
+        .how-bulb { position: absolute; left: 0; top: 0; font-size: 24px; line-height: 1; will-change: transform, opacity; }
+        .how-status { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+        @keyframes how-reveal {
+            from { opacity: 0; transform: translateY(-14px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .how-dialog[open] { animation: how-reveal 260ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .how-dialog, .how-dialog *, .how-launcher { animation: none !important; transition: none !important; }
+        }
+        @media (max-width: 900px) {
+            nav .nav-container { gap: clamp(12px, 2.6vw, 28px); padding-inline: 14px 104px; }
+        }
+        @media (max-width: 480px) {
+            nav { padding-block: 12px; }
+            nav .nav-container { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 8px; padding-inline: 16px; text-align: center; }
+            nav .nav-container a { font-size: 1rem; }
+            nav .dark-toggle { grid-column: 3; justify-self: end; min-height: 44px; margin-left: 0; }
+            .how-launcher { position: static; grid-column: 4; justify-self: end; transform: none; min-width: 64px; padding-inline: 12px; }
+            .how-dialog { width: calc(100% - 20px); height: calc(100dvh - 24px); max-height: calc(100dvh - 24px); border-radius: 20px; }
+            .how-dialog .how-header { padding: 16px 20px; }
+            .how-scroll { padding: 0 20px 20px; }
+            .how-item { padding: 22px 0; }
+            .how-item::before { position: static; display: block; margin-bottom: 7px; }
+            .how-dialog .how-item p { font-size: 1rem; line-height: 1.75; }
+            .how-dialog .how-title { margin-top: 16px; }
+        }
+    </style>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
@@ -1615,8 +1909,89 @@
             <a href="finance.html">Finance</a>
             <a href="book.html">Books</a>
             <button id="darkModeToggle" class="dark-toggle" type="button" aria-label="Dark mode" aria-pressed="false">🌙</button>
+            <button class="how-launcher" id="siteHowButton" type="button" aria-haspopup="dialog" aria-controls="siteHowDialog" aria-expanded="false" aria-label="How is this site built?">How?</button>
         </div>
     </nav>
+
+    <dialog class="how-dialog" id="siteHowDialog" aria-labelledby="siteHowTitle" aria-describedby="siteHowIntro" data-technical="false" data-lenis-prevent>
+        <header class="how-header">
+            <div class="how-toolbar">
+                <button class="how-mode" id="siteHowMode" type="button" role="switch" aria-checked="false" aria-label="Technical version" autofocus>
+                    <span class="how-mode__track" aria-hidden="true"><span class="how-mode__knob">💡</span></span>
+                    <span>Technical version</span>
+                </button>
+                <button class="how-close" id="siteHowClose" type="button" aria-label="Close site explanation"><span aria-hidden="true">×</span></button>
+            </div>
+            <h2 class="how-title" id="siteHowTitle">How is this site built?</h2>
+            <p class="how-intro" id="siteHowIntro">A little look behind the scenes!</p>
+        </header>
+        <div class="how-scroll" id="siteHowScroll" tabindex="0" role="region" aria-label="How the site works" data-lenis-prevent>
+            <ol class="how-list">
+                <li class="how-item">
+                    <h3>The circular trailing cursor</h3>
+                    <p data-how-copy="simple">A circle follows the pointer with a slight delay, stretching as you move faster. It reverses the colors beneath it, appearing dark over light areas and light over dark areas so it stays visible across the page.</p>
+                    <p data-how-copy="technical">The cursor is a 36-pixel HTML layer positioned above the page. Each animation frame interpolates its position toward the pointer, with timing adjusted for different screen refresh rates. Pointer speed and direction control stretching and rotation. CSS difference blending combines its white fill with the pixels underneath, inverting their colors so the cursor stays visible on both light and dark backgrounds.</p>
+                </li>
+                <li class="how-item">
+                    <h3>How the cursor wraps around links</h3>
+                    <p data-how-copy="simple">When you hover over GitHub, my email, or navigation links such as Projects, the site measures the item and reshapes the cursor to frame it. The shape follows your movement slightly, then returns to a circle when you move away.</p>
+                    <p data-how-copy="technical">Hover detection identifies the link or button beneath the pointer and measures its position and dimensions. The cursor transitions to those dimensions, adding spacing and adjusting its corner radius for the target. A magnetic offset blends the target’s center with the pointer’s position, so the shape stays attached while responding to movement. Leaving the target releases that attachment and restores the circular shape.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Liquid-metal “Parv Jain”</h3>
+                    <p data-how-copy="simple">My name is rendered with moving highlights and reflections that give the letters the appearance of polished metal. Your pointer changes those reflections, and clicking sends a ripple across the surface.</p>
+                    <p data-how-copy="technical">Canvas2D first draws the lettering into an image. The site converts this into a distance field that records how far each pixel is from a letter’s edge. WebGL2 uses that information to calculate simulated surface angles, beveled edges and depth. Custom GPU shaders combine those angles with moving reflections and highlights to create the metal finish. Pointer movement and click waves alter the shading, giving the flat text the appearance of a liquid surface.</p>
+                </li>
+                <li class="how-item">
+                    <h3>The font throughout the site</h3>
+                    <p data-how-copy="simple">The site uses Product Sans, including the introduction and this panel. Regular and bold weights give the text a consistent look while distinguishing descriptions from headings. The font files are stored with the website.</p>
+                    <p data-how-copy="technical">Product Sans is loaded from regular and bold font files stored with the site. Shared CSS applies the same font family across pages and this panel. The browser can display a system fallback while the files load, keeping text visible during loading. Once the font is ready, the liquid-metal renderer rebuilds its text image using the bold face so the canvas lettering matches the rest of the design.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Node Network canvas</h3>
+                    <p data-how-copy="simple">The site draws moving points and connects nearby ones with lines. Your pointer pushes points aside and temporarily separates connections, while clicking sends a pulse through the network. The drawing updates continuously as the points move.</p>
+                    <p data-how-copy="technical">Canvas2D draws a particle system whose nodes store their positions, movement and connections. A spatial grid groups nearby nodes, reducing the work needed to find neighbors. Connection limits keep the network readable, while spring forces and damping control how nodes move away from the pointer and settle back. Connections fade when disturbed and recover over time. Clicks add outward forces and animated pulses that travel through the network.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Topographic Contours canvas</h3>
+                    <p data-how-copy="simple">The site calculates a shifting surface and draws contour lines along areas of equal height, much like a topographic map. Moving your pointer raises the surface nearby, and clicking sends a wave through the contours.</p>
+                    <p data-how-copy="technical">The surface is represented by a grid of height values that changes over time. A marching-squares algorithm finds where each of 14 elevation levels crosses the grid cells, then Canvas2D draws the resulting contour lines. A fixed-step wave simulation updates neighboring cells to spread motion while damping gradually reduces it. Ambient movement, local pointer displacement and click-generated waves combine to shape the final surface.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Persistent Plasma field</h3>
+                    <p data-how-copy="simple">This field builds on its previous frame, so colors continue flowing after your pointer moves away. Moving through it adds motion and color, while clicking changes the drawing color and creates a ripple. The trails gradually fade, and refreshing starts a new field.</p>
+                    <p data-how-copy="technical">WebGL2 runs the simulation on the GPU using two textures that alternate between reading the previous state and writing the next. They hold movement and dye information. Each update transports dye through the velocity field, adds pointer forces, and applies diffusion and gradual decay. A separate rendering pass converts that state into color and lighting. Keeping the previous state creates lasting trails during the session; reloading the page resets the simulation.</p>
+                </li>
+                <li class="how-item">
+                    <h3>The horizontal WebGL photo gallery</h3>
+                    <p data-how-copy="simple">The gallery repeats the photos to create a continuous track in either direction. Scrolling and dragging build momentum, while gradual changes in speed make movement feel smooth. The photos bend slightly as they move, with your device’s graphics hardware drawing each frame.</p>
+                    <p data-how-copy="technical">WebGL2 maps each photo onto a subdivided surface. GPU shaders move points on that surface according to scroll speed and pointer position, creating the bending and rotation, while a pixel mask rounds the corners. Repeated image instances wrap around the track to create continuous movement in either direction. A custom spring-and-momentum model smooths input independently of Lenis. Standard HTML images provide a fallback when WebGL is unavailable.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Gallery detail mode: opening a photo</h3>
+                    <p data-how-copy="simple">Clicking or tapping a photo expands it into a larger view with its story. The site pauses the page behind the overlay and remembers your position. Closing the view returns you to the gallery so you can continue where you left off.</p>
+                    <p data-how-copy="technical">The gallery identifies the selected photo and records its on-screen position and size. It then hides that WebGL image and animates a separate HTML image from the same position into the expanded view using CSS transforms. The page’s scroll position is saved, Lenis is paused, and keyboard focus stays inside the overlay. Closing coordinates the return animation with the WebGL image, restores focus without scrolling, and resumes the page from its saved position.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Projects-only inertial motion</h3>
+                    <p data-how-copy="simple">Project images, text and buttons respond to scrolling with slightly different timing. Their movement gradually catches up with the page and settles when you stop. Buttons also shift gently toward your pointer, adding a sense of depth and responsiveness.</p>
+                    <p data-how-copy="technical">A custom JavaScript controller converts scroll velocity into target offsets for project images, text and buttons. Each group uses a spring model with its own stiffness and damping, creating different amounts of lag and settling. CSS transforms apply the movement, with small rotation and scale changes on images. Separate springs handle magnetic button movement. Visibility tracking limits offscreen updates, and mobile and reduced-motion settings scale back or disable the effect.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Smooth scrolling with Lenis</h3>
+                    <p data-how-copy="simple">Lenis is a scrolling library that turns mouse-wheel input into a gradual change in page position. Its code is stored with this website. Touch devices keep their native scrolling, and reduced-motion settings turn the smoothing off.</p>
+                    <p data-how-copy="technical">Lenis converts mouse-wheel input into a target scroll position and interpolates the displayed position toward it. The library is stored locally and updated by the same animation loop that drives the site’s visual effects. Wheel sensitivity and interpolation control the feel of the movement. Touch scrolling stays native, overlays use their own scrolling, and reduced-motion preferences bypass the smoothing. The gallery’s horizontal momentum is handled separately.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Dark mode</h3>
+                    <p data-how-copy="simple">The theme button switches between light and dark palettes. Text, backgrounds and interactive artwork update together, and your browser saves the choice for future visits.</p>
+                    <p data-how-copy="technical">The toggle changes a theme class on the page, allowing CSS to switch the background, text and component colors together. The canvas controllers observe that change and update their rendering palettes. The preference is saved in the browser’s local storage and restored early during page loading to reduce flashes of the wrong theme. If storage is unavailable, theme switching still works for the current visit.</p>
+                </li>
+            </ol>
+        </div>
+        <div class="how-burst" id="siteHowBurst" aria-hidden="true"></div>
+        <span class="how-status" id="siteHowStatus" role="status" aria-live="polite"></span>
+    </dialog>
 
     <main id="main-content" class="container" tabindex="-1">
         <section class="hero-section">
@@ -1643,7 +2018,7 @@
                 <p class="email"><a href="mailto:parv.jjain@gmail.com">parv.jjain@gmail.com</a></p>
 
                 <div class="description">
-                    <p>Hey my name is Parv Jain! I am a Junior at Indiana University studying Computer Science and Business. I am really interested in AI, technology, and business, and how the three come together to build products that people actually use. Outside of school, I love playing sports 🏀, and most of my free time goes into building projects and learning new things 📚. My career interests lie at the intersection of Product Management and Forward Deployed Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
+                    <p>Hey my name is Parv Jain! I am a Junior at Indiana University studying Computer Science and Business. I am really interested in AI, technology, and business, and how the three come together to build products that people actually use. Outside of school, I love playing sports 🏀, and most of my free time goes into building projects and learning new things 📚. My career interests lie at the intersection of Product Management, Business Operations and Forward Deployed Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
                 </div>
 
                 <h2 class="experiences-heading">My Experiences</h2>
@@ -1675,7 +2050,20 @@
             </div>
 
             <div class="hero-image">
-                <img src="images/hero-parv-900.jpg" srcset="images/hero-parv-900.jpg 900w, images/hero-parv-1350.jpg 1350w" sizes="(max-width: 768px) 90vw, 450px" alt="Parv Jain" width="900" height="1200" fetchpriority="high" decoding="async">
+                <img src="images/sam-parv-900.jpg" srcset="images/sam-parv-900.jpg 675w, images/sam-parv-1350.jpg 1012w" sizes="(max-width: 768px) calc(100vw - 40px), 500px" alt="Parv Jain" aria-describedby="heroPhotoCaption" width="675" height="900" fetchpriority="high" decoding="async">
+                <div class="hero-photo-note">
+                    <svg class="hero-note-arrow hero-note-arrow--above" viewBox="0 0 190 90" aria-hidden="true" focusable="false">
+                        <path d="M142 78 C176 20 60 5 9 55 M9 55 L27 43 M9 55 L29 60" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M156 24 L159 17 L162 24 L169 27 L162 30 L159 37 L156 30 L149 27 Z" fill="#d9ad55"/>
+                        <circle cx="113" cy="12" r="2.5" fill="currentColor" opacity="0.6"/>
+                    </svg>
+                    <p class="hero-photo-caption" id="heroPhotoCaption">Meeting Sam Altman (CEO of OpenAI) at OpenAI Headquarters</p>
+                    <svg class="hero-note-arrow hero-note-arrow--below" viewBox="0 0 190 90" aria-hidden="true" focusable="false">
+                        <path d="M142 78 C176 20 60 5 9 55 M9 55 L27 43 M9 55 L29 60" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M156 24 L159 17 L162 24 L169 27 L162 30 L159 37 L156 30 L149 27 Z" fill="#d9ad55"/>
+                        <circle cx="113" cy="12" r="2.5" fill="currentColor" opacity="0.6"/>
+                    </svg>
+                </div>
                 <!-- Sketch canvas temporarily disabled. Uncomment this block to restore it.
                 <div class="canvas-strip">
                     <canvas id="sketchCanvas" aria-hidden="true"></canvas>
@@ -1698,22 +2086,25 @@
                 <canvas class="image-gallery-canvas" id="imageGalleryCanvas" role="button" aria-label="Open xAI Team. Use left and right arrows to browse photos." aria-describedby="imageGalleryLearnMoreHint" aria-hidden="true" tabindex="-1"></canvas>
                 <div class="image-gallery-fallback">
                     <button class="image-gallery-fallback__item" type="button" data-gallery-index="0"><img src="gallery-textures/encoded/gallery-11.jpg?v=20260903-smooth-1" alt="xAI Team" width="2200" height="1465" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="1"><img src="gallery-textures/encoded/gallery-01.jpg?v=20260903-smooth-1" alt="Monterey Car Week" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="1"><img src="gallery-textures/encoded/gallery-18.jpg?v=20260930-gallery-20" alt="Parv-DevDay" width="1650" height="2200" loading="lazy" decoding="async"></button>
                     <button class="image-gallery-fallback__item" type="button" data-gallery-index="2"><img src="gallery-textures/encoded/gallery-14.jpg?v=20260903-smooth-1" alt="Meeting NVIDIA CEO" width="2200" height="1229" loading="lazy" decoding="async"></button>
                     <button class="image-gallery-fallback__item" type="button" data-gallery-index="3"><img src="gallery-textures/encoded/gallery-08.jpg?v=20260903-smooth-1" alt="Meeting Cognition CEO" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="4"><img src="gallery-textures/encoded/gallery-03.jpg?v=20260903-smooth-1" alt="Founder of Loom" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="5"><img src="gallery-textures/encoded/gallery-07.jpg?v=20260903-smooth-1" alt="Met Founder of OpenClaw" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="6"><img src="gallery-textures/encoded/gallery-05.jpg?v=20260903-smooth-1" alt="Met Founder of Twitch" width="2161" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="7"><img src="gallery-textures/encoded/gallery-13.jpg?v=20260903-smooth-1" alt="YC Startup School" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="8"><img src="gallery-textures/encoded/gallery-04.jpg?v=20260903-smooth-1" alt="Shark Fin Cove" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="9"><img src="gallery-textures/encoded/gallery-17.jpg?v=20260903-smooth-1" alt="Tahoe" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="10"><img src="gallery-textures/encoded/gallery-06.jpg?v=20260903-smooth-1" alt="Bahamas" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="11"><img src="gallery-textures/encoded/gallery-02.jpg?v=20260903-smooth-1" alt="Banff" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="12"><img src="gallery-textures/encoded/gallery-09.jpg?v=20260903-smooth-1" alt="Yosemite" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="13"><img src="gallery-textures/encoded/gallery-15.jpg?v=20260903-smooth-1" alt="ATV Riding" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="14"><img src="gallery-textures/encoded/gallery-16.jpg?v=20260903-smooth-1" alt="Indiana University Football" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="15"><img src="gallery-textures/encoded/gallery-12.jpg?v=20260903-smooth-1" alt="Headshot" width="1650" height="2200" loading="lazy" decoding="async"></button>
-                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="16"><img src="gallery-textures/encoded/gallery-10.jpg?v=20260903-smooth-1" alt="Don Toliver" width="1014" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="4"><img src="gallery-textures/encoded/gallery-19.jpg?v=20260930-gallery-20" alt="Parv-Casey Neistat" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="5"><img src="gallery-textures/encoded/gallery-03.jpg?v=20260903-smooth-1" alt="Founder of Loom" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="6"><img src="gallery-textures/encoded/gallery-07.jpg?v=20260903-smooth-1" alt="Met Founder of OpenClaw" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="7"><img src="gallery-textures/encoded/gallery-05.jpg?v=20260903-smooth-1" alt="Met Founder of Twitch" width="2161" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="8"><img src="gallery-textures/encoded/gallery-20.jpg?v=20260930-gallery-20" alt="Parv-Tibo" width="2200" height="1650" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="9"><img src="gallery-textures/encoded/gallery-13.jpg?v=20260903-smooth-1" alt="YC Startup School" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="10"><img src="gallery-textures/encoded/gallery-01.jpg?v=20260903-smooth-1" alt="Monterey Car Week" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="11"><img src="gallery-textures/encoded/gallery-04.jpg?v=20260903-smooth-1" alt="Shark Fin Cove" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="12"><img src="gallery-textures/encoded/gallery-17.jpg?v=20260903-smooth-1" alt="Tahoe" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="13"><img src="gallery-textures/encoded/gallery-06.jpg?v=20260903-smooth-1" alt="Bahamas" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="14"><img src="gallery-textures/encoded/gallery-02.jpg?v=20260903-smooth-1" alt="Banff" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="15"><img src="gallery-textures/encoded/gallery-09.jpg?v=20260903-smooth-1" alt="Yosemite" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="16"><img src="gallery-textures/encoded/gallery-15.jpg?v=20260903-smooth-1" alt="ATV Riding" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="17"><img src="gallery-textures/encoded/gallery-16.jpg?v=20260903-smooth-1" alt="Indiana University Football" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="18"><img src="gallery-textures/encoded/gallery-12.jpg?v=20260903-smooth-1" alt="Headshot" width="1650" height="2200" loading="lazy" decoding="async"></button>
+                    <button class="image-gallery-fallback__item" type="button" data-gallery-index="19"><img src="gallery-textures/encoded/gallery-10.jpg?v=20260903-smooth-1" alt="Don Toliver" width="1014" height="2200" loading="lazy" decoding="async"></button>
                 </div>
                 <div class="image-gallery-meta" aria-live="polite">
                     <p class="image-gallery-meta__title" id="imageGalleryTitle">xAI Team</p>
@@ -2492,7 +2883,136 @@
     <script src="node-network.js?v=20260903-smooth-3"></script>
     <script src="topographic-contours.js?v=20260903-smooth-3"></script>
     <script src="plasma-blob.js?v=20260903-smooth-3"></script>
-    <script src="horizontal-gallery.js?v=20260905-smooth-16"></script>
+    <script src="horizontal-gallery.js?v=20260930-gallery-20"></script>
     <script src="interactions.js?v=20260904-smooth-3"></script>
+    <script id="site-how-controller">
+        (() => {
+            "use strict";
+
+            const trigger = document.getElementById("siteHowButton");
+            const dialog = document.getElementById("siteHowDialog");
+            const mode = document.getElementById("siteHowMode");
+            const closeButton = document.getElementById("siteHowClose");
+            const title = document.getElementById("siteHowTitle");
+            const scroller = document.getElementById("siteHowScroll");
+            const burst = document.getElementById("siteHowBurst");
+            const status = document.getElementById("siteHowStatus");
+            const root = document.documentElement;
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+            const animations = new Set();
+            let locked = false;
+            let savedScrollY = 0;
+            let returnFocus = null;
+            let backdropPointer = null;
+
+            const clearBurst = () => {
+                animations.forEach((animation) => animation.cancel());
+                animations.clear();
+                burst.replaceChildren();
+            };
+
+            const burstBulbs = () => {
+                clearBurst();
+                if (reducedMotion.matches || typeof Element.prototype.animate !== "function") return;
+                const switchRect = mode.getBoundingClientRect();
+                const dialogRect = dialog.getBoundingClientRect();
+                const originX = switchRect.left - dialogRect.left + 39;
+                const originY = switchRect.top - dialogRect.top + switchRect.height / 2;
+                for (let index = 0; index < 14; index += 1) {
+                    const bulb = document.createElement("span");
+                    bulb.className = "how-bulb";
+                    bulb.textContent = "💡";
+                    burst.appendChild(bulb);
+                    const angle = (index / 14) * Math.PI * 2;
+                    const distance = 64 + Math.random() * 100;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+                    const rotation = (Math.random() - 0.5) * 200;
+                    const animation = bulb.animate([
+                        { transform: `translate(${originX}px, ${originY}px) scale(0.25)`, opacity: 0 },
+                        { transform: `translate(${originX + x * 0.35}px, ${originY + y * 0.35}px) rotate(${rotation * 0.3}deg) scale(1)`, opacity: 1, offset: 0.2 },
+                        { transform: `translate(${originX + x}px, ${originY + y + 70}px) rotate(${rotation}deg) scale(0.6)`, opacity: 0 }
+                    ], { duration: 800 + Math.random() * 350, easing: "cubic-bezier(0.15, 0.65, 0.35, 1)", fill: "both" });
+                    animations.add(animation);
+                    const remove = () => { animations.delete(animation); bulb.remove(); };
+                    animation.finished.then(remove, remove);
+                }
+            };
+
+            const unlockPage = () => {
+                if (!locked) return;
+                locked = false;
+                backdropPointer = null;
+                clearBurst();
+                trigger.setAttribute("aria-expanded", "false");
+                if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
+                root.classList.remove("how-is-open");
+                if (window.parvSmoothScroll?.start) {
+                    window.parvSmoothScroll.start(savedScrollY);
+                } else {
+                    window.scrollTo({ top: savedScrollY, left: window.scrollX, behavior: "instant" });
+                }
+            };
+
+            const closeDialog = () => {
+                if (dialog.open) dialog.close();
+                unlockPage();
+            };
+
+            trigger.addEventListener("click", () => {
+                if (dialog.open || locked) return;
+                const gallery = window.parvGalleryController?.getState?.();
+                if (gallery?.detailOpen || gallery?.detailClosing) return;
+                savedScrollY = window.scrollY;
+                returnFocus = document.activeElement;
+                locked = true;
+                window.parvSmoothScroll?.stop?.();
+                root.classList.add("how-is-open");
+                try {
+                    dialog.showModal();
+                    scroller.scrollTop = 0;
+                    status.textContent = "";
+                    trigger.setAttribute("aria-expanded", "true");
+                } catch (error) {
+                    unlockPage();
+                    console.warn("The site explanation could not open.", error);
+                }
+            });
+
+            mode.addEventListener("click", () => {
+                const technical = mode.getAttribute("aria-checked") !== "true";
+                // Keep the reader at the same topic when paragraph heights change.
+                const viewportTop = scroller.getBoundingClientRect().top;
+                const anchor = Array.from(scroller.querySelectorAll(".how-item"))
+                    .find((item) => item.getBoundingClientRect().bottom > viewportTop + 1);
+                const oldTop = anchor?.getBoundingClientRect().top;
+                mode.setAttribute("aria-checked", String(technical));
+                dialog.dataset.technical = String(technical);
+                title.textContent = technical ? "How it works (technical version)" : "How is this site built?";
+                if (anchor && Number.isFinite(oldTop)) scroller.scrollTop += anchor.getBoundingClientRect().top - oldTop;
+                status.textContent = technical ? "Technical version on. Engineering descriptions shown." : "Technical version off. Overview descriptions shown.";
+                if (technical) burstBulbs();
+                else clearBurst();
+            });
+
+            closeButton.addEventListener("click", closeDialog);
+            dialog.addEventListener("cancel", (event) => { event.preventDefault(); closeDialog(); });
+            dialog.addEventListener("close", () => { if (!dialog.open) unlockPage(); });
+            const isBackdrop = (event) => {
+                const rect = dialog.getBoundingClientRect();
+                return event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom);
+            };
+            dialog.addEventListener("pointerdown", (event) => {
+                backdropPointer = event.button === 0 && isBackdrop(event) ? event.pointerId : null;
+            });
+            dialog.addEventListener("pointerup", (event) => {
+                if (event.pointerId === backdropPointer && isBackdrop(event)) closeDialog();
+                backdropPointer = null;
+            });
+            dialog.addEventListener("pointercancel", () => { backdropPointer = null; });
+            reducedMotion.addEventListener("change", () => { if (reducedMotion.matches) clearBurst(); });
+            window.addEventListener("pagehide", closeDialog);
+        })();
+    </script>
 </body>
 </html>
