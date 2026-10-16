@@ -83,13 +83,6 @@
             description: "This photo was with my xAI Team during my Summer Internship in front of the Falcon 9 Rocket at the SpaceX HQ in Hawthorne, during the SpaceX IPO Day!"
         },
         {
-            source: "images/gallery/gallery-18.jpg",
-            title: "Parv-DevDay",
-            width: 1650,
-            height: 2200,
-            description: "At OpenAI DevDay."
-        },
-        {
             source: "images/gallery/gallery-14.jpg",
             title: "Meeting NVIDIA CEO",
             width: 2200,
@@ -105,10 +98,17 @@
         },
         {
             source: "images/gallery/gallery-19.jpg",
-            title: "Parv-Casey Neistat",
+            title: "Met Casey Neistat",
             width: 1650,
             height: 2200,
-            description: "Meeting Casey Neistat."
+            description: "I met Case neistat at OpenAI's DevDay Conference. He just recorded a interview with TBPN and is a really cool guy."
+        },
+        {
+            source: "images/gallery/gallery-05.jpg",
+            title: "Met Founder of Twitch",
+            width: 2161,
+            height: 2200,
+            description: "When I was in high school, I went to a Y Combinator summer conference and met Twitch co-founder Emmett Shear. He was Twitch's CEO for 10 years, served as interim CEO of OpenAI for three days, and is now a partner at YC."
         },
         {
             source: "images/gallery/gallery-03.jpg",
@@ -125,18 +125,18 @@
             description: "I went to the ChatGPT Futures Showcase event and met Peter Steinberger, founder of OpenClaw, and talked with him about future token usage for enterprises."
         },
         {
-            source: "images/gallery/gallery-05.jpg",
-            title: "Met Founder of Twitch",
-            width: 2161,
+            source: "images/gallery/gallery-18.jpg",
+            title: "OpenAI DevDay 2026 Conference",
+            width: 1650,
             height: 2200,
-            description: "When I was in high school, I went to a Y Combinator summer conference and met Twitch co-founder Emmett Shear. He was Twitch's CEO for 10 years, served as interim CEO of OpenAI for three days, and is now a partner at YC."
+            description: "I attended OpenAI's annual Developer Conference and got to see Sam, see the new products being launched, and talk with the OpenAI Team."
         },
         {
             source: "images/gallery/gallery-20.jpg",
-            title: "Parv-Tibo",
+            title: "I met Thibault Sottiaux",
             width: 2200,
             height: 1650,
-            description: "Meeting Tibo."
+            description: "I met Tibo (Thibault \"Tibo\" Sottiaux) at OpenAI's DevDay Conference. He is the head of ChatGPT Codex and is famously known online for reseting everyones Codex limits!"
         },
         {
             source: "images/gallery/gallery-13.jpg",
