@@ -955,7 +955,11 @@
         getSettings: () => ({ ...settings })
     };
     resizeCanvas();
-    customizer = createCustomizer();
+    // Reversible UI-only setting; the name renderer and its pointer effects stay active.
+    const customizerEnabled = document.getElementById("liquidCustomizerSlot")?.dataset.enabled !== "false";
+    if (customizerEnabled) {
+        customizer = createCustomizer();
+    }
     if (document.fonts?.ready) {
         document.fonts.ready.then(rebuildSdfTexture);
     }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="excel-title">
+  <title id="excel-title">Microsoft Excel</title>
+  <!-- Locally drawn vector interpretation of the classic Excel X and spreadsheet icon. -->
+  <defs>
+    <linearGradient id="excel-panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#18884f"/><stop offset="1" stop-color="#107c41"/>
+    </linearGradient>
+  </defs>
+  <rect x="23" y="8" width="36" height="48" rx="4" fill="#185c37"/>
+  <path d="M27 8h28a4 4 0 0 1 4 4v8H23v-8a4 4 0 0 1 4-4Z" fill="#33c481"/>
+  <path d="M23 20h36v12H23Z" fill="#21a366"/>
+  <path d="M23 32h36v12H23Z" fill="#107c41"/>
+  <path d="M41 8v48" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="1.5"/>
+  <rect x="5" y="17" width="34" height="34" rx="3.8" fill="#000" opacity=".16"/>
+  <rect x="4" y="15" width="34" height="34" rx="3.8" fill="url(#excel-panel)"/>
+  <path d="M13 23h5.4l4.2 7.1 4.2-7.1H32l-6.8 9L32 41h-5.4l-4.4-7.2L17.7 41h-5.3l7-9.1Z" fill="#fff"/>
+</svg>

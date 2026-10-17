@@ -1,0 +1,463 @@
+/* Charcoal workspace backdrop. Window chrome and publication views retain their own palettes. */
+.fd-workspace {
+    --fd-w-ink: #202b3a;
+    --fd-w-muted: #3e5064;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    isolation: isolate;
+    background: #373838;
+    color: var(--fd-w-ink);
+    font-family: 'Product Sans', 'Segoe UI', sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    text-align: left;
+    border-radius: inherit;
+    -webkit-font-smoothing: antialiased;
+}
+.fd-workspace *, .fd-workspace *::before, .fd-workspace *::after { box-sizing: border-box; }
+.fd-workspace [hidden] { display: none !important; }
+.fd-workspace button, .fd-workspace a { font: inherit; -webkit-tap-highlight-color: transparent; }
+.fd-workspace button { cursor: pointer; }
+.fd-workspace a { color: inherit; text-decoration: none; }
+.fd-workspace :is(h2, h3, h4, p) { margin: 0; padding: 0; border: 0; color: inherit; line-height: inherit; text-align: left; }
+body.dark-mode .fd-workspace :is(h2, h3, h4, p) { color: inherit; }
+.fd-workspace button:focus-visible, .fd-workspace a:focus-visible, .fd-workspace [role="tabpanel"]:focus-visible { outline: 2px solid #285faa; outline-offset: -3px; }
+.fd-workspace .fd-ui-icon { width: 15px; height: 15px; flex-shrink: 0; display: block; }
+
+/* Window chrome uses real controls for the six functioning tabs. */
+.fd-workspace .fd-browser-top { display: flex; align-items: flex-end; gap: 5px; height: 35px; min-height: 35px; padding: 3px 7px 0; background: #cbd0d5; box-shadow: inset 0 1px rgba(255,255,255,.06); }
+.fd-workspace .fd-browser-profile { display: grid; place-items: center; width: 22px; height: 22px; margin: 0 3px 5px 0; flex-shrink: 0; color: #e5efff; font: 600 8px 'Segoe UI', sans-serif; border-radius: 50%; background: linear-gradient(145deg, #4c6380, #23394f); box-shadow: inset 0 0 0 1px #647b96; }
+.fd-workspace .fd-browser-tabs { display: flex; height: 32px; flex: 1; min-width: 0; gap: 2px; }
+.fd-workspace .fd-browser-tab { min-width: 0; flex: 1 1 0; display: flex; align-items: center; gap: 6px; padding: 0 9px; background: transparent; border: 0; border-radius: 7px 7px 0 0; color: #2b3c4f; white-space: nowrap; font-size: 10px; position: relative; transition: background-color 160ms, color 160ms; }
+.fd-workspace .fd-browser-tab > span:not([aria-hidden]) { overflow: hidden; text-overflow: ellipsis; }
+.fd-workspace .fd-browser-tab > i { margin-left: auto; font: 12px 'Segoe UI', sans-serif; color: #526170; }
+.fd-workspace .fd-browser-tab:hover { background: #d9dee3; color: #1d2939; }
+.fd-workspace .fd-browser-tab[aria-selected="true"] { color: #1d2939; background: #e3e7eb; box-shadow: inset 0 1px rgba(255,255,255,.05); }
+.fd-workspace .fd-browser-tab[aria-selected="true"]::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 0; height: 1px; background: #e3e7eb; }
+.fd-workspace .fd-window-controls { display: flex; align-items: center; justify-content: space-around; width: 76px; gap: 4px; align-self: center; color: #2b3c4f; }
+.fd-workspace .fd-window-controls .fd-ui-icon { width: 12px; height: 12px; }
+.fd-workspace .fd-tab-project-mark { display: grid; place-items: center; width: 14px; height: 14px; flex-shrink: 0; background: linear-gradient(145deg, #a6d3ff, #4c82bf); color: #17314f; border-radius: 3px; font-size: 9px; font-weight: 800; }
+.fd-workspace .fd-tab-wordmark { display: grid; place-items: center; width: 15px; height: 15px; flex-shrink: 0; font-weight: 700; }
+.fd-workspace .fd-tab-wordmark.fd-wordmark-wsj { width: 26px; height: 16px; overflow: hidden; background: #fff; border-radius: 2px; }
+/* Preserve the supplied bitmap; only its extra white margins are outside the
+   image box, so the complete WSJ lettering stays legible at favicon size. */
+.fd-workspace .fd-wordmark-wsj img { display: block; width: 26px; height: 16px; max-width: none; object-fit: cover; }
+.fd-workspace .fd-wordmark-ft { color: #282624; background: #f3d5be; font: 700 9px Georgia, serif; }
+.fd-workspace .fd-wordmark-yahoo { font-size: 16px; color: #6f2bb7; }
+.fd-workspace .fd-wordmark-bloomberg { color: #171717; font-size: 16px; font-weight: 900; }
+.fd-workspace .fd-wordmark-google svg { display: block; width: 15px; height: 15px; }
+.fd-workspace .fd-browser-address { display: flex; align-items: center; gap: 12px; padding: 5px 11px; height: 31px; min-height: 31px; background: #e3e7eb; font-size: 9px; color: #2b3c4f; }
+.fd-workspace .fd-browser-history { display: flex; align-items: center; gap: 12px; }
+.fd-workspace .fd-browser-history .fd-ui-icon { width: 12px; height: 12px; }
+.fd-workspace .fd-browser-history .fd-ui-icon:nth-child(2) { opacity: .42; }
+.fd-workspace .fd-address-value { flex: 1; min-width: 0; display: flex; align-items: center; gap: 7px; height: 22px; padding: 0 9px; border-radius: 11px; background: #f0f2f4; box-shadow: inset 0 1px 2px rgba(0,0,0,.12); font-size: 9px; letter-spacing: .1px; }
+.fd-workspace .fd-address-value > svg { width: 10px; height: 10px; fill: none; stroke: #3e5064; stroke-width: 1.3; flex-shrink: 0; }
+.fd-workspace [data-address] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fd-workspace .fd-address-star { font-size: 16px; margin-left: auto; line-height: 1; }
+.fd-workspace .fd-browser-tools { display: flex; align-items: center; gap: 12px; }
+.fd-workspace .fd-browser-tools .fd-ui-icon { width: 12px; height: 12px; }
+.fd-workspace .fd-browser-tools > i { font: 700 15px 'Segoe UI', sans-serif; line-height: 1; }
+.fd-workspace .fd-bookmark-bar { height: 20px; min-height: 20px; display: flex; align-items: center; gap: 16px; padding: 0 12px 2px; color: #2b3c4f; background: #e3e7eb; border-bottom: 1px solid #8d9aa7; }
+.fd-workspace .fd-bookmark-bar > span { display: flex; align-items: center; gap: 5px; font-size: 8px; white-space: nowrap; }
+.fd-workspace .fd-bookmark-bar .fd-ui-icon { width: 11px; height: 11px; color: #b2822e; }
+.fd-workspace .fd-bookmark-bar > i { height: 10px; width: 1px; background: #8d9aa7; }
+.fd-workspace .fd-bookmark-bar b { width: 8px; height: 8px; border-radius: 2px; background: #62b48d; }
+.fd-workspace .fd-bookmark-bar .fd-bookmark-gold { background: #d8b16c; border-radius: 50%; }
+.fd-workspace .fd-bookmark-bar .fd-bookmark-local { margin-left: auto; font-size: 6px; letter-spacing: 1px; color: #2b3c4f; }
+
+/* Project library: every file opens the original source in a new tab. */
+.fd-workspace .fd-browser-content { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #373838; }
+.fd-workspace .fd-tab-panel { height: 100%; position: relative; }
+.fd-workspace .fd-project-panel { padding: 14px 18px 11px; background: #373838; }
+.fd-workspace .fd-project-panel:focus-visible { outline-color: #9dc9ff; }
+.fd-workspace .fd-project-heading { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 10px; }
+.fd-workspace .fd-workspace-eyebrow { display: block; font-size: 7px; letter-spacing: 1.6px; color: #d3d7d7; margin-bottom: 4px; }
+.fd-workspace .fd-project-heading h2, body.dark-mode .fd-workspace .fd-project-heading h2 { color: #f1f3f3; font-size: 26px; line-height: 1.1; font-weight: 700; letter-spacing: -.55px; }
+.fd-workspace .fd-project-count { display: flex; align-items: center; gap: 6px; padding: 7px 10px; border-radius: 7px; background: #cad0d6; border: 1px solid #8e9dab; font-size: 18px; color: #293e56; letter-spacing: -.7px; }
+.fd-workspace .fd-project-count span { color: #2b3c4f; font-size: 7px; letter-spacing: 1.1px; }
+.fd-workspace .fd-library-toolbar { display: flex; align-items: center; justify-content: space-between; height: 23px; margin-bottom: 9px; border-top: 1px solid #737b7b; border-bottom: 1px solid #737b7b; color: #d3d7d7; font-size: 9px; }
+.fd-workspace .fd-library-toolbar > span { display: flex; align-items: center; gap: 7px; }
+.fd-workspace .fd-library-toolbar .fd-ui-icon { width: 12px; height: 12px; color: #d8b16c; }
+.fd-workspace .fd-library-toolbar b { color: #f1f3f3; font-weight: 500; }
+.fd-workspace .fd-library-toolbar i { font-style: normal; opacity: .65; }
+.fd-workspace .fd-library-toolbar .fd-library-meta { font-size: 8px; color: #d3d7d7; gap: 6px; }
+.fd-workspace .fd-project-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; position: relative; }
+.fd-workspace .fd-project { grid-column: span 2; min-width: 0; }
+.fd-workspace .fd-project:nth-child(n+4) { grid-column: span 3; }
+.fd-workspace .fd-project-controls { position: relative; height: 72px; background: linear-gradient(130deg, #e4e8ec, #d5dce3); border: 1px solid #8998a8; border-radius: 8px; box-shadow: 0 4px 10px rgba(3,9,19,.06), inset 0 1px rgba(255,255,255,.035); transition: background-color 160ms, border-color 160ms, box-shadow 160ms; }
+.fd-workspace .fd-project.is-previewed .fd-project-controls { background: linear-gradient(130deg, #e5eff8, #d2e2f1); border-color: #6890b7; box-shadow: 0 0 0 1px rgba(127,184,238,.12), 0 7px 18px rgba(0,0,0,.12); }
+.fd-workspace .fd-project-link { display: flex; align-items: center; gap: 9px; width: 100%; height: 100%; padding: 10px 25px 10px 10px; border-radius: 7px; }
+.fd-workspace .fd-project-logo { display: grid; place-items: center; width: 33px; height: 37px; flex-shrink: 0; border-radius: 6px; border: 1px solid rgba(255,255,255,.12); box-shadow: 1px 2px 5px rgba(0,0,0,.18); }
+.fd-workspace .fd-project-logo svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+.fd-workspace .fd-project-logo img { object-fit: contain; display: block; width: 26px; height: 26px; }
+.fd-workspace .fd-project-logo-gold { background: linear-gradient(145deg, #655137, #2d2a25); color: #f5d397; }
+.fd-workspace .fd-project-logo-silver { background: linear-gradient(145deg, #435a74, #253448); color: #c8e3ff; }
+.fd-workspace .fd-project-logo-green { background: #163c31; }
+.fd-workspace .fd-project-logo-seagate { background: #f2f6f1; }
+.fd-workspace .fd-project-logo-blue { background: #f2f6ff; }
+/* Crowned Capital: a centered crown in an enamel coin, with a milled gold rim. */
+.fd-workspace .fd-project-logo.fd-project-logo-wealth { position: relative; isolation: isolate; width: 33px; height: 33px; border: 0; border-radius: 50%; color: #f3cb78; background: repeating-conic-gradient(#b89047 0deg 6deg, #f8de9b 7deg 10deg, #8e642e 11deg 14deg); box-shadow: 0 1px 0 #9b7134, 0 2px 0 #614923, 0 4px 7px #14201f35, inset 0 1px 1px #fff4d6; }
+.fd-workspace .fd-project-logo-wealth::before { content: ''; position: absolute; inset: 3px; border: 1px solid #ffebbd9c; border-radius: 50%; background: radial-gradient(circle at 30% 15%, #51503b, #252e29 74%); box-shadow: inset 0 1px 3px #111a1c88, 0 0 0 1px #8c642d; pointer-events: none; }
+.fd-workspace .fd-project-logo-wealth .fd-wealth-crown { position: relative; z-index: 1; width: 26px; height: 26px; stroke-width: 2; filter: drop-shadow(0 1px 1px #0a0d0e55); pointer-events: none; }
+.fd-workspace .fd-project-copy { min-width: 0; }
+.fd-workspace .fd-project-category { display: block; color: #2b3c4f; font-size: 7px; letter-spacing: .7px; margin-bottom: 3px; white-space: nowrap; }
+.fd-workspace .fd-project-copy strong { display: block; font-size: 14px; line-height: 1.16; font-weight: 600; color: #1e3046; letter-spacing: -.15px; }
+.fd-workspace .fd-project-result { display: block; margin-top: 4px; color: #2b3c4f; font-size: 9px; line-height: 1.2; }
+.fd-workspace .fd-project-arrow { position: absolute; top: 8px; right: 9px; width: 10px; height: 10px; color: #3f5870; }
+.fd-workspace .fd-project-arrow svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.fd-workspace .fd-project-info { position: absolute; right: 5px; bottom: 5px; border: 1px solid #8295a8; width: 21px; height: 21px; padding: 0; display: grid; place-items: center; background: #dfe8f1; border-radius: 5px; color: #36536f; font-size: 11px; font-family: Georgia, serif; line-height: 1; font-weight: 700; }
+.fd-workspace .fd-project-info:hover, .fd-workspace .fd-project-info[aria-expanded="true"] { color: #fff; border-color: #a5c4e5; background: #54789e; }
+.fd-workspace .fd-project-summary, .fd-workspace .fd-project-preview-placeholder { display: flex; align-items: center; gap: 10px; padding: 9px 11px; width: 100%; height: 58px; border: 1px solid #879bac; border-radius: 7px; background: #c4ccd4; }
+.fd-workspace .fd-project-summary { position: absolute; top: calc(100% + 9px); left: 0; z-index: 2; animation: fd-preview-in 150ms ease both; }
+.fd-workspace .fd-project-summary p, body.dark-mode .fd-workspace .fd-project-summary p { font-size: 12px; line-height: 1.4; color: #253b52; }
+.fd-workspace .fd-summary-dot { width: 4px; height: 26px; flex-shrink: 0; border-radius: 5px; background: #98bfed; }
+.fd-workspace .fd-summary-dot-gold { background: #dbba78; }
+.fd-workspace .fd-summary-dot-green, .fd-workspace .fd-summary-dot-seagate { background: #63c29e; }
+.fd-workspace .fd-project-preview-placeholder { margin-top: 9px; border-style: dashed; border-color: #8e9dab; background: linear-gradient(130deg, #e4e8ec, #d5dce3); }
+.fd-workspace .fd-preview-pointer { font-size: 22px; color: #315b80; }
+.fd-workspace .fd-project-preview-placeholder p, body.dark-mode .fd-workspace .fd-project-preview-placeholder p { font-size: 13px; font-weight: 700; color: #203449; line-height: 1.5; }
+.fd-workspace .fd-project-preview-placeholder p span { color: #2b3c4f; font-size: 12px; font-weight: 700; }
+
+/* A Windows 11-inspired taskbar, entirely decorative. */
+.fd-workspace .fd-windows-taskbar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; height: 35px; min-height: 35px; padding: 0 12px; background: linear-gradient(115deg, rgba(227,233,239,.78), rgba(202,214,226,.74)); -webkit-backdrop-filter: blur(14px) saturate(115%); backdrop-filter: blur(14px) saturate(115%); border-top: 1px solid rgba(244,248,252,.4); color: #2b3c4f; position: relative; box-shadow: inset 0 1px rgba(255,255,255,.16), 0 -3px 10px rgba(0,0,0,.08); }
+.fd-workspace .fd-taskbar-weather { display: flex; align-items: center; gap: 5px; color: #bd8d2f; }
+.fd-workspace .fd-taskbar-weather .fd-ui-icon { width: 18px; height: 18px; }
+.fd-workspace .fd-taskbar-weather > span { color: #2b3c4f; font-size: 7px; line-height: 1.3; }
+.fd-workspace .fd-taskbar-weather b { color: #2b3c4f; font-weight: 400; font-size: 6px; }
+.fd-workspace .fd-taskbar-apps { display: flex; gap: 10px; align-items: center; justify-content: center; min-width: 0; }
+.fd-workspace .fd-windows-logo { display: grid; grid-template-columns: repeat(2, 1fr); width: 16px; height: 16px; gap: 2px; }
+.fd-workspace .fd-windows-logo i { background: linear-gradient(#6ac6fb, #2f9bdd); display: block; }
+.fd-workspace .fd-taskbar-search { display: flex; align-items: center; gap: 5px; padding: 3px 7px; width: 90px; height: 21px; border-radius: 11px; border: 1px solid #8898a8; background: #cbd3db; color: #2b3c4f; font-size: 8px; }
+.fd-workspace .fd-taskbar-search .fd-ui-icon { width: 12px; height: 12px; }
+.fd-workspace .fd-taskbar-app { display: grid; place-items: center; width: 25px; height: 25px; flex-shrink: 0; position: relative; border-radius: 5px; }
+.fd-workspace .fd-taskbar-app img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.fd-workspace .fd-taskbar-app:hover { background: #dce4ec66; }
+.fd-workspace .fd-taskbar-app::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 7px); z-index: 8; transform: translateX(-50%); padding: 5px 7px; border: 1px solid #7b8b9b; border-radius: 4px; background: #eef2f5; color: #24364a; font: 10px/1.2 'Segoe UI', sans-serif; white-space: nowrap; box-shadow: 0 2px 6px #1d2b3c26; opacity: 0; pointer-events: none; }
+.fd-workspace .fd-taskbar-app:hover::after { opacity: 1; }
+.fd-workspace .fd-taskbar-status { display: flex; align-items: center; justify-self: end; font-size: 8px; gap: 6px; }
+.fd-workspace .fd-taskbar-status .fd-ui-icon { width: 11px; height: 11px; }
+.fd-workspace .fd-taskbar-status > span { margin-left: 3px; text-align: right; font-size: 7px; line-height: 1.3; }
+.fd-workspace .fd-taskbar-status small { font-size: 6px; color: #2b3c4f; }
+
+/* Four individually composed, clearly simulated publication views. */
+.fd-workspace .fd-publication { color: #202427; padding: 8px 17px 10px; font-family: Georgia, 'Times New Roman', serif; background: #faf9f5; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-color: #a0a4aa transparent; user-select: text; }
+.fd-workspace .fd-publication figure { margin: 0; min-width: 0; }
+.fd-workspace .fd-publication :is(article, aside, figure) { min-width: 0; }
+.fd-workspace .fd-publication-nav { display: flex; justify-content: center; align-items: center; gap: 25px; height: 24px; border-bottom: 1px solid #c8c8c3; font: 8px 'Segoe UI', sans-serif; white-space: nowrap; }
+.fd-workspace .fd-news-kicker { display: block; font: 700 7px 'Segoe UI', sans-serif; letter-spacing: .7px; color: #536b78; margin-bottom: 7px; }
+.fd-workspace .fd-news-kicker i, .fd-workspace .fd-news-byline i { margin: 0 4px; font-style: normal; }
+.fd-workspace .fd-news-byline { display: block; font: 7px 'Segoe UI', sans-serif; opacity: .7; margin-top: 10px; }
+.fd-workspace .fd-simulation-note, body.dark-mode .fd-workspace .fd-simulation-note { position: static; margin-top: 8px; padding-top: 6px; border-top: 1px solid #c6c8c5; font: 7px/1.3 'Segoe UI', sans-serif; color: #59616a; }
+.fd-workspace .fd-spark { width: 100%; height: 62px; display: block; overflow: visible; }
+.fd-workspace .fd-spark-grid { fill: none; stroke: currentColor; stroke-width: .5; opacity: .15; }
+
+/* WSJ: a traditional newspaper front page, not a dashboard. */
+.fd-workspace .fd-wsj-utility { display: flex; align-items: center; gap: 18px; font: 6px 'Segoe UI', sans-serif; height: 13px; color: #747474; }
+.fd-workspace .fd-wsj-utility > span:first-child { font-weight: 700; color: #303030; }
+.fd-workspace .fd-wsj-utility > span:last-child { margin-left: auto; }
+.fd-workspace .fd-wsj-masthead { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 56px; border-bottom: 1px solid #202020; }
+.fd-workspace .fd-wsj-masthead-logo { display: block; width: 80px; height: 44px; flex-shrink: 0; object-fit: cover; }
+.fd-workspace .fd-wsj-masthead > span { font: 6px 'Segoe UI', sans-serif; letter-spacing: 1.1px; color: #585b5d; }
+.fd-workspace .fd-wsj-masthead i { font-style: normal; margin: 0 7px; }
+.fd-workspace .fd-wsj-layout { display: grid; grid-template-columns: 1fr 1.23fr .77fr; gap: 16px; padding-top: 14px; }
+.fd-workspace .fd-wsj-lead h3 { font-size: 26px; font-weight: 700; line-height: 1.02; letter-spacing: -.8px; margin-bottom: 9px; }
+.fd-workspace .fd-wsj-lead > p { font-size: 10px; line-height: 1.45; opacity: .8; }
+.fd-workspace .fd-wsj-substory { margin-top: 13px; padding-top: 9px; border-top: 1px solid #c6c8c3; }
+.fd-workspace .fd-wsj-substory > b { font-size: 13px; line-height: 1.15; display: block; }
+.fd-workspace .fd-wsj-substory > p { font-size: 9px; line-height: 1.4; opacity: .8; margin-top: 5px; }
+.fd-workspace .fd-wsj-feature { border-left: 1px solid #d1d1ca; padding-left: 15px; }
+.fd-workspace .fd-editorial-art { display: block; width: 100%; height: 120px; border: 1px solid #a4aeb0; background: #0c1a29; }
+.fd-workspace .fd-wsj-feature figcaption { font: 6px 'Segoe UI', sans-serif; color: #747a7c; margin-top: 4px; }
+.fd-workspace .fd-wsj-feature h4 { font-size: 16px; line-height: 1.1; margin-top: 9px; margin-bottom: 5px; letter-spacing: -.3px; }
+.fd-workspace .fd-wsj-feature > p { font-size: 9px; line-height: 1.4; opacity: .8; }
+.fd-workspace .fd-wsj-opinion { border-left: 1px solid #d1d1ca; padding-left: 15px; }
+.fd-workspace .fd-wsj-opinion > strong { display: block; font-size: 11px; letter-spacing: .2px; padding-bottom: 6px; border-bottom: 3px double #353535; color: #506071; }
+.fd-workspace .fd-wsj-opinion article { padding: 8px 0; border-bottom: 1px solid #d1d1ca; }
+.fd-workspace .fd-wsj-opinion h4 { font-size: 14px; line-height: 1.1; font-weight: 500; }
+.fd-workspace .fd-wsj-opinion p { font-size: 9px; line-height: 1.4; margin-top: 7px; opacity: .76; }
+.fd-workspace .fd-wsj-opinion-foot { display: block; font: 5px 'Segoe UI', sans-serif; letter-spacing: .7px; margin-top: 9px; opacity: .6; }
+
+/* Financial Times: salmon paper, a large feature and a distinct opinion rail. */
+.fd-workspace .fd-ft-page { background: #fff1e1; padding-top: 0; }
+.fd-workspace .fd-ft-utility { display: flex; justify-content: space-between; align-items: center; height: 20px; background: #262a2c; color: #e1ded8; margin: 0 -17px; padding: 0 17px; font: 6px 'Segoe UI', sans-serif; letter-spacing: .25px; }
+.fd-workspace .fd-ft-utility i { margin: 0 7px; font-style: normal; color: #8c8c86; }
+.fd-workspace .fd-ft-utility > span:last-child { color: #edc496; letter-spacing: .7px; }
+.fd-workspace .fd-ft-masthead { display: flex; align-items: center; justify-content: space-between; height: 47px; border-bottom: 1px solid #958a7f; }
+.fd-workspace .fd-ft-masthead > strong { font: 500 35px/1 'Times New Roman', Georgia, serif; letter-spacing: -.8px; }
+.fd-workspace .fd-ft-masthead > span:first-child { width: 85px; }
+.fd-workspace .fd-ft-masthead > span:last-child { width: 85px; text-align: right; font: 5px 'Segoe UI', sans-serif; letter-spacing: .7px; color: #70675f; }
+.fd-workspace .fd-ft-page .fd-publication-nav { border-color: #cbbbAA; gap: 28px; color: #625950; font-weight: 500; }
+.fd-workspace .fd-ft-layout { display: grid; grid-template-columns: 3fr 1fr; gap: 16px; padding-top: 12px; }
+.fd-workspace .fd-ft-main > .fd-news-kicker { color: #08766e; margin-bottom: 9px; }
+.fd-workspace .fd-ft-feature { display: grid; grid-template-columns: 1.45fr 1fr; gap: 15px; }
+.fd-workspace .fd-ft-feature h3 { font-size: 28px; line-height: 1.02; font-weight: 500; letter-spacing: -.7px; margin-bottom: 11px; }
+.fd-workspace .fd-ft-feature p { font-size: 11px; line-height: 1.3; opacity: .8; }
+.fd-workspace .fd-ft-capital-art { display: block; width: 100%; height: 126px; background: #ead8c0; }
+.fd-workspace .fd-ft-briefs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; border-top: 1px solid #c9baab; padding-top: 7px; }
+.fd-workspace .fd-ft-briefs article + article { border-left: 1px solid #c9baab; padding-left: 14px; }
+.fd-workspace .fd-ft-briefs article > span { font: 6px 'Segoe UI', sans-serif; color: #8a4143; letter-spacing: .6px; }
+.fd-workspace .fd-ft-briefs h4 { font-size: 15px; line-height: 1.1; font-weight: 500; margin-top: 5px; }
+.fd-workspace .fd-ft-opinion { border-left: 1px solid #c9baab; padding-left: 14px; color: #414543; }
+.fd-workspace .fd-ft-opinion > strong { font-size: 20px; font-weight: 500; color: #07756e; }
+.fd-workspace .fd-ft-opinion .fd-ft-quote { font-size: 15px; line-height: 1.15; font-style: italic; margin-top: 8px; margin-bottom: 6px; }
+.fd-workspace .fd-ft-opinion > span { font: 5px 'Segoe UI', sans-serif; letter-spacing: .6px; color: #776e65; }
+.fd-workspace .fd-ft-opinion > div { border-top: 1px solid #c9baab; margin-top: 12px; padding-top: 9px; }
+.fd-workspace .fd-ft-opinion > div > b { color: #08766e; font-size: 12px; }
+.fd-workspace .fd-ft-opinion > div > p { font-size: 9px; line-height: 1.35; margin-top: 7px; }
+
+/* Yahoo Finance: index tiles and a generated watchlist, rather than newspaper columns. */
+.fd-workspace .fd-yahoo-page { font-family: 'Segoe UI', sans-serif; background: #fff; padding-top: 10px; }
+.fd-workspace .fd-yahoo-masthead { display: flex; align-items: center; gap: 20px; height: 45px; border-bottom: 1px solid #e8e5ed; }
+.fd-workspace .fd-yahoo-masthead > strong { color: #6001d2; font-size: 29px; font-weight: 800; letter-spacing: -1.7px; line-height: .86; display: flex; flex-direction: column; align-items: flex-end; margin-right: 10px; }
+.fd-workspace .fd-yahoo-masthead > strong > span { color: #15131a; font-size: 16px; letter-spacing: -.5px; font-weight: 600; line-height: 1.1; }
+.fd-workspace .fd-yahoo-edition { font-size: 11px; color: #55535c; display: flex; flex-direction: column; gap: 4px; }
+.fd-workspace .fd-yahoo-edition > small { font-size: 6px; letter-spacing: 1.5px; color: #80758f; }
+.fd-workspace .fd-yahoo-avatar { margin-left: auto; width: 23px; height: 23px; display: grid; place-items: center; border-radius: 50%; background: #ede5fb; color: #713fba; font-size: 8px; font-weight: 700; }
+.fd-workspace .fd-yahoo-page .fd-publication-nav { height: 26px; justify-content: flex-start; gap: 27px; font-weight: 600; border-bottom: 0; }
+.fd-workspace .fd-yahoo-indices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; margin: 8px 0 13px; }
+.fd-workspace .fd-yahoo-indices > div { position: relative; border: 1px solid #e3e0e8; border-radius: 5px; background: #fbfafc; height: 65px; padding: 9px 11px; overflow: hidden; }
+.fd-workspace .fd-yahoo-indices > div > span { display: block; color: #595761; font-size: 8px; }
+.fd-workspace .fd-yahoo-indices strong { display: block; font-size: 17px; font-weight: 600; letter-spacing: -.5px; margin-top: 3px; }
+.fd-workspace .fd-yahoo-indices em { font-size: 8px; font-style: normal; color: #16835f; display: block; margin-top: 2px; }
+.fd-workspace .fd-yahoo-indices .fd-spark { position: absolute; right: 8px; bottom: 11px; width: 38%; height: 30px; }
+.fd-workspace .fd-yahoo-page .is-negative { color: #b64262; }
+.fd-workspace .fd-yahoo-layout { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 23px; }
+.fd-workspace .fd-yahoo-story { padding-right: 5px; }
+.fd-workspace .fd-yahoo-story .fd-news-kicker { font-size: 6px; color: #7538b4; }
+.fd-workspace .fd-yahoo-story h3 { font-size: 24px; font-weight: 700; line-height: 1.02; letter-spacing: -.7px; margin-bottom: 9px; }
+.fd-workspace .fd-yahoo-story p { font-size: 9px; line-height: 1.45; opacity: .75; }
+.fd-workspace .fd-yahoo-tags { display: flex; gap: 5px; margin-top: 10px; }
+.fd-workspace .fd-yahoo-tags > span { font-size: 7px; color: #67408c; background: #f0e9f8; padding: 4px 6px; border-radius: 3px; }
+.fd-workspace .fd-yahoo-story .fd-news-byline { font-size: 6px; margin-top: 8px; }
+.fd-workspace .fd-yahoo-watchlist { border: 1px solid #e0dce7; border-radius: 5px; overflow: hidden; }
+.fd-workspace .fd-yahoo-watchlist > div { display: flex; justify-content: space-between; align-items: center; height: 27px; padding: 0 9px; border-bottom: 1px solid #e0dce7; background: #f8f6fb; }
+.fd-workspace .fd-yahoo-watchlist > div > strong { font-size: 10px; font-weight: 600; }
+.fd-workspace .fd-yahoo-watchlist > div > span { font-size: 5px; color: #7c6d8d; letter-spacing: .6px; }
+.fd-workspace .fd-yahoo-watchlist table { border-collapse: collapse; width: 100%; font-size: 9px; table-layout: fixed; font-variant-numeric: tabular-nums; }
+.fd-workspace .fd-yahoo-watchlist th, .fd-workspace .fd-yahoo-watchlist td { text-align: right; border-bottom: 1px solid #efedf2; padding: 4px 9px; height: 23px; }
+.fd-workspace .fd-yahoo-watchlist th:first-child { text-align: left; }
+.fd-workspace .fd-yahoo-watchlist thead th { font-size: 7px; color: #7f7988; font-weight: 500; height: 20px; }
+.fd-workspace .fd-yahoo-watchlist tbody th { color: #612d9a; font-weight: 600; }
+.fd-workspace .fd-yahoo-watchlist td:nth-child(3) { color: #16835f; font-size: 8px; }
+.fd-workspace .fd-yahoo-watchlist td.is-negative { color: #b64262; }
+.fd-workspace .fd-yahoo-watchlist .fd-spark { height: 17px; }
+.fd-workspace .fd-yahoo-watchlist .fd-spark-grid { display: none; }
+
+/* Bloomberg: bold editorial typography, a graphic feature and a dark market inset. */
+.fd-workspace .fd-bloomberg-page { background: #fff; color: #111; font-family: 'Segoe UI', sans-serif; padding-top: 0; }
+.fd-workspace .fd-bb-utility { height: 19px; background: #0c0c0d; margin: 0 -17px; padding: 0 17px; color: #c7c7cc; display: flex; justify-content: space-between; align-items: center; font-size: 6px; }
+.fd-workspace .fd-bb-utility > span:last-child { color: #e5c6dd; font-size: 5px; letter-spacing: .6px; }
+.fd-workspace .fd-bb-masthead { display: flex; align-items: center; justify-content: space-between; height: 48px; border-bottom: 2px solid #171717; }
+.fd-workspace .fd-bb-masthead > strong { font-size: 39px; line-height: 1; font-weight: 800; letter-spacing: -2.4px; }
+.fd-workspace .fd-bb-masthead > span { font-size: 6px; letter-spacing: 1px; color: #737373; }
+.fd-workspace .fd-bloomberg-page .fd-publication-nav { gap: 27px; justify-content: flex-start; font-weight: 600; }
+.fd-workspace .fd-bb-section { height: 26px; display: flex; gap: 11px; align-items: center; border-bottom: 1px solid #e7d3df; }
+.fd-workspace .fd-bb-section > b { font-size: 9px; color: #ab175b; letter-spacing: .6px; }
+.fd-workspace .fd-bb-section > span { color: #676067; font-size: 7px; }
+.fd-workspace .fd-bb-layout { display: grid; grid-template-columns: 1fr 1.12fr .92fr; gap: 17px; padding-top: 13px; }
+.fd-workspace .fd-bb-lead .fd-news-kicker { color: #a01e5a; font-size: 6px; }
+.fd-workspace .fd-bb-lead h3 { font-size: 33px; font-weight: 800; line-height: .98; letter-spacing: -1.7px; margin-bottom: 12px; }
+.fd-workspace .fd-bb-lead p { font-size: 10px; line-height: 1.4; opacity: .73; }
+.fd-workspace .fd-bb-lead .fd-news-byline { font-size: 6px; margin-top: 12px; }
+.fd-workspace .fd-bloomberg-art { display: block; width: 100%; height: 167px; background: #c266b5; }
+.fd-workspace .fd-bb-feature figcaption { font-size: 6px; color: #8a7e86; margin-top: 5px; }
+.fd-workspace .fd-bb-market-card { border: 1px solid #292b34; border-radius: 3px; padding: 12px 11px; background: #171a21; color: #e7eaf3; }
+.fd-workspace .fd-bb-market-card > span { color: #d4aa81; font-size: 6px; letter-spacing: .7px; }
+.fd-workspace .fd-bb-market-card h4 { font-size: 12px; font-weight: 500; margin-top: 7px; }
+.fd-workspace .fd-bb-market-card > div:first-of-type { display: flex; align-items: baseline; gap: 9px; margin-top: 10px; }
+.fd-workspace .fd-bb-market-card strong { font: 24px/1 'SFMono-Regular', Consolas, monospace; letter-spacing: -1px; }
+.fd-workspace .fd-bb-market-card em { font-size: 8px; font-style: normal; color: #8ac4a1; }
+.fd-workspace .fd-bb-market-card .fd-spark { height: 49px; margin-top: 12px; }
+.fd-workspace .fd-bb-chart-time { display: flex; justify-content: space-between; font: 6px 'SFMono-Regular', Consolas, monospace; color: #a1a7b6; margin-top: 5px; }
+.fd-workspace .fd-bb-market-card p { font-size: 6px; opacity: .7; margin-top: 7px; }
+@keyframes fd-preview-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 900px) {
+    .fd-workspace { height: auto; min-height: 0; }
+    .fd-workspace .fd-browser-top { height: 49px; min-height: 49px; padding: 3px 4px 0; gap: 0; }
+    .fd-workspace .fd-browser-profile, .fd-workspace .fd-window-controls { display: none; }
+    .fd-workspace .fd-browser-tabs { height: 46px; }
+    .fd-workspace .fd-browser-tab { flex-direction: column; justify-content: center; gap: 3px; padding: 3px 1px 5px; font-size: 7px; line-height: 1; }
+    .fd-workspace .fd-browser-tab > span:not([aria-hidden]) { white-space: normal; text-align: center; line-height: 1.15; }
+    .fd-workspace .fd-browser-tab > i { display: none; }
+    .fd-workspace .fd-browser-tab:nth-child(3), .fd-workspace .fd-browser-tab:nth-child(4) { flex-grow: 1.2; }
+    .fd-workspace .fd-tab-wordmark, .fd-workspace .fd-tab-project-mark { height: 15px; width: 15px; }
+    .fd-workspace .fd-browser-tab[aria-selected="true"]::after { left: 4px; right: 4px; }
+    .fd-workspace .fd-browser-address { padding: 5px 8px; gap: 7px; }
+    .fd-workspace .fd-browser-history { gap: 8px; }
+    .fd-workspace .fd-browser-history .fd-ui-icon { width: 10px; height: 10px; }
+    .fd-workspace .fd-browser-tools { display: none; }
+    .fd-workspace .fd-address-value { font-size: 8px; }
+    .fd-workspace .fd-bookmark-bar { padding: 0 8px 2px; gap: 10px; height: 20px; }
+    .fd-workspace .fd-bookmark-bar > span { font-size: 7px; gap: 4px; }
+    .fd-workspace .fd-bookmark-bar > span:nth-of-type(n+3), .fd-workspace .fd-bookmark-bar > i { display: none; }
+    .fd-workspace .fd-browser-content { overflow: visible; }
+    .fd-workspace .fd-project-panel { padding: 17px 12px 14px; }
+    .fd-workspace .fd-project-heading { margin-bottom: 12px; }
+    .fd-workspace .fd-workspace-eyebrow { font-size: 6px; letter-spacing: 1.2px; }
+    .fd-workspace .fd-project-heading h2, body.dark-mode .fd-workspace .fd-project-heading h2 { font-size: 21px; }
+    .fd-workspace .fd-project-count, .fd-workspace .fd-library-meta { display: none; }
+    .fd-workspace .fd-library-toolbar { margin-bottom: 11px; font-size: 8px; }
+    .fd-workspace .fd-library-toolbar .fd-library-meta { display: none; }
+    .fd-workspace .fd-project-grid { grid-template-columns: 1fr; gap: 8px; }
+    .fd-workspace .fd-project, .fd-workspace .fd-project:nth-child(n+4) { grid-column: 1; }
+    .fd-workspace .fd-project-controls { height: 71px; }
+    .fd-workspace .fd-project-link { gap: 11px; padding: 10px 50px 10px 11px; }
+    .fd-workspace .fd-project-logo { width: 35px; height: 36px; }
+    .fd-workspace .fd-project-category { font-size: 7px; letter-spacing: 1px; }
+    .fd-workspace .fd-project-copy strong { font-size: 14px; }
+    .fd-workspace .fd-project-result { font-size: 9px; }
+    .fd-workspace .fd-project-arrow { display: none; }
+    .fd-workspace .fd-project-info { width: 35px; height: 35px; border-radius: 8px; right: 7px; bottom: 17px; font-size: 14px; }
+    .fd-workspace .fd-project-summary { position: static; height: auto; min-height: 65px; margin-top: 5px; padding: 11px; }
+    .fd-workspace .fd-project-summary p, body.dark-mode .fd-workspace .fd-project-summary p { font-size: 11px; }
+    .fd-workspace .fd-project-preview-placeholder { display: none; }
+    .fd-workspace .fd-windows-taskbar { grid-template-columns: auto minmax(0, 1fr); gap: 6px; padding: 0 6px; height: 34px; min-height: 34px; }
+    .fd-workspace .fd-taskbar-weather > span, .fd-workspace .fd-taskbar-status { display: none; }
+    .fd-workspace .fd-taskbar-weather .fd-ui-icon { width: 15px; height: 15px; }
+    .fd-workspace .fd-taskbar-apps { gap: clamp(3px, 1vw, 7px); }
+    .fd-workspace .fd-taskbar-app { width: clamp(18px, 4vw, 23px); height: clamp(18px, 4vw, 23px); }
+    .fd-workspace .fd-taskbar-app:nth-last-child(-n+3)::after { left: auto; right: 0; transform: none; }
+    .fd-workspace .fd-taskbar-search { width: 18px; padding: 3px; flex-shrink: 0; border: 0; background: none; }
+    .fd-workspace .fd-taskbar-search > span { display: none; }
+    .fd-workspace .fd-publication { padding: 10px 12px 14px; }
+    .fd-workspace .fd-publication-nav { justify-content: flex-start; gap: 13px; height: 27px; font-size: 7px; }
+    .fd-workspace .fd-publication-nav > span:nth-child(n+5) { display: none; }
+    .fd-workspace .fd-news-kicker { font-size: 7px; }
+    .fd-workspace .fd-news-byline { font-size: 8px; }
+    .fd-workspace .fd-simulation-note, body.dark-mode .fd-workspace .fd-simulation-note { position: static; margin-top: 17px; padding-top: 9px; font-size: 9px; }
+    .fd-workspace .fd-wsj-utility { font-size: 5px; gap: 10px; }
+    .fd-workspace .fd-wsj-utility > span:nth-child(4) { display: none; }
+    .fd-workspace .fd-wsj-masthead { height: 54px; }
+    .fd-workspace .fd-wsj-masthead-logo { width: 72px; height: 40px; }
+    .fd-workspace .fd-wsj-masthead > span { font-size: 5px; letter-spacing: .3px; }
+    .fd-workspace .fd-wsj-layout { grid-template-columns: 1fr; gap: 18px; }
+    .fd-workspace .fd-wsj-lead h3 { font-size: 29px; }
+    .fd-workspace .fd-wsj-lead > p { font-size: 12px; }
+    .fd-workspace .fd-wsj-substory > b { font-size: 16px; }
+    .fd-workspace .fd-wsj-substory > p { font-size: 11px; }
+    .fd-workspace .fd-wsj-feature { border: 0; padding: 0; }
+    .fd-workspace .fd-editorial-art { height: auto; aspect-ratio: 260 / 175; }
+    .fd-workspace .fd-wsj-feature figcaption { font-size: 7px; }
+    .fd-workspace .fd-wsj-feature h4 { font-size: 20px; }
+    .fd-workspace .fd-wsj-feature > p { font-size: 11px; }
+    .fd-workspace .fd-wsj-opinion { padding: 0; border: 0; }
+    .fd-workspace .fd-wsj-opinion > strong { font-size: 13px; }
+    .fd-workspace .fd-wsj-opinion h4 { font-size: 18px; }
+    .fd-workspace .fd-wsj-opinion p { font-size: 11px; }
+    .fd-workspace .fd-wsj-opinion-foot { font-size: 6px; }
+    .fd-workspace .fd-ft-page { padding-top: 0; }
+    .fd-workspace .fd-ft-utility { margin: 0 -12px; padding: 0 12px; font-size: 5px; }
+    .fd-workspace .fd-ft-utility i { margin: 0 3px; }
+    .fd-workspace .fd-ft-masthead { height: 48px; }
+    .fd-workspace .fd-ft-masthead > strong { font-size: 25px; letter-spacing: -.6px; }
+    .fd-workspace .fd-ft-masthead > span { display: none; }
+    .fd-workspace .fd-ft-page .fd-publication-nav { gap: 18px; }
+    .fd-workspace .fd-ft-layout { grid-template-columns: 1fr; }
+    .fd-workspace .fd-ft-feature { grid-template-columns: 1fr; gap: 15px; }
+    .fd-workspace .fd-ft-feature h3 { font-size: 30px; }
+    .fd-workspace .fd-ft-feature p { font-size: 12px; }
+    .fd-workspace .fd-ft-capital-art { height: auto; max-height: 230px; }
+    .fd-workspace .fd-ft-briefs { gap: 10px; }
+    .fd-workspace .fd-ft-briefs h4 { font-size: 16px; }
+    .fd-workspace .fd-ft-briefs article > span { font-size: 6px; }
+    .fd-workspace .fd-ft-opinion { padding: 14px 0 0; border-left: 0; border-top: 1px solid #c9baab; }
+    .fd-workspace .fd-ft-opinion > strong { font-size: 23px; }
+    .fd-workspace .fd-ft-opinion .fd-ft-quote { font-size: 21px; }
+    .fd-workspace .fd-ft-opinion > span { font-size: 6px; }
+    .fd-workspace .fd-ft-opinion > div > b { font-size: 15px; }
+    .fd-workspace .fd-ft-opinion > div > p { font-size: 11px; }
+    .fd-workspace .fd-yahoo-masthead { gap: 10px; }
+    .fd-workspace .fd-yahoo-masthead > strong { font-size: 26px; margin-right: 3px; }
+    .fd-workspace .fd-yahoo-edition { font-size: 8px; }
+    .fd-workspace .fd-yahoo-edition > small { font-size: 5px; letter-spacing: .6px; }
+    .fd-workspace .fd-yahoo-page .fd-publication-nav { gap: 16px; }
+    .fd-workspace .fd-yahoo-indices { gap: 5px; margin-top: 10px; }
+    .fd-workspace .fd-yahoo-indices > div { padding: 7px 6px; height: 82px; }
+    .fd-workspace .fd-yahoo-indices > div > span { font-size: 6px; }
+    .fd-workspace .fd-yahoo-indices strong { font-size: 12px; margin-top: 4px; letter-spacing: -.5px; }
+    .fd-workspace .fd-yahoo-indices em { font-size: 7px; }
+    .fd-workspace .fd-yahoo-indices .fd-spark { width: calc(100% - 12px); bottom: 7px; right: 6px; height: 23px; }
+    .fd-workspace .fd-yahoo-layout { grid-template-columns: 1fr; gap: 18px; }
+    .fd-workspace .fd-yahoo-story h3 { font-size: 29px; }
+    .fd-workspace .fd-yahoo-story p { font-size: 11px; }
+    .fd-workspace .fd-yahoo-tags > span { font-size: 8px; }
+    .fd-workspace .fd-yahoo-story .fd-news-byline { font-size: 8px; }
+    .fd-workspace .fd-yahoo-watchlist > div { height: 34px; }
+    .fd-workspace .fd-yahoo-watchlist > div > strong { font-size: 11px; }
+    .fd-workspace .fd-yahoo-watchlist > div > span { font-size: 5px; }
+    .fd-workspace .fd-yahoo-watchlist th, .fd-workspace .fd-yahoo-watchlist td { padding: 7px 6px; font-size: 10px; height: 32px; }
+    .fd-workspace .fd-yahoo-watchlist thead th { font-size: 8px; }
+    .fd-workspace .fd-yahoo-watchlist td:nth-child(3) { font-size: 8px; }
+    .fd-workspace .fd-yahoo-watchlist .fd-spark { height: 21px; }
+    .fd-workspace .fd-bloomberg-page { padding-top: 0; }
+    .fd-workspace .fd-bb-utility { margin: 0 -12px; padding: 0 12px; font-size: 5px; }
+    .fd-workspace .fd-bb-utility > span:first-child { display: none; }
+    .fd-workspace .fd-bb-masthead { height: 49px; }
+    .fd-workspace .fd-bb-masthead > strong { font-size: 33px; }
+    .fd-workspace .fd-bb-masthead > span { font-size: 5px; letter-spacing: .4px; }
+    .fd-workspace .fd-bloomberg-page .fd-publication-nav { gap: 18px; }
+    .fd-workspace .fd-bb-section { height: 32px; gap: 7px; }
+    .fd-workspace .fd-bb-section > b { font-size: 8px; white-space: nowrap; }
+    .fd-workspace .fd-bb-section > span { font-size: 6px; }
+    .fd-workspace .fd-bb-layout { grid-template-columns: 1fr; gap: 18px; }
+    .fd-workspace .fd-bb-lead h3 { font-size: 42px; }
+    .fd-workspace .fd-bb-lead p { font-size: 12px; }
+    .fd-workspace .fd-bb-lead .fd-news-byline { font-size: 8px; }
+    .fd-workspace .fd-bloomberg-art { height: auto; aspect-ratio: 250 / 175; }
+    .fd-workspace .fd-bb-feature figcaption { font-size: 7px; }
+    .fd-workspace .fd-bb-market-card { padding: 15px; }
+    .fd-workspace .fd-bb-market-card > span { font-size: 7px; }
+    .fd-workspace .fd-bb-market-card h4 { font-size: 15px; }
+    .fd-workspace .fd-bb-market-card strong { font-size: 30px; }
+    .fd-workspace .fd-bb-market-card em { font-size: 10px; }
+    .fd-workspace .fd-bb-market-card .fd-spark { height: 95px; }
+    .fd-workspace .fd-bb-chart-time { font-size: 7px; }
+    .fd-workspace .fd-bb-market-card p { font-size: 8px; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+    .fd-workspace .fd-wsj-masthead { height: 56px; }
+    .fd-workspace .fd-browser-top { height: 38px; min-height: 38px; }
+    .fd-workspace .fd-browser-tabs { height: 35px; }
+    .fd-workspace .fd-browser-tab { flex-direction: row; gap: 6px; font-size: 10px; padding-left: 12px; }
+    .fd-workspace .fd-project-panel { padding: 20px; }
+    .fd-workspace .fd-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .fd-workspace .fd-project, .fd-workspace .fd-project:nth-child(n+4) { grid-column: auto; }
+    .fd-workspace .fd-project:last-child { grid-column: 1 / -1; }
+    .fd-workspace .fd-project-heading h2, body.dark-mode .fd-workspace .fd-project-heading h2 { font-size: 25px; }
+    .fd-workspace .fd-workspace-eyebrow { font-size: 8px; }
+    .fd-workspace .fd-project-controls { height: 80px; }
+    .fd-workspace .fd-project-info { bottom: 21px; }
+    .fd-workspace .fd-publication { padding-left: 18px; padding-right: 18px; }
+    .fd-workspace .fd-publication-nav { justify-content: center; gap: 22px; font-size: 8px; }
+    .fd-workspace .fd-publication-nav > span:nth-child(n+5) { display: block; }
+    .fd-workspace .fd-wsj-masthead-logo { width: 80px; height: 44px; }
+    .fd-workspace .fd-wsj-layout { grid-template-columns: 1fr 1.2fr; }
+    .fd-workspace .fd-wsj-opinion { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid #c6c8c3; padding-top: 12px; }
+    .fd-workspace .fd-wsj-opinion > strong, .fd-workspace .fd-wsj-opinion-foot { grid-column: 1 / -1; }
+    .fd-workspace .fd-editorial-art { height: 160px; aspect-ratio: auto; }
+    .fd-workspace .fd-ft-utility, .fd-workspace .fd-bb-utility { margin-left: -18px; margin-right: -18px; padding-left: 18px; padding-right: 18px; }
+    .fd-workspace .fd-ft-masthead > strong { font-size: 34px; }
+    .fd-workspace .fd-ft-feature { grid-template-columns: 1.4fr 1fr; }
+    .fd-workspace .fd-ft-capital-art { height: 180px; }
+    .fd-workspace .fd-ft-opinion { display: grid; grid-template-columns: 1fr 1fr; column-gap: 18px; }
+    .fd-workspace .fd-ft-opinion > strong { grid-column: 1 / -1; }
+    .fd-workspace .fd-ft-opinion > div { grid-column: 2; grid-row: 2 / 4; border-top: 0; margin-top: 0; }
+    .fd-workspace .fd-ft-opinion > span { grid-column: 1; }
+    .fd-workspace .fd-yahoo-indices > div { height: 68px; }
+    .fd-workspace .fd-yahoo-indices .fd-spark { width: 37%; height: 31px; right: 8px; bottom: 11px; }
+    .fd-workspace .fd-yahoo-indices strong { font-size: 17px; }
+    .fd-workspace .fd-yahoo-layout { grid-template-columns: 1fr 1.15fr; gap: 18px; }
+    .fd-workspace .fd-yahoo-story h3 { font-size: 28px; }
+    .fd-workspace .fd-bb-layout { grid-template-columns: 1fr 1.2fr; }
+    .fd-workspace .fd-bb-market-card { grid-column: 1 / -1; }
+    .fd-workspace .fd-bb-market-card .fd-spark { height: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .fd-workspace *, .fd-workspace *::before, .fd-workspace *::after { animation: none !important; transition: none !important; }
+}

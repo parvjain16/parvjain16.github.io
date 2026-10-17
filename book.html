@@ -156,6 +156,7 @@
 
         .book-card {
             min-width: 0;
+            align-self: start;
             text-align: center;
         }
 
@@ -164,7 +165,7 @@
             display: block;
             width: min(100%, calc(var(--book-height, 420px) * var(--cover-ratio, 0.667)));
             aspect-ratio: var(--cover-ratio, 0.667);
-            margin: 0 auto 28px;
+            margin: 0 auto 22px;
             padding: 0;
             border: 0;
             background: transparent;
@@ -225,48 +226,44 @@
         }
 
         .book-summary {
-            position: absolute;
-            z-index: 2;
-            left: 12px;
-            right: 12px;
-            bottom: 14px;
-            padding: 18px 17px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            background: rgba(16, 23, 32, 0.96);
-            color: #ffffff;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto 18px;
+        }
+
+        .book-summary[hidden] {
+            display: none !important;
+        }
+
+        .book-summary[data-animating="true"] {
+            overflow: hidden;
+        }
+
+        .book-summary__content {
+            padding: 16px 18px;
+            border: 1px solid #b8c4d0;
+            border-radius: 12px;
+            background: #eef2f6;
+            color: #283746;
             font-size: 0.96rem;
             font-weight: 400;
-            line-height: 1.5;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            pointer-events: none;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 220ms ease, transform 280ms ease;
+            line-height: 1.65;
+            text-align: left;
+            overflow-wrap: anywhere;
         }
 
-        .book-summary__label {
-            display: block;
-            margin-bottom: 8px;
-            color: #b7d7ff;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
+        .book-summary__content p {
+            margin: 0;
+            color: inherit;
         }
 
-        .book-preview[data-summary-open="true"] .book-object,
+        .book-card[data-summary-open="true"] .book-object,
         html:not(.book-previews-ready) .book-preview:focus-visible .book-object {
             transform: translateY(-8px) rotateY(0) rotateZ(0) scale(1.045);
             box-shadow: -5px 4px 0 #a5a3a0, 0 26px 38px -12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(68, 144, 231, 0.13);
         }
 
-        .book-preview[data-summary-open="true"] .book-summary,
-        html:not(.book-previews-ready) .book-preview:focus-visible .book-summary {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .book-preview[data-summary-open="true"] .book-object::after,
+        .book-card[data-summary-open="true"] .book-object::after,
         html:not(.book-previews-ready) .book-preview:focus-visible .book-object::after {
             animation: book-light-sweep 750ms ease-out both;
         }
@@ -280,11 +277,6 @@
         @media (hover: hover) {
             html:not(.book-previews-ready) .book-preview:hover .book-object {
                 transform: translateY(-8px) rotateY(0) rotateZ(0) scale(1.045);
-            }
-
-            html:not(.book-previews-ready) .book-preview:hover .book-summary {
-                opacity: 1;
-                transform: translateY(0);
             }
 
             html:not(.book-previews-ready) .book-preview:hover .book-object::after {
@@ -423,8 +415,18 @@
             box-shadow: -5px 4px 0 #666460, 0 16px 30px -8px rgba(0, 0, 0, 0.8);
         }
 
-        body.dark-mode .book-preview[data-summary-open="true"] .book-object {
+        body.dark-mode .book-card[data-summary-open="true"] .book-object {
             box-shadow: -5px 4px 0 #666460, 0 26px 38px -12px rgba(0, 0, 0, 0.85), 0 0 32px rgba(109, 177, 255, 0.2);
+        }
+
+        body.dark-mode .book-summary__content {
+            border-color: #485565;
+            background: #1d2732;
+            color: #f1f5fa;
+        }
+
+        body.dark-mode .book-summary__content p {
+            color: inherit;
         }
 
         body.dark-mode .reading-inspiration__links > a {
@@ -486,9 +488,7 @@
                 width: 100%;
             }
 
-            .book-summary {
-                left: 10px;
-                right: 10px;
+            .book-summary__content {
                 padding: 16px 14px;
                 font-size: 0.94rem;
             }
@@ -500,7 +500,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .book-preview .book-object,
-            .book-preview[data-summary-open="true"] .book-object,
+            .book-card[data-summary-open="true"] .book-object,
             html:not(.book-previews-ready) .book-preview:hover .book-object,
             html:not(.book-previews-ready) .book-preview:focus-visible .book-object {
                 transform: none;
@@ -508,11 +508,6 @@
             }
 
             .book-summary,
-            .book-preview[data-summary-open="true"] .book-summary {
-                transform: none;
-                transition: none;
-            }
-
             .book-preview .book-object::after {
                 animation: none !important;
             }
@@ -539,71 +534,83 @@
         <p class="intro">Books that have shaped my thinking on technology, business, and life</p>
 
         <h2>Books I've Read</h2>
-        <p class="books-hint">Hover, focus, or tap a cover for a quick look inside.</p>
+        <p class="books-hint">Hover, focus, or tap a book to discover its story.</p>
 
         <div class="books-grid">
             <article class="book-card">
-                <button class="book-preview" type="button" style="--cover-ratio: 0.6667" aria-labelledby="zero-title" aria-describedby="zero-summary" aria-controls="zero-summary" aria-expanded="false">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6667" aria-labelledby="zero-title" aria-controls="zero-summary" aria-expanded="false">
                     <span class="book-object">
                         <img class="book-cover" src="assets/book-covers/zero-to-one.jpg" alt="" width="300" height="450" decoding="async" fetchpriority="high">
-                        <span class="book-summary" id="zero-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Peter Thiel explores how startups can create something genuinely new instead of competing to copy what already exists. It is a guide to original thinking, innovation, and building a lasting business.</span>
                     </span>
                 </button>
+                <div class="book-summary" id="zero-summary">
+                    <div class="book-summary__content" id="zero-summary-text"><p>Peter Thiel explores how startups can create something genuinely new instead of competing to copy what already exists. It is a guide to original thinking, innovation, and building a lasting business.</p></div>
+                </div>
                 <h3 id="zero-title">Zero to One: Notes on Startups, Or How to Build the Future</h3>
                 <p class="author">Peter Thiel with Blake Masters</p>
             </article>
 
             <article class="book-card">
-                <button class="book-preview" type="button" style="--cover-ratio: 0.6641" aria-labelledby="hard-title" aria-describedby="hard-summary" aria-controls="hard-summary" aria-expanded="false">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6641" aria-labelledby="hard-title" aria-controls="hard-summary" aria-expanded="false">
                     <span class="book-object">
                         <img class="book-cover" src="assets/book-covers/hard-things.png" alt="" width="680" height="1024" decoding="async">
-                        <span class="book-summary" id="hard-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Ben Horowitz shares the difficult decisions behind building and running a company, from hiring and layoffs to surviving a crisis. The book focuses on leadership when there are no easy answers.</span>
                     </span>
                 </button>
+                <div class="book-summary" id="hard-summary">
+                    <div class="book-summary__content" id="hard-summary-text"><p>Ben Horowitz shares the difficult decisions behind building and running a company, from hiring and layoffs to surviving a crisis. The book focuses on leadership when there are no easy answers.</p></div>
+                </div>
                 <h3 id="hard-title">The Hard Thing About Hard Things</h3>
                 <p class="author">Ben Horowitz</p>
             </article>
 
             <article class="book-card">
-                <button class="book-preview" type="button" style="--cover-ratio: 0.6622" aria-labelledby="atomic-title" aria-describedby="atomic-summary" aria-controls="atomic-summary" aria-expanded="false">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6622" aria-labelledby="atomic-title" aria-controls="atomic-summary" aria-expanded="false">
                     <span class="book-object">
                         <img class="book-cover" src="assets/book-covers/atomic-habits.jpg" alt="" width="298" height="450" decoding="async">
-                        <span class="book-summary" id="atomic-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>James Clear explains how small, consistent changes can grow into lasting results. It offers practical systems for building good habits and breaking unwanted ones.</span>
                     </span>
                 </button>
+                <div class="book-summary" id="atomic-summary">
+                    <div class="book-summary__content" id="atomic-summary-text"><p>James Clear explains how small, consistent changes can grow into lasting results. It offers practical systems for building good habits and breaking unwanted ones.</p></div>
+                </div>
                 <h3 id="atomic-title">Atomic Habits: An Easy &amp; Proven Way to Build Good Habits &amp; Break Bad Ones</h3>
                 <p class="author">James Clear</p>
             </article>
 
             <article class="book-card">
-                <button class="book-preview" type="button" style="--cover-ratio: 0.6625" aria-labelledby="winning-title" aria-describedby="winning-summary" aria-controls="winning-summary" aria-expanded="false">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6625" aria-labelledby="winning-title" aria-controls="winning-summary" aria-expanded="false">
                     <span class="book-object">
                         <img class="book-cover" src="assets/book-covers/winning-updated.png" alt="" width="265" height="400" loading="lazy" decoding="async">
-                        <span class="book-summary" id="winning-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Jack Welch shares practical lessons on leadership, teamwork, competition, and career decisions. It is a hands-on guide to running stronger organizations and doing better work.</span>
                     </span>
                 </button>
+                <div class="book-summary" id="winning-summary">
+                    <div class="book-summary__content" id="winning-summary-text"><p>Jack Welch shares practical lessons on leadership, teamwork, competition, and career decisions. It is a hands-on guide to running stronger organizations and doing better work.</p></div>
+                </div>
                 <h3 id="winning-title">Winning</h3>
                 <p class="author">Jack Welch with Suzy Welch</p>
             </article>
 
             <article class="book-card">
-                <button class="book-preview" type="button" style="--cover-ratio: 0.662" aria-labelledby="coach-title" aria-describedby="coach-summary" aria-controls="coach-summary" aria-expanded="false">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.662" aria-labelledby="coach-title" aria-controls="coach-summary" aria-expanded="false">
                     <span class="book-object">
                         <img class="book-cover" src="assets/book-covers/trillion-dollar-coach-updated.png" alt="" width="662" height="1000" loading="lazy" decoding="async">
-                        <span class="book-summary" id="coach-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>The leaders behind Google share lessons from Bill Campbell, the coach who helped shape Silicon Valley. It shows how trust, honest feedback, and putting people first can build stronger teams.</span>
                     </span>
                 </button>
+                <div class="book-summary" id="coach-summary">
+                    <div class="book-summary__content" id="coach-summary-text"><p>The leaders behind Google share lessons from Bill Campbell, the coach who helped shape Silicon Valley. It shows how trust, honest feedback, and putting people first can build stronger teams.</p></div>
+                </div>
                 <h3 id="coach-title">Trillion Dollar Coach: The Leadership Handbook of Silicon Valley's Bill Campbell</h3>
                 <p class="author">Eric Schmidt, Jonathan Rosenberg &amp; Alan Eagle</p>
             </article>
 
             <article class="book-card">
-                <button class="book-preview" type="button" style="--cover-ratio: 0.6467" aria-labelledby="prisoner-title" aria-describedby="prisoner-summary" aria-controls="prisoner-summary" aria-expanded="false">
+                <button class="book-preview" type="button" style="--cover-ratio: 0.6467" aria-labelledby="prisoner-title" aria-controls="prisoner-summary" aria-expanded="false">
                     <span class="book-object">
                         <img class="book-cover" src="assets/book-covers/prisoners-dilemma.jpg" alt="" width="291" height="450" loading="lazy" decoding="async">
-                        <span class="book-summary" id="prisoner-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>William Poundstone traces the history of game theory through John von Neumann and the Cold War. It explores why cooperation and self-interest can lead people into difficult strategic choices.</span>
                     </span>
                 </button>
+                <div class="book-summary" id="prisoner-summary">
+                    <div class="book-summary__content" id="prisoner-summary-text"><p>William Poundstone traces the history of game theory through John von Neumann and the Cold War. It explores why cooperation and self-interest can lead people into difficult strategic choices.</p></div>
+                </div>
                 <h3 id="prisoner-title">Prisoner's Dilemma</h3>
                 <p class="author">William Poundstone</p>
             </article>
@@ -614,62 +621,74 @@
             <p class="books-hint">The next ideas I'm looking forward to exploring.</p>
             <div class="books-grid books-grid--planned">
                 <article class="book-card">
-                    <button class="book-preview" type="button" style="--cover-ratio: 0.7111" aria-labelledby="power-title" aria-describedby="power-summary" aria-controls="power-summary" aria-expanded="false">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.7111" aria-labelledby="power-title" aria-controls="power-summary" aria-expanded="false">
                         <span class="book-object">
                             <img class="book-cover" src="assets/book-covers/48-laws-of-power.jpg" alt="" width="320" height="450" loading="lazy" decoding="async">
-                            <span class="book-summary" id="power-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Robert Greene uses historical stories to examine how power is gained, maintained, and lost. It explores influence, strategy, and the tactics people use to navigate competitive situations.</span>
                         </span>
                     </button>
+                    <div class="book-summary" id="power-summary">
+                        <div class="book-summary__content" id="power-summary-text"><p>Robert Greene uses historical stories to examine how power is gained, maintained, and lost. It explores influence, strategy, and the tactics people use to navigate competitive situations.</p></div>
+                    </div>
                     <h3 id="power-title">The 48 Laws of Power</h3>
                     <p class="author">Robert Greene</p>
                 </article>
                 <article class="book-card">
-                    <button class="book-preview" type="button" style="--cover-ratio: 0.6578" aria-labelledby="rules-title" aria-describedby="rules-summary" aria-controls="rules-summary" aria-expanded="false">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6578" aria-labelledby="rules-title" aria-controls="rules-summary" aria-expanded="false">
                         <span class="book-object">
                             <img class="book-cover" src="assets/book-covers/no-rules-rules.jpg" alt="" width="296" height="450" loading="lazy" decoding="async">
-                            <span class="book-summary" id="rules-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Reed Hastings and Erin Meyer explain the culture of freedom and responsibility behind Netflix. It explores how candid feedback, talented teams, and fewer controls can support innovation.</span>
                         </span>
                     </button>
+                    <div class="book-summary" id="rules-summary">
+                        <div class="book-summary__content" id="rules-summary-text"><p>Reed Hastings and Erin Meyer explain the culture of freedom and responsibility behind Netflix. It explores how candid feedback, talented teams, and fewer controls can support innovation.</p></div>
+                    </div>
                     <h3 id="rules-title">No Rules Rules: Netflix and the Culture of Reinvention</h3>
                     <p class="author">Reed Hastings &amp; Erin Meyer</p>
                 </article>
                 <article class="book-card">
-                    <button class="book-preview" type="button" style="--cover-ratio: 0.6738" aria-labelledby="seven-title" aria-describedby="seven-summary" aria-controls="seven-summary" aria-expanded="false">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6738" aria-labelledby="seven-title" aria-controls="seven-summary" aria-expanded="false">
                         <span class="book-object">
                             <img class="book-cover" src="assets/book-covers/7-powers.png" alt="" width="690" height="1024" loading="lazy" decoding="async">
-                            <span class="book-summary" id="seven-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Hamilton Helmer lays out seven sources of enduring competitive advantage. It explains how companies turn inventions into businesses that stay valuable over time.</span>
                         </span>
                     </button>
+                    <div class="book-summary" id="seven-summary">
+                        <div class="book-summary__content" id="seven-summary-text"><p>Hamilton Helmer lays out seven sources of enduring competitive advantage. It explains how companies turn inventions into businesses that stay valuable over time.</p></div>
+                    </div>
                     <h3 id="seven-title">7 Powers: The Foundations of Business Strategy</h3>
                     <p class="author">Hamilton Helmer</p>
                 </article>
                 <article class="book-card">
-                    <button class="book-preview" type="button" style="--cover-ratio: 0.6444" aria-labelledby="infinity-title" aria-describedby="infinity-summary" aria-controls="infinity-summary" aria-expanded="false">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6444" aria-labelledby="infinity-title" aria-controls="infinity-summary" aria-expanded="false">
                         <span class="book-object">
                             <img class="book-cover" src="assets/book-covers/beginning-of-infinity.jpg" alt="" width="290" height="450" loading="lazy" decoding="async">
-                            <span class="book-summary" id="infinity-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>David Deutsch explores how better explanations create knowledge and drive progress. It connects science, creativity, and optimism to the possibility of solving ever more difficult problems.</span>
                         </span>
                     </button>
+                    <div class="book-summary" id="infinity-summary">
+                        <div class="book-summary__content" id="infinity-summary-text"><p>David Deutsch explores how better explanations create knowledge and drive progress. It connects science, creativity, and optimism to the possibility of solving ever more difficult problems.</p></div>
+                    </div>
                     <h3 id="infinity-title">The Beginning of Infinity</h3>
                     <p class="author">David Deutsch</p>
                 </article>
                 <article class="book-card">
-                    <button class="book-preview" type="button" style="--cover-ratio: 0.642" aria-labelledby="build-title" aria-describedby="build-summary" aria-controls="build-summary" aria-expanded="false">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.642" aria-labelledby="build-title" aria-controls="build-summary" aria-expanded="false">
                         <span class="book-object">
                             <img class="book-cover" src="assets/book-covers/build.jpg" alt="" width="321" height="500" loading="lazy" decoding="async">
-                            <span class="book-summary" id="build-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Tony Fadell draws on his experience with the iPod, iPhone, and Nest to share advice on making meaningful products. It covers design, leadership, startups, and the hard decisions behind building something new.</span>
                         </span>
                     </button>
+                    <div class="book-summary" id="build-summary">
+                        <div class="book-summary__content" id="build-summary-text"><p>Tony Fadell draws on his experience with the iPod, iPhone, and Nest to share advice on making meaningful products. It covers design, leadership, startups, and the hard decisions behind building something new.</p></div>
+                    </div>
                     <h3 id="build-title">Build</h3>
                     <p class="author">Tony Fadell</p>
                 </article>
                 <article class="book-card">
-                    <button class="book-preview" type="button" style="--cover-ratio: 0.6641" aria-labelledby="culture-title" aria-describedby="culture-summary" aria-controls="culture-summary" aria-expanded="false">
+                    <button class="book-preview" type="button" style="--cover-ratio: 0.6641" aria-labelledby="culture-title" aria-controls="culture-summary" aria-expanded="false">
                         <span class="book-object">
                             <img class="book-cover" src="assets/book-covers/what-you-do.png" alt="" width="680" height="1024" loading="lazy" decoding="async">
-                            <span class="book-summary" id="culture-summary"><span class="book-summary__label" aria-hidden="true">ABOUT THE BOOK</span>Ben Horowitz argues that company culture comes from everyday decisions and behavior, not slogans. Drawing on history and modern businesses, he explains how leaders can shape culture deliberately.</span>
                         </span>
                     </button>
+                    <div class="book-summary" id="culture-summary">
+                        <div class="book-summary__content" id="culture-summary-text"><p>Ben Horowitz argues that company culture comes from everyday decisions and behavior, not slogans. Drawing on history and modern businesses, he explains how leaders can shape culture deliberately.</p></div>
+                    </div>
                     <h3 id="culture-title">What You Do Is Who You Are: How to Create Your Business Culture</h3>
                     <p class="author">Ben Horowitz</p>
                 </article>
@@ -694,83 +713,195 @@
     <script src="interactions.js?v=20260904-smooth-3"></script>
     <script>
         (() => {
-            const previews = Array.from(document.querySelectorAll('.book-preview'));
-            if (!previews.length) return;
+            const cards = Array.from(document.querySelectorAll('.book-card'));
+            if (!cards.length) return;
+            const hoverCloseDelay = 1100;
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-            const touchLayout = window.matchMedia('(hover: none), (pointer: coarse)');
-            const states = new Map(previews.map(button => [button, { hovered: false, tapped: false, dismissed: false }]));
-            let lastPointerType = '';
+            const entries = cards.map(card => ({
+                card,
+                cover: card.querySelector('.book-preview'),
+                summary: card.querySelector('.book-summary'),
+                hovered: false,
+                focused: false,
+                pinned: false,
+                keyboardPinned: false,
+                lingering: false,
+                closeTimer: 0,
+                open: null,
+                animation: null,
+                dismissed: false
+            }));
 
-            const setOpen = (button, open) => {
-                button.dataset.summaryOpen = String(open);
-                button.setAttribute('aria-expanded', String(open));
+            const renderSummary = (entry, open, immediate) => {
+                if (entry.open === open && !immediate) return;
+                const summary = entry.summary;
+                const wasHidden = summary.hidden;
+                const canAnimate = !immediate && !reducedMotion.matches && typeof summary.animate === 'function';
+                // Sample an in-flight transition before cancelling it so a
+                // quick re-entry reverses from the current position, not zero.
+                const before = canAnimate && !wasHidden ? getComputedStyle(summary) : null;
+                const start = {
+                    height: `${canAnimate && !wasHidden ? summary.getBoundingClientRect().height : 0}px`,
+                    opacity: before ? before.opacity : '0',
+                    marginBottom: before ? before.marginBottom : '0px',
+                    transform: before ? before.transform : 'translateY(-5px)'
+                };
+                if (entry.animation) {
+                    entry.animation.onfinish = null;
+                    entry.animation.cancel();
+                    entry.animation = null;
+                }
+                delete summary.dataset.animating;
+                entry.open = open;
+                if (!canAnimate || (wasHidden && !open)) {
+                    summary.hidden = !open;
+                    return;
+                }
+                summary.hidden = false;
+                // Measure the natural content height. Never leave a fixed
+                // height behind, so enlarged text remains fully readable.
+                const height = summary.getBoundingClientRect().height;
+                const margin = getComputedStyle(summary).marginBottom;
+                summary.dataset.animating = 'true';
+                try {
+                    const animation = summary.animate([start, {
+                        height: open ? `${height}px` : '0px',
+                        opacity: open ? '1' : '0',
+                        marginBottom: open ? margin : '0px',
+                        transform: open ? 'translateY(0)' : 'translateY(-5px)'
+                    }], { duration: 260, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' });
+                    entry.animation = animation;
+                    animation.onfinish = () => {
+                        if (entry.animation !== animation) return;
+                        summary.hidden = !entry.open;
+                        entry.animation = null;
+                        delete summary.dataset.animating;
+                        animation.onfinish = null;
+                        animation.cancel();
+                    };
+                } catch (_) {
+                    delete summary.dataset.animating;
+                    summary.hidden = !open;
+                }
             };
 
-            const close = button => {
-                const state = states.get(button);
-                state.hovered = false;
-                state.tapped = false;
-                state.dismissed = true;
-                setOpen(button, false);
+            const update = (entry, immediate = false) => {
+                const open = !entry.dismissed && (entry.hovered || entry.focused || entry.pinned || entry.lingering);
+                entry.card.dataset.summaryOpen = String(open);
+                entry.cover.setAttribute('aria-expanded', String(open));
+                renderSummary(entry, open, immediate);
             };
 
-            const update = button => {
-                const state = states.get(button);
-                const keyboardFocus = document.activeElement === button && button.matches(':focus-visible');
-                const open = !state.dismissed && (state.hovered || state.tapped || keyboardFocus);
-                if (open) previews.forEach(other => { if (other !== button) close(other); });
-                setOpen(button, open);
+            const cancelHoverClose = entry => {
+                clearTimeout(entry.closeTimer);
+                entry.closeTimer = 0;
+                entry.lingering = false;
             };
 
-            previews.forEach(button => {
-                button.addEventListener('pointerenter', event => {
+            const collapse = entry => {
+                cancelHoverClose(entry);
+                entry.pinned = false;
+                entry.keyboardPinned = false;
+                entry.dismissed = true;
+                update(entry, true);
+            };
+
+            entries.forEach(entry => {
+                update(entry, true);
+
+                // The cover opens the description; the whole card lets it stay
+                // visible while the pointer moves down into the text.
+                entry.cover.addEventListener('pointerenter', event => {
                     if (event.pointerType === 'touch') return;
-                    const state = states.get(button);
-                    state.hovered = true;
-                    state.dismissed = false;
-                    update(button);
+                    cancelHoverClose(entry);
+                    entry.hovered = true;
+                    entry.dismissed = false;
+                    update(entry);
                 });
-
-                button.addEventListener('pointerleave', event => {
+                entry.card.addEventListener('pointerenter', event => {
+                    // Returning to a still-visible description also lets the
+                    // reader continue without its old timer closing it.
+                    if (event.pointerType === 'touch' || (!entry.lingering && !(entry.animation && !entry.open))) return;
+                    cancelHoverClose(entry);
+                    entry.hovered = true;
+                    update(entry);
+                });
+                entry.card.addEventListener('pointerleave', event => {
                     if (event.pointerType === 'touch') return;
-                    const state = states.get(button);
-                    state.hovered = false;
-                    state.tapped = false;
-                    update(button);
-                });
-
-                button.addEventListener('pointerdown', event => { lastPointerType = event.pointerType; });
-                button.addEventListener('click', event => {
-                    const state = states.get(button);
-                    // Keyboard activation and touch toggle; mouse hover remains temporary.
-                    const shouldToggle = event.detail === 0 || lastPointerType === 'touch' || touchLayout.matches;
-                    if (shouldToggle) {
-                        const wasOpen = button.dataset.summaryOpen === 'true';
-                        state.tapped = !wasOpen;
-                        state.dismissed = wasOpen;
-                    } else {
-                        state.dismissed = false;
+                    entry.hovered = false;
+                    cancelHoverClose(entry);
+                    if (!entry.summary.hidden && !entry.dismissed) {
+                        entry.lingering = true;
+                        entry.closeTimer = setTimeout(() => {
+                            entry.closeTimer = 0;
+                            entry.lingering = false;
+                            update(entry);
+                        }, hoverCloseDelay);
                     }
-                    lastPointerType = '';
-                    update(button);
+                    update(entry);
+                });
+                entry.card.addEventListener('pointercancel', () => {
+                    cancelHoverClose(entry);
+                    entry.hovered = false;
+                    update(entry, true);
                 });
 
-                button.addEventListener('focus', () => {
-                    states.get(button).dismissed = false;
-                    update(button);
+                entry.card.addEventListener('focusin', event => {
+                    if (!event.target.matches(':focus-visible')) return;
+                    cancelHoverClose(entry);
+                    entry.focused = true;
+                    entry.dismissed = false;
+                    update(entry);
                 });
-                button.addEventListener('blur', () => {
-                    const state = states.get(button);
-                    state.tapped = false;
-                    update(button);
+                entry.card.addEventListener('focusout', event => {
+                    if (entry.card.contains(event.relatedTarget)) return;
+                    entry.focused = false;
+                    // Touch-opened text stays readable if selecting it moves
+                    // focus away from the cover. Outside taps still dismiss it.
+                    if (entry.keyboardPinned) entry.pinned = false;
+                    entry.keyboardPinned = false;
+                    update(entry);
                 });
+
+                const toggle = event => {
+                    // Mouse users get hover-only previews. The cover itself is
+                    // also a native button for touch and keyboard activation.
+                    if (entry.hovered && event.detail > 0) return;
+                    event.preventDefault();
+                    if (entry.open) {
+                        collapse(entry);
+                    } else {
+                        cancelHoverClose(entry);
+                        entry.pinned = true;
+                        entry.keyboardPinned = event.detail === 0;
+                        entry.dismissed = false;
+                        update(entry);
+                    }
+                };
+                entry.cover.addEventListener('click', toggle);
             });
 
             document.addEventListener('pointerdown', event => {
-                if (!event.target.closest('.book-preview')) previews.forEach(close);
+                entries.forEach(entry => {
+                    if (!entry.card.contains(event.target)) collapse(entry);
+                });
             });
             document.addEventListener('keydown', event => {
-                if (event.key === 'Escape') previews.forEach(close);
+                if (event.key === 'Escape') entries.forEach(collapse);
+            });
+            window.addEventListener('blur', () => {
+                entries.forEach(entry => {
+                    cancelHoverClose(entry);
+                    entry.hovered = false;
+                    entry.focused = false;
+                    entry.pinned = false;
+                    entry.keyboardPinned = false;
+                    update(entry, true);
+                });
+            });
+            reducedMotion.addEventListener('change', () => {
+                if (reducedMotion.matches) entries.forEach(entry => update(entry, true));
             });
             document.documentElement.classList.add('book-previews-ready');
         })();

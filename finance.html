@@ -268,6 +268,10 @@
         }
     </style>
     <link rel="stylesheet" href="interactions.css?v=20260904-smooth-6">
+    <link rel="stylesheet" href="finance-desk.css?v=20261017-monitor-charcoal-1">
+    <link rel="stylesheet" href="finance-workspace.css?v=20261017-glass-taskbar-1">
+    <link rel="stylesheet" href="finance-google.css?v=20261017-actions-briefing-2">
+    <link rel="stylesheet" href="finance-market.css?v=20261017-portrait-asset-loading-1">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
@@ -283,7 +287,72 @@
         </div>
     </nav>
 
-    <main id="main-content" class="container" tabindex="-1">
+    <main id="main-content" class="finance-main" tabindex="-1">
+        <section class="finance-desk" id="finance-desk" aria-label="Interactive finance desk">
+            <div class="fd-scene-bar">
+                <span class="fd-scene-label"><span></span> THE ANALYST’S DESK <small> / PARV JAIN</small></span>
+            </div>
+            <div class="fd-stage">
+                <div class="fd-scaled-scene">
+                    <div class="fd-composition">
+                        <div class="fd-wall" aria-hidden="true"></div>
+                        <div class="fd-wall-quote"><p>Hard works beats talent when talent doesn't work hard</p><span class="fd-quote-attribution">- Kevin Durant</span></div>
+                        <div class="fd-desk-surface" aria-hidden="true"></div>
+                        <div class="fd-desk-edge" aria-hidden="true"></div>
+                        <div class="fd-backlight" aria-hidden="true"></div>
+                        <div class="fd-monitor fd-portrait" aria-label="Weekly stock price snapshot terminal">
+                            <div class="fd-stand" aria-hidden="true"><span class="fd-stand-shadow"></span><span class="fd-stand-stem"></span><span class="fd-stand-hinge"></span><span class="fd-stand-base"></span></div>
+                            <div class="fd-monitor-body">
+                                <div class="fd-terminal">
+                                    <div class="fd-terminal-brand"><strong>Parv's Terminal</strong><span class="fd-terminal-dot" aria-hidden="true"></span></div>
+                                    <div class="fd-terminal-section">01 &nbsp; TECH + INDEX <span class="fd-terminal-period">10/12/2026–10/16/2026</span></div>
+                                    <div class="fd-terminal-columns"><span>SELECT SYMBOL</span><span>FRI USD</span><span>MON–FRI %</span></div>
+                                    <div class="fd-ticker-list" role="group" aria-label="Select a stock to view its daily closing prices"></div>
+                                    <div class="fd-terminal-section fd-terminal-chart-title">02 &nbsp; WEEKLY CLOSES <span>USD</span></div>
+                                    <div class="fd-terminal-chart"></div>
+                                    <figure class="fd-terminal-interview">
+                                        <h3 class="fd-terminal-interview-title"><a href="https://www.youtube.com/watch?v=XfdIhd1g6EI" target="_blank" rel="noopener noreferrer">Cheeky Pint: Zuckerberg’s $100 Billion Bet</a></h3>
+                                        <img data-fd-src="assets/finance/collison-meta-interview.png" alt="Still from the interview with Patrick Collison, Mark Zuckerberg, and Alexandr Wang" width="2382" height="1366" loading="lazy" decoding="async" draggable="false">
+                                        <figcaption>Stripe co-founder Patrick Collison interviews Mark Zuckerberg and Alexandr Wang of Meta.</figcaption>
+                                    </figure>
+                                </div>
+                                <div class="fd-monitor-chin" aria-hidden="true"><i></i></div>
+                            </div>
+                        </div>
+                        <div class="fd-monitor fd-main-monitor">
+                            <div class="fd-stand" aria-hidden="true"><span class="fd-stand-shadow"></span><span class="fd-stand-stem"></span><span class="fd-stand-hinge"></span><span class="fd-stand-base"></span></div>
+                            <div class="fd-monitor-body">
+                                <div id="finance-workspace" class="fd-workspace"><p class="fd-loading">Parv’s Finance Projects<br><a href="#finance-projects">Explore all five projects below ↓</a></p></div>
+                                <div class="fd-monitor-chin" aria-hidden="true"><i></i></div>
+                            </div>
+                            <div class="fd-desk-note" aria-hidden="true"><span>Stay curious.</span><small>Do the research.</small></div>
+                        </div>
+                        <div class="fd-desk-mat" aria-hidden="true"></div>
+                        <div class="fd-keyboard" aria-label="Decorative keyboard, reacts to pointer and typing">
+                            <img class="fd-hardware-photo" data-fd-product data-fd-src="assets/finance/keyboard-realistic.png" alt="" draggable="false" decoding="async" loading="lazy">
+                            <div class="fd-keyboard-top"><span>STUDIO / 75</span><i></i></div>
+                            <div class="fd-keyboard-keys" aria-hidden="true"></div>
+                        </div>
+                        <div class="fd-mouse" aria-hidden="true"><img class="fd-hardware-photo" data-fd-product data-fd-src="assets/finance/mouse-realistic.png" alt="" draggable="false" decoding="async" loading="lazy"><div class="fd-mouse-seam"></div><div class="fd-mouse-wheel"></div><span>◦</span></div>
+                        <div class="fd-charging-station">
+                            <img data-fd-src="assets/finance/watch-airpods-charging.png" alt="Black Apple Watch and white AirPods charging on a black and steel dock, with a white power cable" width="1254" height="1254" draggable="false" loading="lazy" decoding="async">
+                        </div>
+                        <button class="fd-can" type="button" data-drink="redbull" data-drink-wanted="redbull" aria-label="Red Bull Sugarfree. Switch drink." aria-describedby="fd-can-instructions" aria-busy="false">
+                            <span class="fd-can-visual" aria-hidden="true">
+                                <img class="fd-can-image is-current" data-fd-drink="redbull" data-fd-src="assets/finance/redbull-sugarfree.png" alt="" width="384" height="900" draggable="false" decoding="async" loading="eager">
+                                <img class="fd-can-image" data-fd-drink="celsius" data-fd-src="assets/finance/celsius-sparkling-orange.png?v=20261016-reference-2" alt="" width="384" height="900" draggable="false" decoding="async" loading="eager">
+                                <span class="fd-can-glint"></span>
+                            </span>
+                        </button>
+                        <span class="fd-sr-only" id="fd-can-instructions">Double-click or double-tap the can to switch drinks. With a keyboard, press Enter or Space.</span>
+                        <span class="fd-sr-only" id="fd-can-status" role="status" aria-live="polite" aria-atomic="true"></span>
+                    </div>
+                </div>
+            </div>
+            <span class="fd-can-hint" aria-hidden="true" hidden><svg viewBox="0 0 24 24"><path d="M22 4C20 13 11 16 3 12m5-4-6 4 6 5"/></svg><span>Double click for a surprise</span></span>
+            <div class="fd-scene-footer"><span><i aria-hidden="true"></i> STEP INSIDE PARV’S WORKSPACE</span><a href="#finance-projects">All finance projects <span aria-hidden="true">↓</span></a></div>
+        </section>
+        <div id="finance-projects" class="container">
         <h1>Finance Experience</h1>
         <p class="intro">My journey in financial services, investment research, and case competitions</p>
 
@@ -330,10 +399,15 @@
                 <a href="Meta Stock Pitch.pdf" target="_blank" rel="noopener noreferrer">View PDF Report</a>
             </div>
         </div>
+        </div>
     </main>
 
     <script src="site-core.js?v=20260902-smooth-1"></script>
     <script src="lenis.min.js"></script>
     <script src="interactions.js?v=20260904-smooth-3"></script>
+    <script src="finance-google.js?v=20261017-mobile-focus-return-1"></script>
+    <script src="finance-workspace.js?v=20261017-google-finance-logo-1"></script>
+    <script src="finance-desk.js?v=20261017-portrait-asset-loading-1"></script>
+    <script src="finance-market.js?v=20261017-portrait-asset-loading-1"></script>
 </body>
 </html>

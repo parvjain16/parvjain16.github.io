@@ -101,7 +101,7 @@
             title: "Met Casey Neistat",
             width: 1650,
             height: 2200,
-            description: "I met Case neistat at OpenAI's DevDay Conference. He just recorded a interview with TBPN and is a really cool guy."
+            description: "I met Casey Neistat at OpenAI's DevDay Conference. He just recorded an interview with TBPN and is a really cool guy."
         },
         {
             source: "images/gallery/gallery-05.jpg",
@@ -2335,9 +2335,11 @@
     document.addEventListener("keydown", (event) => {
         if (!detailOpen) return;
         if (event.key === "Tab") {
-            const controls = [detailClose, detailPrevious, detailNext].filter((element) => !element.disabled);
+            const controls = [detailClose, detailPrevious, detailNext, detailContent].filter((element) => !element.disabled);
             const current = controls.indexOf(document.activeElement);
-            const next = modulo(current + (event.shiftKey ? -1 : 1), controls.length);
+            const next = current === -1
+                ? (event.shiftKey ? controls.length - 1 : 0)
+                : modulo(current + (event.shiftKey ? -1 : 1), controls.length);
             event.preventDefault();
             controls[next].focus({ preventScroll: true });
         }

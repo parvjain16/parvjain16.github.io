@@ -529,6 +529,10 @@
             color: #000000;
         }
 
+        .hero-content .subtitle-university {
+            white-space: nowrap;
+        }
+
         .links {
             display: flex;
             gap: 20px;
@@ -1104,6 +1108,11 @@
 
         .image-gallery-detail__content::-webkit-scrollbar {
             display: none;
+        }
+
+        .image-gallery-detail__content:focus-visible {
+            outline: 3px solid currentColor;
+            outline-offset: -6px;
         }
 
         .image-gallery-detail__media {
@@ -1869,6 +1878,7 @@
         }
         .how-list { list-style: none; counter-reset: how-step; margin: 0; padding: 0; }
         .how-item { position: relative; counter-increment: how-step; padding: 26px 0 26px 40px; }
+        .how-item[hidden] { display: none !important; }
         .how-item + .how-item { border-top: 1px solid var(--how-line); }
         .how-item::before {
             content: counter(how-step, decimal-leading-zero);
@@ -1965,17 +1975,17 @@
                     <p data-how-copy="simple">The site uses Product Sans, including the introduction and this panel. Regular and bold weights give the text a consistent look while distinguishing descriptions from headings. The font files are stored with the website.</p>
                     <p data-how-copy="technical">Product Sans is loaded from regular and bold font files stored with the site. Shared CSS applies the same font family across pages and this panel. The browser can display a system fallback while the files load, keeping text visible during loading. Once the font is ready, the liquid-metal renderer rebuilds its text image using the bold face so the canvas lettering matches the rest of the design.</p>
                 </li>
-                <li class="how-item">
+                <li class="how-item" data-how-feature="home-canvas-experiments" hidden>
                     <h3>Node Network canvas</h3>
                     <p data-how-copy="simple">The site draws moving points and connects nearby ones with lines. Your pointer pushes points aside and temporarily separates connections, while clicking sends a pulse through the network. The drawing updates continuously as the points move.</p>
                     <p data-how-copy="technical">Canvas2D draws a particle system whose nodes store their positions, movement and connections. A spatial grid groups nearby nodes, reducing the work needed to find neighbors. Connection limits keep the network readable, while spring forces and damping control how nodes move away from the pointer and settle back. Connections fade when disturbed and recover over time. Clicks add outward forces and animated pulses that travel through the network.</p>
                 </li>
-                <li class="how-item">
+                <li class="how-item" data-how-feature="home-canvas-experiments" hidden>
                     <h3>Topographic Contours canvas</h3>
                     <p data-how-copy="simple">The site calculates a shifting surface and draws contour lines along areas of equal height, much like a topographic map. Moving your pointer raises the surface nearby, and clicking sends a wave through the contours.</p>
                     <p data-how-copy="technical">The surface is represented by a grid of height values that changes over time. A marching-squares algorithm finds where each of 14 elevation levels crosses the grid cells, then Canvas2D draws the resulting contour lines. A fixed-step wave simulation updates neighboring cells to spread motion while damping gradually reduces it. Ambient movement, local pointer displacement and click-generated waves combine to shape the final surface.</p>
                 </li>
-                <li class="how-item">
+                <li class="how-item" data-how-feature="home-canvas-experiments" hidden>
                     <h3>Persistent Plasma field</h3>
                     <p data-how-copy="simple">This field builds on its previous frame, so colors continue flowing after your pointer moves away. Moving through it adds motion and color, while clicking changes the drawing color and creates a ripple. The trails gradually fade, and refreshing starts a new field.</p>
                     <p data-how-copy="technical">WebGL2 runs the simulation on the GPU using two textures that alternate between reading the previous state and writing the next. They hold movement and dye information. Each update transports dye through the velocity field, adds pointer forces, and applies diffusion and gradual decay. A separate rendering pass converts that state into color and lighting. Keeping the previous state creates lasting trails during the session; reloading the page resets the simulation.</p>
@@ -1994,6 +2004,16 @@
                     <h3>Projects-only inertial motion</h3>
                     <p data-how-copy="simple">Project images, text and buttons respond to scrolling with slightly different timing. Their movement gradually catches up with the page and settles when you stop. Buttons also shift gently toward your pointer, adding a sense of depth and responsiveness.</p>
                     <p data-how-copy="technical">A custom JavaScript controller converts scroll velocity into target offsets for project images, text and buttons. Each group uses a spring model with its own stiffness and damping, creating different amounts of lag and settling. CSS transforms apply the movement, with small rotation and scale changes on images. Separate springs handle magnetic button movement. Visibility tracking limits offscreen updates, and mobile and reduced-motion settings scale back or disable the effect.</p>
+                </li>
+                <li class="how-item">
+                    <h3>The Finance Analyst’s Desk</h3>
+                    <p data-how-copy="simple">I built the desk from layered images, lighting and shadows to give it depth, with a gentle change in perspective as the pointer moves. Inside the main monitor, visitors can switch between finance views, preview my projects and open the original work. Double-clicking the drink can triggers a spinning transition between Red Bull and Celsius in the same spot.</p>
+                    <p data-how-copy="technical">HTML and CSS layer the scene with perspective transforms, gradients, shadows and image assets, while JavaScript maps pointer movement to a subtle desk tilt. Separate controllers switch the monitor views and draw the terminal charts as SVG from dated closing-price data, while project links open the original documents. The Web Animations API rotates and crossfades the drink images on double-click, with reduced-motion and mobile layouts scaling back the scene.</p>
+                </li>
+                <li class="how-item">
+                    <h3>Interactive book covers</h3>
+                    <p data-how-copy="simple">I used real book covers with layered shadows and a moving highlight to make them feel like physical books that lift slightly when hovered. A short summary opens between the cover and title, stays for 1.1 seconds after the pointer leaves, then smoothly fades and closes unless the pointer returns. The same summaries can be opened with the keyboard or by tapping a cover on a phone.</p>
+                    <p data-how-copy="technical">CSS perspective, transforms and an animated gradient create each cover’s depth, lift and light sweep. A JavaScript controller tracks hover, keyboard focus and touch activation, using a cancellable 1.1-second timer to delay dismissal. The Web Animations API animates the summary’s measured height, opacity and spacing over 260 milliseconds, reversing from its current position on re-entry; reduced-motion settings skip the transition.</p>
                 </li>
                 <li class="how-item">
                     <h3>Smooth scrolling with Lenis</h3>
@@ -2015,13 +2035,15 @@
         <section class="hero-section">
             <div class="hero-content">
                 <div class="liquid-name-row" id="liquidNameRow">
-                    <div class="liquid-customizer-slot" id="liquidCustomizerSlot"></div>
+                    <!-- Set data-enabled="true" to restore Melt Lab in this exact position.
+                         Keep the empty slot so the liquid-metal name stays centered. -->
+                    <div class="liquid-customizer-slot" id="liquidCustomizerSlot" data-enabled="false"></div>
                     <div class="liquid-name-shell" id="liquidNameShell">
                         <h1 class="liquid-name-fallback">Parv Jain</h1>
                         <canvas class="liquid-name-canvas" id="liquidNameCanvas" aria-hidden="true"></canvas>
                     </div>
                 </div>
-                <p class="subtitle">Computer Science and Business student at Indiana University</p>
+                <p class="subtitle">Computer Science and Business student at <span class="subtitle-university">Indiana University Bloomington</span></p>
                 
             <div class="social-icons">
             <a href="https://github.com/parvjain16" target="_blank" rel="noopener noreferrer">
@@ -2036,7 +2058,7 @@
                 <p class="email"><a href="mailto:parv.jjain@gmail.com">parv.jjain@gmail.com</a></p>
 
                 <div class="description">
-                    <p>Hey my name is Parv Jain! I am a Junior at Indiana University studying Computer Science and Business. I am really interested in AI, technology, and business, and how the three come together to build products that people actually use. Outside of school, I love playing sports 🏀, and most of my free time goes into building projects and learning new things 📚. My career interests lie at the intersection of Product Management, Business Operations and Forward Deployed Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
+                    <p>Hey my name is Parv! I'm currently a Junior at Indiana University Bloomington studying Computer Science and Business. I am really interested in AI, technology, and business, and how the three come together to build products that people actually use. Outside of school, I love playing sports 🏀, and most of my free time goes into building projects and learning new things 📚. My career interests lie at the intersection of Product Management, Business Operations and Forward Deployed Engineering, where I aim to build technology products that make a meaningful impact in the world!</p>
                 </div>
 
                 <h2 class="experiences-heading">My Experiences</h2>
@@ -2045,7 +2067,7 @@
                     <ul>
                         <li>
                             <img class="experience-logo experience-logo--invert" src="xAI-Logo.png" alt="xAI logo">
-                            <div class="experience-copy"><strong>xAI Summer Intern:</strong> Designed and shipped an internal AI-powered analytics dashboard for the sales organization using Grok Build. Worked with the engineering team to redesign the interface of an internal Grok console for an enterprise customer. Designed and ran model evaluation experiments benchmarking Grok against other AI models across enterprise use cases, and led product testing of Grok Imagine for sales teams.</div>
+                            <div class="experience-copy"><strong>xAI Summer Intern:</strong> Designed and shipped an internal AI-powered analytics dashboard for the sales organization using Grok Build. Worked with the engineering team to redesign the interface of an internal Grok console for an enterprise customer. Designed and ran model evaluation experiments benchmarking Grok against other AI models across enterprise use cases, and led product testing of Grok Imagine for sales teams. When I started my internship, our name changed from xAI -&gt; SpaceXAI -&gt; SpaceX Super Intelligence</div>
                         </li>
                         <li>
                             <img class="experience-logo experience-logo--invert experience-logo--openai" src="images__2_.png" alt="OpenAI logo">
@@ -2087,6 +2109,10 @@
                     <canvas id="sketchCanvas" aria-hidden="true"></canvas>
                 </div>
                 -->
+                <!-- Set data-enabled="true" to restore Node Network, Topographic Contours,
+                     and Plasma in their original positions below the hero photo, along
+                     with their simple and technical descriptions in the How dialog. -->
+                <template id="home-canvas-experiments" data-enabled="false">
                 <div class="network-panel">
                     <canvas id="net-panel" aria-hidden="true"></canvas>
                 </div>
@@ -2096,6 +2122,7 @@
                 <div class="plasma-panel">
                     <canvas id="plasma-panel" aria-hidden="true"></canvas>
                 </div>
+                </template>
             </div>
         </section>
 
@@ -2147,7 +2174,7 @@
             <button class="image-gallery-detail__close" id="imageGalleryDetailClose" type="button" aria-label="Close image detail">×</button>
             <button class="image-gallery-detail__nav image-gallery-detail__nav--previous" id="imageGalleryDetailPrevious" type="button" aria-label="Previous image">←</button>
             <button class="image-gallery-detail__nav image-gallery-detail__nav--next" id="imageGalleryDetailNext" type="button" aria-label="Next image">→</button>
-            <div class="image-gallery-detail__content" id="imageGalleryDetailContent">
+            <div class="image-gallery-detail__content" id="imageGalleryDetailContent" tabindex="0" role="region" aria-label="Photo and description, scroll to read">
                 <div class="image-gallery-detail__media" id="imageGalleryDetailMedia">
                     <img id="imageGalleryDetailImage" alt="" width="2200" height="1465" decoding="async">
                 </div>
@@ -2897,11 +2924,23 @@
         })();
     </script>
     <script src="lenis.min.js"></script>
-    <script src="liquid-metal.js?v=20260903-smooth-3"></script>
+    <script src="liquid-metal.js?v=20261017-melt-lab-toggle-1"></script>
+    <script id="home-canvas-experiments-toggle">
+        (() => {
+            const experiments = document.getElementById("home-canvas-experiments");
+            const enabled = experiments?.dataset.enabled === "true";
+            document.querySelectorAll('[data-how-feature="home-canvas-experiments"]').forEach((item) => {
+                item.hidden = !enabled;
+            });
+            if (enabled) {
+                experiments.replaceWith(experiments.content.cloneNode(true));
+            }
+        })();
+    </script>
     <script src="node-network.js?v=20260903-smooth-3"></script>
     <script src="topographic-contours.js?v=20260903-smooth-3"></script>
     <script src="plasma-blob.js?v=20260903-smooth-3"></script>
-    <script src="horizontal-gallery.js?v=20261016-gallery-copy-order"></script>
+    <script src="horizontal-gallery.js?v=20261017-keyboard-detail-scroll-1"></script>
     <script src="interactions.js?v=20260904-smooth-3"></script>
     <script id="site-how-controller">
         (() => {

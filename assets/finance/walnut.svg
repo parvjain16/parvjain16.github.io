@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="340" viewBox="0 0 1150 340">
+ <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".002 .32" numOctaves="3" seed="17" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".18"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+  <linearGradient id="wood" x2=".2" y2="1"><stop stop-color="#64432e"/><stop offset=".5" stop-color="#4b3023"/><stop offset="1" stop-color="#65432e"/></linearGradient>
+ </defs>
+ <path fill="url(#wood)" d="M0 0h1150v340H0z"/>
+ <g fill="none" stroke="#26150d" opacity=".2">
+  <path d="M0 40C280 20 550 74 1150 35M0 49C370 21 550 90 1150 42M0 65C350 40 650 110 1150 75M0 100C300 150 680 80 1150 114M0 164C200 110 600 195 1150 155M0 178C400 122 530 214 1150 164M0 192C300 145 700 250 1150 193M0 250C400 260 650 225 1150 269M0 290C400 270 650 310 1150 295"/>
+ </g>
+ <path d="M0 112H1150M0 226H1150" stroke="#170d08" opacity=".24"/>
+ <path fill="#a8a19c" opacity=".55" filter="url(#grain)" d="M0 0h1150v340H0z"/>
+</svg>
